@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantic - Plant Website</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'botanic-dark': '#021815',
+                        'botanic-green': '#143C35',
+                        'botanic-accent': '#EBC96C',
+                        'botanic-gray': '#B0B9B0',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .glass-nav {
+            background: rgba(2, 24, 21, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1463936575829-25148e1db1b8?q=80&w=2090&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-botanic-dark text-white font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 py-6 px-4 md:px-12 glass-nav border-b border-white/10">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="ri-plant-fill text-2xl text-white"></i>
+                <span class="text-2xl font-serif font-bold tracking-wide">Plantic</span>
+            </div>
+
+            <ul class="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+                <li class="hover:text-botanic-accent cursor-pointer transition">Home</li>
+                <li class="hover:text-botanic-accent cursor-pointer transition">About Us</li>
+                <li class="hover:text-botanic-accent cursor-pointer transition">Service</li>
+                <li class="hover:text-botanic-accent cursor-pointer transition">Pages <i class="ri-arrow-down-s-line"></i></li>
+                <li class="hover:text-botanic-accent cursor-pointer transition">Contact Us</li>
+            </ul>
+
+            <div class="flex items-center gap-4">
+                <button class="bg-botanic-accent text-black px-6 py-2 rounded-full font-semibold text-sm hover:bg-yellow-500 transition">Sign Up Now</button>
+                <i class="ri-menu-3-line text-2xl md:hidden cursor-pointer" id="mobile-menu-btn"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 bg-botanic-dark z-40 hidden flex-col items-center justify-center gap-6" id="mobile-menu">
+        <a href="#" class="text-xl">Home</a>
+        <a href="#" class="text-xl">About Us</a>
+        <a href="#" class="text-xl">Service</a>
+        <a href="#" class="text-xl">Pages</a>
+        <a href="#" class="text-xl">Contact Us</a>
+        <i class="ri-close-line absolute top-6 right-6 text-3xl cursor-pointer" id="close-menu-btn"></i>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen min-h-[700px] flex items-center justify-center hero-bg">
+        <div class="relative z-10 text-center max-w-4xl px-4 mt-16">
+            <h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">
+                Indor Green For <br> <span class="italic text-gray-300">Your Soul.</span>
+            </h1>
+            <p class="text-gray-300 text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed">
+                Bring nature indoors with our exclusive plant selection. Each plant is carefully chosen to thrive in indoor environments and elevate your decor.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                <button class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-full border border-white flex items-center justify-center group-hover:bg-white group-hover:text-black transition">
+                        <i class="ri-play-fill text-xl"></i>
+                    </div>
+                    <span class="font-medium">Watch Our Video</span>
+                </button>
+                
+                <div class="flex items-center gap-3">
+                     <div class="w-12 h-12 rounded-full bg-green-900/50 flex items-center justify-center text-botanic-accent">
+                        <i class="ri-phone-fill text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-xs text-gray-400">Call Us Now:</span>
+                        <span class="font-semibold">+088-013-5367535</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Card Section -->
+    <section class="relative z-20 px-4 -mt-24 mb-20">
+        <div class="container mx-auto bg-botanic-green rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center relative overflow-visible shadow-2xl border border-white/5">
+            
+            <div class="w-full md:w-1/2 z-10 space-y-6">
+                <div class="bg-white/10 w-max px-3 py-1 rounded-full flex gap-1 text-botanic-accent text-sm">
+                    <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                    <span class="text-white ml-2">(5/5)</span>
+                </div>
+                <p class="text-gray-200 leading-relaxed text-sm md:text-base">
+                    "Five stars for Botanic! Their knowledge, plant quality, and customer service are unmatched in the indoor gardening world."
+                </p>
+                
+                <div class="flex items-center gap-4">
+                    <img src="assets/images/man-5891120_1280.jpg" class="w-12 h-12 rounded-full border-2 border-botanic-accent">
+                    <div>
+                        <h4 class="font-serif text-lg">Sajjad Hossain</h4>
+                        <span class="text-xs text-gray-400">Plant Enthusiast</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 relative mt-8 md:mt-0 flex justify-center md:justify-end">
+                 <img src="assets/images/heroplant.png" alt="Plant" class="relative z-10 w-64 md:w-80 object-cover -mt-16 md:-mt-32 md:-mr-10 drop-shadow-2xl rounded-lg">
+                 
+                 <!-- <div class="absolute top-0 right-10 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs flex items-center gap-1 border border-white/20">
+                    <i class="ri-check-line text-botanic-accent"></i> Quick Payment
+                 </div> -->
+                 <div class="absolute bottom-10 left-10 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs flex items-center gap-1 border border-white/20">
+                    <i class="ri-customer-service-line text-botanic-accent"></i> 24/7 Fast Service
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1000&auto=format&fit=crop" class="rounded-2xl w-full object-cover h-[400px]">
+                <div class="absolute bottom-6 right-6 bg-botanic-green p-6 rounded-xl border border-white/10 text-center shadow-lg">
+                    <span class="block text-4xl font-serif text-botanic-accent font-bold">10+</span>
+                    <span class="text-xs text-white uppercase tracking-wider">Years Of<br>Experience</span>
+                </div>
+                <div class="absolute top-6 left-6 bg-white text-botanic-dark px-4 py-2 rounded-lg text-xs font-bold shadow-lg flex items-center gap-2">
+                    <i class="ri-map-pin-fill text-botanic-accent"></i> 22 Sabit St, Bangladesh
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">Your Green Journey <br> Starts Here.</h2>
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    We believe every plant deserves a loving home and every home deserves the beauty and benefits of indoor plants.
+                </p>
+                <button class="bg-botanic-accent text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Seller Section -->
+    <section class="container mx-auto px-4 py-16 text-center">
+        <h2 class="text-4xl font-serif font-bold mb-4">Most Loved Plants</h2>
+        <p class="text-gray-400 max-w-xl mx-auto mb-12 text-sm">Our most requested plants that consistently deliver satisfaction and natural beauty.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div class="bg-white/5 p-6 rounded-2xl text-center group hover:bg-white/10 transition">
+                <div class="flex justify-between items-start mb-4">
+                     <div class="flex text-botanic-accent text-xs gap-0.5"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i></div>
+                     <button class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center"><i class="ri-add-line"></i></button>
+                </div>
+                <img src="assets/images/cactus-6743531_1280.jpg" class="w-full h-48 object-cover rounded-xl mb-4">
+                <h3 class="font-serif text-xl">Cactus Shady</h3>
+                <p class="text-xs text-gray-400 mt-2">Full of life with the ruffest thorn outside.</p>
+            </div>
+
+            <div class="bg-botanic-green p-8 rounded-2xl text-center transform md:scale-110 shadow-2xl relative border border-white/10">
+                <div class="flex justify-between items-start mb-4">
+                     <div class="flex text-botanic-accent text-xs gap-0.5"><i class="ri-star-fill"></i> (5/5)</div>
+                     <button class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center"><i class="ri-add-line"></i></button>
+                </div>
+                <img src="assets/images/monstera1.jpg" class="w-full h-56 object-cover rounded-xl mb-4">
+                <h3 class="font-serif text-2xl text-botanic-accent">Monstera Adansonii</h3>
+                <p class="text-xs text-gray-300 mt-2">Elegance to your door embracing featherly leaf.</p>
+            </div>
+
+            <div class="bg-white/5 p-6 rounded-2xl text-center group hover:bg-white/10 transition">
+                 <div class="flex justify-between items-start mb-4">
+                     <div class="flex text-botanic-accent text-xs gap-0.5"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i></div>
+                     <button class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center"><i class="ri-add-line"></i></button>
+                </div>
+                <img src="assets/images/succulent.jpg">
+                <h3 class="font-serif text-xl">Succulent Leafy</h3>
+                <p class="text-xs text-gray-400 mt-2">Soft tone happiness in your indoor garden.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Strip -->
+    <div class="bg-botanic-accent py-8 w-full">
+        <div class="container mx-auto flex flex-wrap justify-between items-center px-4 gap-8 opacity-80 grayscale mix-blend-multiply">
+            <span class="font-bold text-xl text-black flex items-center gap-2"><i class="ri-leaf-line"></i> Flaky</span>
+            <span class="font-bold text-xl text-black flex items-center gap-2"><i class="ri-plant-line"></i> Erumbd</span>
+            <span class="font-bold text-xl text-black flex items-center gap-2"><i class="ri-seedling-line"></i> Organicbd</span>
+            <span class="font-bold text-xl text-black flex items-center gap-2"><i class="ri-cactus-line"></i> NatureDr</span>
+            <span class="font-bold text-xl text-black flex items-center gap-2"><i class="ri-leaf-line"></i> Healling</span>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="container mx-auto px-4 py-20">
+        <h2 class="text-4xl font-serif text-center mb-4">Service We Provide</h2>
+        <p class="text-center text-gray-400 mb-16 text-sm">Quality care services that keep your plants healthy, beautiful, and growing strong.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-botanic-green/30 p-8 rounded-2xl hover:bg-botanic-green transition duration-300 border border-white/5 group">
+                <i class="ri-plant-fill text-4xl text-botanic-accent mb-4 block"></i>
+                <h3 class="text-xl font-serif mb-3">Garden Care</h3>
+                <p class="text-xs text-gray-400 mb-6 leading-relaxed">Professional garden maintenance to keep your outdoor and indoor plants healthy and vibrant.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider flex items-center gap-2 group-hover:text-botanic-accent transition">Learn More <i class="ri-arrow-right-circle-fill"></i></a>
+            </div>
+            
+            <div class="bg-botanic-green/30 p-8 rounded-2xl hover:bg-botanic-green transition duration-300 border border-white/5 group">
+                <i class="ri-drop-fill text-4xl text-botanic-accent mb-4 block"></i>
+                <h3 class="text-xl font-serif mb-3">Watering</h3>
+                <p class="text-xs text-gray-400 mb-6 leading-relaxed">Smart watering solutions that provide the perfect amount of hydration for each plant type.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider flex items-center gap-2 group-hover:text-botanic-accent transition">Learn More <i class="ri-arrow-right-circle-fill"></i></a>
+            </div>
+            
+            <div class="bg-botanic-green/30 p-8 rounded-2xl hover:bg-botanic-green transition duration-300 border border-white/5 group">
+                <i class="ri-scissors-fill text-4xl text-botanic-accent mb-4 block"></i>
+                <h3 class="text-xl font-serif mb-3">Plant Trimming</h3>
+                <p class="text-xs text-gray-400 mb-6 leading-relaxed">Trim your baby palnt as well big one too to maintain healthy palnts and beautiful looks.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider flex items-center gap-2 group-hover:text-botanic-accent transition">Learn More <i class="ri-arrow-right-circle-fill"></i></a>
+            </div>
+            
+            <div class="bg-botanic-green/30 p-8 rounded-2xl hover:bg-botanic-green transition duration-300 border border-white/5 group">
+                <i class="ri-bug-fill text-4xl text-botanic-accent mb-4 block"></i>
+                <h3 class="text-xl font-serif mb-3">Pest Control</h3>
+                <p class="text-xs text-gray-400 mb-6 leading-relaxed">Ensure healthy plants through gentel organic and chemical pest control as you need.</p>
+                <a href="#" class="text-xs font-bold uppercase tracking-wider flex items-center gap-2 group-hover:text-botanic-accent transition">Learn More <i class="ri-arrow-right-circle-fill"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="border-t border-white/10 bg-black/20">
+        <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div class="md:w-1/3">
+                <h2 class="text-4xl font-serif leading-tight">Our Green Journey  <br>To You </h2>
+            </div>
+            
+            <div class="md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-3xl font-serif text-botanic-accent mb-1">256k+</h3>
+                    <p class="text-xs text-gray-400">Happy Clients</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-serif text-botanic-accent mb-1">98%</h3>
+                    <p class="text-xs text-gray-400">Client Testimonial</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-serif text-botanic-accent mb-1">308+</h3>
+                    <p class="text-xs text-gray-400">Type Of Plant</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-serif text-botanic-accent mb-1">20+</h3>
+                    <p class="text-xs text-gray-400">Good Staff</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-botanic-green/30 border-t border-white/10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="ri-plant-fill text-2xl text-white"></i>
+                        <span class="text-2xl font-serif font-bold tracking-wide">Plantic</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Your trusted partner in creating beautiful, healthy indoor green spaces that inspire and refresh.</p>
+                    <div class="flex gap-4">
+                        <i class="ri-facebook-fill text-xl cursor-pointer hover:text-botanic-accent transition"></i>
+                        <i class="ri-twitter-fill text-xl cursor-pointer hover:text-botanic-accent transition"></i>
+                        <i class="ri-instagram-fill text-xl cursor-pointer hover:text-botanic-accent transition"></i>
+                        <i class="ri-linkedin-fill text-xl cursor-pointer hover:text-botanic-accent transition"></i>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-serif text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Home</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">About Us</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Services</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Contact</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-serif text-lg mb-4">Services</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Garden Care</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Watering</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Plant Trimming</li>
+                        <li class="hover:text-botanic-accent cursor-pointer transition">Pest Control</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-serif text-lg mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2"><i class="ri-map-pin-fill text-botanic-accent"></i> 22 Sabit St, Bangladesh</li>
+                        <li class="flex items-center gap-2"><i class="ri-phone-fill text-botanic-accent"></i> +088-013-5367535</li>
+                        <li class="flex items-center gap-2"><i class="ri-mail-fill text-botanic-accent"></i> info@plantic.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2025 Plantic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mobile Menu Toggle
+            $('#mobile-menu-btn').click(function() {
+                $('#mobile-menu').removeClass('hidden').addClass('flex');
+            });
+
+            $('#close-menu-btn').click(function() {
+                $('#mobile-menu').addClass('hidden').removeClass('flex');
+            });
+
+            // Sticky Nav Background on Scroll
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('nav').addClass('bg-botanic-dark/90 shadow-md').removeClass('border-white/10');
+                } else {
+                    $('nav').removeClass('bg-botanic-dark/90 shadow-md').addClass('border-white/10');
+                }
+            });
+            
+            // Smooth scrolling for anchor links
+            $('a[href^="#"]').on('click', function(event) {
+                var target = $(this.getAttribute('href'));
+                if(target.length) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 80
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
