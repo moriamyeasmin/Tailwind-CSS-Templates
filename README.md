@@ -12,7 +12,7 @@ This section provides a quick link to each available template for easy navigatio
 | :--- | :--- | :--- | :--- |
 | **Plantic** | A clean and modern template, perfect for nature-focused services, gardening, or environmental organizations. | [Live Preview](https://moriamyeasmin.github.io/Tailwind-CSS-Templates/templates/01.Plantic/) | `templates/plantic` |
 | [ **Exploric** ] | [] | [Live Preview]() | `templates/exploric` |
-| [ **Portfolic** ] | [Template 3 Description] | [Live Preview] | `templates/portfolic` |
+| [ **Portfolic** ] | [Template 3 Description] | [Live Preview](https://moriamyeasmin.github.io/Tailwind-CSS-Templates/templates/03.Portfolic/) | `templates/portfolic` |
 
 ## 📂 Repository Structure
 
