@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolic. - Aminul Islam Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- MixItUp for Portfolio Filtering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
+    
+    <!-- AOS for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        .progress-bar {
+            transition: width 1.5s ease-in-out;
+        }
+        .portfolio-item {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .hero-circle {
+            background: linear-gradient(135deg, rgba(255,124,44,0.1) 0%, rgba(255,124,44,0.4) 100%);
+        }
+        .active-filter {
+            background-color: #FF7C2C !important;
+            color: white !important;
+        }
+        .skill-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+            overflow: hidden;
+        }
+        .skill-progress {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #FF7C2C, #FF9A5C);
+            width: 0;
+        }
+    </style>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-orange': '#FF7C2C',
+                        'primary-dark': '#1A202C',
+                        'primary-gray': '#4A5568',
+                        'light-gray': '#F7FAFC'
+                    },
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-gray-900 overflow-x-hidden">
+    
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md py-4 px-6 lg:px-12">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold text-primary-dark">Portfolic<span class="text-primary-orange">.</span></h1>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex space-x-8">
+                <a href="#home" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Home</a>
+                <a href="#about" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">About Myself</a>
+                <a href="#services" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Services</a>
+                <a href="#skills" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Skills</a>
+                <a href="#portfolio" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Portfolio</a>
+                <a href="#contact" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Contact</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden">
+                <button id="mobile-menu-button" class="text-primary-gray hover:text-primary-orange">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white shadow-lg mt-4 py-4 px-6 rounded-lg">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Home</a>
+                <a href="#about" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">About Myself</a>
+                <a href="#services" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Services</a>
+                <a href="#skills" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Skills</a>
+                <a href="#portfolio" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Portfolio</a>
+                <a href="#contact" class="text-primary-gray hover:text-primary-orange font-semibold transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="py-12 lg:py-24 px-6 lg:px-12 bg-light-gray">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Text Content -->
+                <div class="order-2 lg:order-1" data-aos="fade-right">
+                    <h2 class="text-2xl text-primary-orange font-semibold mb-2">Hi, I'm</h2>
+                    <h1 class="text-4xl lg:text-7xl font-extrabold text-primary-dark mb-6">Aminul Islam</h1>
+                    <p class="text-lg text-primary-gray mb-8">
+                       Senior UI/UX Designer and Frontend Developer with 5+ years of experience creating digital solutions for global brands and startups.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-primary-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105">
+                            <i class="fas fa-download mr-2"></i>Download CV
+                        </button>
+                        <button class="border-2 border-primary-orange text-primary-orange hover:bg-primary-orange hover:text-white font-bold py-3 px-8 rounded-full transition-all">
+                            <i class="fas fa-envelope mr-2"></i>Contact
+                        </button>
+                    </div>
+                    
+                    <!-- Social Icons -->
+                    <div class="flex space-x-4 mt-8">
+                        <a href="#" class="w-12 h-12 rounded-full bg-gray-200 hover:bg-primary-orange text-gray-700 hover:text-white flex items-center justify-center transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full bg-gray-200 hover:bg-primary-orange text-gray-700 hover:text-white flex items-center justify-center transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full bg-gray-200 hover:bg-primary-orange text-gray-700 hover:text-white flex items-center justify-center transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full bg-gray-200 hover:bg-primary-orange text-gray-700 hover:text-white flex items-center justify-center transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Right Image with Circle -->
+                <div class="order-1 lg:order-2 relative flex justify-center" data-aos="fade-left">
+                    <div class="relative w-full max-w-md">
+                        <div class="hero-circle absolute -top-10 -right-10 w-full h-full rounded-full z-0"></div>
+                        <div class="relative z-10">
+                            <img src="https://images.unsplash.com/photo-1614203586524-fee58ef9ef90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Aminul Islam" 
+                                 class="rounded-full w-full h-auto shadow-2xl">
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 bg-primary-orange text-white py-3 px-6 rounded-full shadow-lg">
+                            <div class="flex items-center">
+                                <div class="mr-3">
+                                    <i class="fas fa-award text-2xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-lg">5+ Years</p>
+                                    <p class="text-sm">Experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section id="stats" class="py-12 px-6 lg:px-12 bg-white">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                <!-- Stat 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow" data-aos="fade-up">
+                    <div class="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-users text-3xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary-dark mb-2 counter" data-count="150">0</h3>
+                    <p class="text-primary-gray">Happy Clients</p>
+                </div>
+                
+                <!-- Stat 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-project-diagram text-3xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary-dark mb-2 counter" data-count="240">0</h3>
+                    <p class="text-primary-gray">Full Project</p>
+                </div>
+                
+                <!-- Stat 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-trophy text-3xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold text-primary-dark mb-2 counter" data-count="36">0</h3>
+                    <p class="text-primary-gray">Achivements</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services" class="py-16 px-6 lg:px-12 bg-light-gray">
+        <div class="container mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl lg:text-5xl font-bold text-primary-dark mb-4">Digital Solutions for <span class="text-primary-orange">Modern Businesses</span></h2>
+                <p class="text-primary-gray max-w-3xl mx-auto">
+                    Comprehensive digital services designed to enhance user experience and drive business growth across all platforms.
+                </p>
+            </div>
+            
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg transition-all duration-300" data-aos="zoom-in">
+                    <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-6">
+                        <i class="fas fa-palette text-2xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary-dark mb-4">UI/UX Design</h3>
+                    <p class="text-primary-gray">
+                        ব্যবহারকারীর অভিজ্ঞতার উপর ভিত্তি করে আকর্ষণীয় এবং কার্যকরী ইন্টারফেস ডিজাইন তৈরি করি।
+                    </p>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-2xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary-dark mb-4">Web Development</h3>
+                    <p class="text-primary-gray">
+                        আধুনিক প্রযুক্তি ব্যবহার করে দ্রুতগতির এবং রেসপন্সিভ ওয়েবসাইট ডেভেলপমেন্ট করি।
+                    </p>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg transition-all duration-300" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-2xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary-dark mb-4">Mobile App Design</h3>
+                    <p class="text-primary-gray">
+                        iOS এবং Android প্লাটফর্মের জন্য ব্যবহারকারীবান্ধব মোবাইল অ্যাপ্লিকেশন ডিজাইন তৈরি করি।
+                    </p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card bg-white p-8 rounded-xl shadow-lg transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-2xl text-primary-orange"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary-dark mb-4">Digital Marketing</h3>
+                    <p class="text-primary-gray">
+                        সোশ্যাল মিডিয়া এবং সার্চ ইঞ্জিনের জন্য কনটেন্ট তৈরি করে আপনার ব্র্যান্ডের প্রসার ঘটাই।
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 px-6 lg:px-12 bg-white">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Left Column - Skills Progress -->
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-primary-dark mb-8">My <span class="text-primary-orange">Skills</span></h2>
+                    
+                    <!-- Skill 1 -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold text-primary-dark">UI/UX Design</span>
+                            <span class="font-bold text-primary-orange skill-percent" data-percent="95">0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="95"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill 2 -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold text-primary-dark">Web Development</span>
+                            <span class="font-bold text-primary-orange skill-percent" data-percent="90">0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill 3 -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold text-primary-dark">Graphics Design</span>
+                            <span class="font-bold text-primary-orange skill-percent" data-percent="85">0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill 4 -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold text-primary-dark">Mobile App Design</span>
+                            <span class="font-bold text-primary-orange skill-percent" data-percent="80">0%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Experience -->
+                <div data-aos="fade-left">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-primary-dark mb-8">My <span class="text-primary-orange">Experiences</span></h2>
+                    
+                    <!-- Experience Timeline -->
+                    <div class="space-y-8">
+                        <!-- Experience 1 -->
+                        <div class="relative pl-10">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-primary-orange"></div>
+                            <div class="absolute left-2 top-0 bottom-0 w-0.5 bg-primary-orange"></div>
+                            <div class="bg-light-gray p-6 rounded-lg">
+                                <h3 class="font-bold text-primary-dark text-lg mb-2">Senior UI/UX Designer</h3>
+                                <p class="text-primary-orange font-semibold mb-2">Tech Solutions Ltd. | 2020 - Present</p>
+                                <p class="text-primary-gray">
+                                    বিভিন্ন কোম্পানির জন্য ওয়েব এবং মোবাইল অ্যাপ্লিকেশন ডিজাইন করেছি। ব্যবহারকারীর অভিজ্ঞতা উন্নত করার মাধ্যমে ক্লায়েন্টদের ব্যবসায়িক লক্ষ্য অর্জনে সহায়তা করেছি।
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience 2 -->
+                        <div class="relative pl-10">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-primary-orange"></div>
+                            <div class="absolute left-2 top-0 bottom-0 w-0.5 bg-primary-orange"></div>
+                            <div class="bg-light-gray p-6 rounded-lg">
+                                <h3 class="font-bold text-primary-dark text-lg mb-2">Web Developer</h3>
+                                <p class="text-primary-orange font-semibold mb-2">Creative Agency | 2018 - 2020</p>
+                                <p class="text-primary-gray">
+                                    ফ্রন্ট-এন্ড ওয়েব ডেভেলপমেন্টের দায়িত্বে ছিলাম। বিভিন্ন ধরনের ওয়েবসাইট এবং ওয়েব অ্যাপ্লিকেশন তৈরি করেছি।
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience 3 -->
+                        <div class="relative pl-10">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-primary-orange"></div>
+                            <div class="bg-light-gray p-6 rounded-lg">
+                                <h3 class="font-bold text-primary-dark text-lg mb-2">Junior Designer</h3>
+                                <p class="text-primary-orange font-semibold mb-2">Design Studio | 2016 - 2018</p>
+                                <p class="text-primary-gray">
+                                    গ্রাফিক ডিজাইন এবং UI ডিজাইন শেখা এবং প্রয়োগ করা। বিভিন্ন ক্লায়েন্ট প্রজেক্টে কাজ করার মাধ্যমে অভিজ্ঞতা অর্জন।
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-16 px-6 lg:px-12 bg-light-gray">
+        <div class="container mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl lg:text-5xl font-bold text-primary-dark mb-4">আমার <span class="text-primary-orange">আশ্চর্যজনক কাজ</span></h2>
+                <p class="text-primary-gray max-w-3xl mx-auto">
+                    আমি বিভিন্ন ক্লায়েন্ট এবং প্রজেক্টের জন্য যে কাজগুলো করেছি তার কিছু নমুনা এখানে দেখানো হলো।
+                </p>
+            </div>
+            
+            <!-- Portfolio Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12" data-aos="fade-up">
+                <button class="filter-btn active-filter bg-primary-orange text-white font-semibold py-2 px-6 rounded-full transition-all" data-filter="all">
+                    All
+                </button>
+                <button class="filter-btn bg-white text-primary-gray hover:bg-primary-orange hover:text-white font-semibold py-2 px-6 rounded-full transition-all" data-filter=".web-design">
+                    Web Design
+                </button>
+                <button class="filter-btn bg-white text-primary-gray hover:bg-primary-orange hover:text-white font-semibold py-2 px-6 rounded-full transition-all" data-filter=".ui-design">
+                    UI/UX Design
+                </button>
+                <button class="filter-btn bg-white text-primary-gray hover:bg-primary-orange hover:text-white font-semibold py-2 px-6 rounded-full transition-all" data-filter=".mobile-app">
+                    Mobile App
+                </button>
+                <button class="filter-btn bg-white text-primary-gray hover:bg-primary-orange hover:text-white font-semibold py-2 px-6 rounded-full transition-all" data-filter=".branding">
+                    Branding
+                </button>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="portfolio-item mix web-design ui-design" data-aos="zoom-in">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="E-commerce Website Design" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">E-commerce Website Design</h3>
+                            <p class="text-primary-gray">একটি সম্পূর্ণ রেসপন্সিভ ই-কমার্স ওয়েবসাইট ডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 2 -->
+                <div class="portfolio-item mix ui-design mobile-app" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Fitness App UI" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">Fitness App UI</h3>
+                            <p class="text-primary-gray">একটি ফিটনেস ট্র্যাকিং মোবাইল অ্যাপ্লিকেশন ডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="portfolio-item mix branding" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Brand Identity Design" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">Brand Identity Design</h3>
+                            <p class="text-primary-gray">একটি স্টার্টআপ কোম্পানির জন্য ব্র্যান্ডিং এবং লোগো ডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 4 -->
+                <div class="portfolio-item mix web-design" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Dashboard Design" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">Dashboard Design</h3>
+                            <p class="text-primary-gray">একটি ডেটা অ্যানালিটিক্স ড্যাশবোর্ড ডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 5 -->
+                <div class="portfolio-item mix mobile-app ui-design" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Food Delivery App" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">Food Delivery App</h3>
+                            <p class="text-primary-gray">একটি ফুড ডেলিভারি সার্ভিসের মোবাইল অ্যাপ ডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 6 -->
+                <div class="portfolio-item mix branding web-design" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Corporate Website" 
+                                 class="w-full h-64 object-cover transform hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-primary-orange bg-opacity-80 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="#" class="text-white font-bold text-lg bg-white bg-opacity-20 py-3 px-6 rounded-full">দেখুন</a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary-dark mb-2">Corporate Website</h3>
+                            <p class="text-primary-gray">একটি বড় কর্পোরেট কোম্পানির ওয়েবসাইট রিডিজাইন</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-6 lg:px-12 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl lg:text-5xl font-bold text-primary-dark mb-4">Contact <span class="text-primary-orange">Us</span></h2>
+                <p class="text-primary-gray max-w-3xl mx-auto">
+                    আপনার কোনো প্রজেক্ট বা সহযোগিতার বিষয়ে আলোচনা করতে চাইলে নিচের ফর্মটি পূরণ করুন অথবা সরাসরি ইমেইল করুন।
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold text-primary-dark mb-6">Contact Info</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Email -->
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-envelope text-primary-orange text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary-dark">Email</h4>
+                                <p class="text-primary-gray">hello@portfolic.com</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-phone text-primary-orange text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary-dark">Phone</h4>
+                                <p class="text-primary-gray">+088013527847</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-map-marker-alt text-primary-orange text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary-dark">Address</h4>
+                                <p class="text-primary-gray">Dhaka, Bangladesh</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Placeholder -->
+                    <div class="mt-12 bg-gray-200 h-64 rounded-xl flex items-center justify-center">
+                        <p class="text-primary-gray">Map Location</p>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div data-aos="fade-left">
+                    <form id="contact-form" class="bg-light-gray p-8 rounded-xl">
+                        <div class="mb-6">
+                            <label for="name" class="block text-primary-dark font-bold mb-2">Your Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent" placeholder="Your Full Name">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-primary-dark font-bold mb-2">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent" placeholder="Your Email Address">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-primary-dark font-bold mb-2">Subject</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent" placeholder="Subject of Message">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-primary-dark font-bold mb-2">Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent" placeholder="Write Your Message"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105">
+                            <i class="fas fa-paper-plane mr-2"></i>Sent Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-primary-dark text-white py-12 px-6 lg:px-12">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Copyright -->
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold">PORTFOLIC<span class="text-primary-orange">.</span></h2>
+                    <p class="mt-2 text-gray-300">© 2025 PORTFOLIC. All Rights Reserved</p>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary-orange text-white flex items-center justify-center transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary-orange text-white flex items-center justify-center transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary-orange text-white flex items-center justify-center transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary-orange text-white flex items-center justify-center transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Back to Top Button -->
+            <div class="text-center mt-8">
+                <button id="back-to-top" class="bg-primary-orange hover:bg-orange-600 text-white p-3 rounded-full transition-all">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- jQuery and Custom Scripts -->
+    <script>
+        $(document).ready(function(){
+            // Initialize AOS (Animate On Scroll)
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+            
+            // Mobile Menu Toggle
+            $('#mobile-menu-button').click(function(){
+                $('#mobile-menu').slideToggle(300);
+            });
+            
+            // Smooth Scrolling for Navigation Links
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = this.hash;
+                var $target = $(target);
+                
+                $('html, body').stop().animate({
+                    'scrollTop': $target.offset().top - 80
+                }, 800, 'swing');
+                
+                // Close mobile menu if open
+                $('#mobile-menu').slideUp(300);
+            });
+            
+            // Stats Counter Animation
+            $('.counter').each(function() {
+                var $this = $(this);
+                var countTo = $this.attr('data-count');
+                
+                $({ countNum: 0 }).animate({
+                    countNum: countTo
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function() {
+                        $this.text(Math.floor(this.countNum));
+                    },
+                    complete: function() {
+                        $this.text(this.countNum);
+                    }
+                });
+            });
+            
+            // Skills Progress Bar Animation
+            $('.skill-progress').each(function() {
+                var $this = $(this);
+                var width = $this.attr('data-width');
+                
+                // Animate skill progress bars when they come into view
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            $this.animate({
+                                width: width + '%'
+                            }, 1500);
+                            
+                            // Animate percentage numbers
+                            var $percentElement = $this.closest('.mb-8').find('.skill-percent');
+                            var percent = $percentElement.attr('data-percent');
+                            
+                            $({ percentNum: 0 }).animate({
+                                percentNum: percent
+                            }, {
+                                duration: 1500,
+                                step: function() {
+                                    $percentElement.text(Math.floor(this.percentNum) + '%');
+                                },
+                                complete: function() {
+                                    $percentElement.text(this.percentNum + '%');
+                                }
+                            });
+                            
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe($this[0]);
+            });
+            
+            // Initialize MixItUp Portfolio Filter
+            var mixer = mixitup('#portfolio-grid', {
+                animation: {
+                    duration: 300,
+                    effects: 'fade translateZ(-100px)'
+                }
+            });
+            
+            // Portfolio Filter Button Active State
+            $('.filter-btn').click(function() {
+                $('.filter-btn').removeClass('active-filter bg-primary-orange text-white');
+                $('.filter-btn').addClass('bg-white text-primary-gray');
+                $(this).addClass('active-filter bg-primary-orange text-white');
+                $(this).removeClass('bg-white text-primary-gray');
+            });
+            
+            // Contact Form Submission
+            $('#contact-form').submit(function(e) {
+                e.preventDefault();
+                
+                // Simple form validation
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var message = $('#message').val();
+                
+                if(name && email && message) {
+                    // In a real application, you would send the form data to a server here
+                    alert('ধন্যবাদ! আপনার বার্তা পাঠানো হয়েছে। আমি শীঘ্রই আপনার সাথে যোগাযোগ করব।');
+                    $('#contact-form')[0].reset();
+                } else {
+                    alert('দয়া করে সব প্রয়োজনীয় তথ্য পূরণ করুন।');
+                }
+            });
+            
+            // Back to Top Button
+            $('#back-to-top').click(function() {
+                $('html, body').animate({ scrollTop: 0 }, 800);
+            });
+            
+            // Show/Hide Back to Top Button
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            
+            // Hover effect for portfolio items
+            $('.portfolio-item').hover(
+                function() {
+                    $(this).find('img').css('transform', 'scale(1.1)');
+                },
+                function() {
+                    $(this).find('img').css('transform', 'scale(1)');
+                }
+            );
+            
+            // Service cards animation on hover
+            $('.service-card').hover(
+                function() {
+                    $(this).css('transform', 'translateY(-10px)');
+                },
+                function() {
+                    $(this).css('transform', 'translateY(0)');
+                }
+            );
+        });
+    </script>
+    
+    <!-- Owl Carousel Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    
+</body>
+</html>
