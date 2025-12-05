@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Online | Epicurean Delights</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        
+        .delivery-step {
+            transition: all 0.3s ease;
+        }
+        
+        .delivery-step.active {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .order-card {
+            transition: all 0.3s ease;
+            background-color: #1a1f27;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .order-card:hover {
+            border-color: rgba(249, 115, 22, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .tracking-line {
+            height: 2px;
+            background: linear-gradient(to right, #f97316, #fb923c);
+            transition: width 0.5s ease;
+        }
+        
+        .time-slot {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .time-slot:hover {
+            border-color: #f97316;
+        }
+        
+        .time-slot.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+    </style>
+</head>
+<body class="pt-20">
+    
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 bg-dark-card/95 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-utensils text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-orange transition">Home</a>
+                    <a href="menu.html" class="text-gray-300 hover:text-brand-orange transition">Menu</a>
+                    <a href="reservation.html" class="text-gray-300 hover:text-brand-orange transition">Reservation</a>
+                    <a href="order.html" class="text-brand-orange font-semibold">Order Online</a>
+                    <a href="events.html" class="text-gray-300 hover:text-brand-orange transition">Events</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="account.html" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-user text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Order <span class="text-gradient">Online</span></h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">Get your favorite dishes delivered to your doorstep or ready for pickup</p>
+        </div>
+
+        <!-- Service Selection -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="service-option p-8 bg-dark-card rounded-2xl text-center hover:shadow-xl transition">
+                <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-motorcycle text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Delivery</h3>
+                <p class="text-gray-400 mb-6">Get your food delivered within 30-45 minutes</p>
+                <button class="btn-primary w-full select-service" data-service="delivery">
+                    Order for Delivery
+                </button>
+                <div class="mt-4 text-sm text-gray-500">
+                    <p><i class="fas fa-clock mr-2"></i>30-45 min delivery</p>
+                    <p><i class="fas fa-dollar-sign mr-2"></i>$3.99 delivery fee</p>
+                    <p><i class="fas fa-map-marker-alt mr-2"></i>Within 5 miles</p>
+                </div>
+            </div>
+            
+            <div class="service-option p-8 bg-dark-card rounded-2xl text-center hover:shadow-xl transition">
+                <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-store text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Pickup</h3>
+                <p class="text-gray-400 mb-6">Pick up your order in 15-20 minutes</p>
+                <button class="btn-primary w-full select-service" data-service="pickup">
+                    Order for Pickup
+                </button>
+                <div class="mt-4 text-sm text-gray-500">
+                    <p><i class="fas fa-clock mr-2"></i>15-20 min preparation</p>
+                    <p><i class="fas fa-dollar-sign mr-2"></i>No extra fees</p>
+                    <p><i class="fas fa-car mr-2"></i>Curbside available</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Process Steps -->
+        <div id="orderProcess" class="hidden">
+            <!-- Step 1: Location Check -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6">Step 1: <span class="text-gradient">Enter Your Location</span></h2>
+                <div class="bg-dark-card rounded-2xl p-6">
+                    <div class="mb-4">
+                        <label class="block text-gray-300 mb-2">Delivery Address</label>
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="deliveryAddress" placeholder="Enter your address" class="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-gray-300 mb-2">Apartment/Suite</label>
+                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Optional">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 mb-2">Delivery Instructions</label>
+                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Gate code, building, etc.">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button id="checkLocation" class="btn-primary">
+                            <i class="fas fa-check mr-2"></i> Check Availability
+                        </button>
+                        <button class="px-4 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                            <i class="fas fa-history mr-2"></i> Use Previous Address
+                        </button>
+                    </div>
+                    
+                    <!-- Location Result -->
+                    <div id="locationResult" class="mt-6 p-4 bg-gray-800/50 rounded-lg hidden">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-semibold text-white">Service Available!</h4>
+                                <p class="text-sm text-gray-400">Estimated delivery time: <span class="text-brand-orange">35 minutes</span></p>
+                            </div>
+                            <button id="confirmLocation" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                                Confirm Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Order Time (Hidden initially) -->
+            <div id="step2" class="mb-12 hidden">
+                <h2 class="text-2xl font-bold text-white mb-6">Step 2: <span class="text-gradient">Choose Order Time</span></h2>
+                <div class="bg-dark-card rounded-2xl p-6">
+                    <div class="mb-6">
+                        <div class="flex gap-4 mb-4">
+                            <button class="time-option active px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold" data-time="asap">
+                                <i class="fas fa-bolt mr-2"></i> ASAP
+                            </button>
+                            <button class="time-option px-6 py-3 bg-gray-800 text-gray-300 rounded-lg font-semibold hover:bg-gray-700 transition" data-time="later">
+                                <i class="fas fa-clock mr-2"></i> Schedule Later
+                            </button>
+                        </div>
+                        
+                        <!-- Time Slots for ASAP -->
+                        <div id="asapTime" class="time-slots">
+                            <h4 class="text-lg font-semibold text-white mb-4">Available Time Slots:</h4>
+                            <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+                                <button class="time-slot py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-time="30">
+                                    30 min
+                                </button>
+                                <button class="time-slot py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-time="45">
+                                    45 min
+                                </button>
+                                <button class="time-slot py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-time="60">
+                                    60 min
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Schedule for Later -->
+                        <div id="laterTime" class="time-slots hidden">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-gray-300 mb-2">Select Date</label>
+                                    <input type="date" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 mb-2">Select Time</label>
+                                    <select class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                        <option value="">Choose time</option>
+                                        <option>17:00</option>
+                                        <option>17:30</option>
+                                        <option>18:00</option>
+                                        <option>18:30</option>
+                                        <option>19:00</option>
+                                        <option>19:30</option>
+                                        <option>20:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="confirmTime" class="btn-primary w-full">
+                        <i class="fas fa-check-circle mr-2"></i> Confirm Order Time
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Menu Selection (Hidden initially) -->
+            <div id="step3" class="mb-12 hidden">
+                <h2 class="text-2xl font-bold text-white mb-6">Step 3: <span class="text-gradient">Select Your Food</span></h2>
+                <div class="flex items-center justify-between mb-6">
+                    <p class="text-gray-400">Browse our menu and add items to your cart</p>
+                    <a href="menu.html" class="text-brand-orange hover:text-orange-400 transition">
+                        <i class="fas fa-external-link-alt mr-2"></i> View Full Menu
+                    </a>
+                </div>
+                
+                <!-- Quick Menu Items -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Quick Item 1 -->
+                    <div class="order-card p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-white mb-1">Wagyu Ribeye Steak</h3>
+                                <p class="text-sm text-gray-400">12oz with truffle mashed potatoes</p>
+                            </div>
+                            <span class="text-xl font-bold text-brand-orange">$38</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button class="nutrition-btn text-sm text-gray-400 hover:text-brand-orange transition">
+                                <i class="fas fa-info-circle mr-1"></i> Details
+                            </button>
+                            <button class="add-quick-item px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition" data-item="wagyu" data-price="38">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Item 2 -->
+                    <div class="order-card p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-white mb-1">Truffle Risotto</h3>
+                                <p class="text-sm text-gray-400">Wild mushrooms & parmesan</p>
+                            </div>
+                            <span class="text-xl font-bold text-brand-orange">$32</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button class="nutrition-btn text-sm text-gray-400 hover:text-brand-orange transition">
+                                <i class="fas fa-info-circle mr-1"></i> Details
+                            </button>
+                            <button class="add-quick-item px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition" data-item="risotto" data-price="32">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Item 3 -->
+                    <div class="order-card p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-white mb-1">Chocolate Lava Cake</h3>
+                                <p class="text-sm text-gray-400">With vanilla ice cream</p>
+                            </div>
+                            <span class="text-xl font-bold text-brand-orange">$14</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button class="nutrition-btn text-sm text-gray-400 hover:text-brand-orange transition">
+                                <i class="fas fa-info-circle mr-1"></i> Details
+                            </button>
+                            <button class="add-quick-item px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition" data-item="cake" data-price="14">
+                                Add to Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="menu.html" class="btn-primary">
+                        <i class="fas fa-book-open mr-2"></i> Browse Full Menu
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 4: Order Summary (Hidden initially) -->
+            <div id="step4" class="mb-12 hidden">
+                <h2 class="text-2xl font-bold text-white mb-6">Step 4: <span class="text-gradient">Review & Pay</span></h2>
+                <div class="bg-dark-card rounded-2xl p-6">
+                    <!-- Order Details -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-white mb-4">Order Summary</h3>
+                        <div id="orderSummary" class="space-y-3">
+                            <!-- Order items will be added here -->
+                        </div>
+                        
+                        <div class="border-t border-gray-800 mt-6 pt-6">
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-gray-300">
+                                    <span>Subtotal</span>
+                                    <span id="orderSubtotal">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-gray-300">
+                                    <span>Delivery Fee</span>
+                                    <span id="deliveryFee">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-gray-300">
+                                    <span>Tax (10%)</span>
+                                    <span id="orderTax">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-lg font-bold text-white pt-4 border-t border-gray-800">
+                                    <span>Total</span>
+                                    <span id="orderTotal">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Promo Code -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-white mb-4">Promo Code</h3>
+                        <div class="flex gap-3">
+                            <input type="text" id="promoCode" placeholder="Enter promo code" class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            <button id="applyPromo" class="px-6 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                Apply
+                            </button>
+                        </div>
+                        <div id="promoMessage" class="mt-2 text-sm hidden"></div>
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-white mb-4">Payment Method</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                                <input type="radio" name="payment" value="card" class="mr-3" checked>
+                                <i class="fas fa-credit-card text-gray-300 mr-3"></i>
+                                <span class="text-white">Credit/Debit Card</span>
+                            </label>
+                            
+                            <label class="flex items-center p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                                <input type="radio" name="payment" value="cash" class="mr-3">
+                                <i class="fas fa-money-bill-wave text-gray-300 mr-3"></i>
+                                <span class="text-white">Cash on Delivery</span>
+                            </label>
+                            
+                            <label class="flex items-center p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                                <input type="radio" name="payment" value="mobile" class="mr-3">
+                                <i class="fas fa-mobile-alt text-gray-300 mr-3"></i>
+                                <span class="text-white">Mobile Payment</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Instructions -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-white mb-4">Special Instructions</h3>
+                        <textarea class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" rows="3" placeholder="Any special requests or instructions for your order..."></textarea>
+                    </div>
+                    
+                    <!-- Terms & Place Order -->
+                    <div>
+                        <label class="flex items-start mb-6">
+                            <input type="checkbox" class="mt-1 mr-3" required>
+                            <span class="text-gray-400 text-sm">I agree to the <a href="#" class="text-brand-orange hover:underline">Terms of Service</a> and confirm that I am at least 18 years old. I understand that my order may be subject to additional fees and taxes.</span>
+                        </label>
+                        
+                        <button id="placeOrder" class="btn-primary w-full text-lg py-4">
+                            <i class="fas fa-lock mr-2"></i> Place Order Securely
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Tracking (After order placed) -->
+        <div id="orderTracking" class="hidden">
+            <div class="text-center mb-12">
+                <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-3">Order Confirmed!</h2>
+                <p class="text-gray-400 text-lg mb-6">Your order #<span id="orderNumber" class="font-bold text-brand-orange">ED12345</span> has been placed successfully.</p>
+                
+                <div class="max-w-2xl mx-auto">
+                    <!-- Tracking Steps -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm text-gray-400">Order Placed</span>
+                            <span class="text-sm text-gray-400">Estimated Delivery</span>
+                        </div>
+                        <div class="relative h-2 bg-gray-800 rounded-full mb-8">
+                            <div class="tracking-line absolute top-0 left-0 h-full rounded-full" style="width: 25%"></div>
+                            <div class="absolute top-0 left-0 w-4 h-4 bg-brand-orange rounded-full -translate-y-1"></div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <span class="text-sm text-white">Ordered</span>
+                                <p class="text-xs text-gray-400" id="orderTime">Now</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-utensils text-gray-400"></i>
+                                </div>
+                                <span class="text-sm text-gray-400">Preparing</span>
+                                <p class="text-xs text-gray-400">Estimated: <span id="prepTime">15 min</span></p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-motorcycle text-gray-400"></i>
+                                </div>
+                                <span class="text-sm text-gray-400">On the Way</span>
+                                <p class="text-xs text-gray-400">Estimated: <span id="deliveryTime">30 min</span></p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-home text-gray-400"></i>
+                                </div>
+                                <span class="text-sm text-gray-400">Delivered</span>
+                                <p class="text-xs text-gray-400" id="deliveryEstimate">45 min total</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-dark-card p-6 rounded-2xl">
+                            <h3 class="text-lg font-semibold text-white mb-4">Order Details</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Order Number</span>
+                                    <span class="text-white font-mono">ED12345</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Estimated Delivery</span>
+                                    <span class="text-white" id="estDeliveryTime">7:45 PM</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Delivery Address</span>
+                                    <span class="text-white text-right" id="trackingAddress">123 Main St</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-dark-card p-6 rounded-2xl">
+                            <h3 class="text-lg font-semibold text-white mb-4">Need Help?</h3>
+                            <div class="space-y-3">
+                                <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                    <i class="fas fa-headset mr-3"></i>
+                                    <span>Contact Support</span>
+                                </a>
+                                <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                    <i class="fas fa-file-invoice mr-3"></i>
+                                    <span>View Receipt</span>
+                                </a>
+                                <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                    <i class="fas fa-redo mr-3"></i>
+                                    <span>Reorder</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-center space-x-4">
+                        <button class="px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                            <i class="fas fa-share-alt mr-2"></i> Share Status
+                        </button>
+                        <button class="px-6 py-3 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                            <i class="fas fa-shopping-cart mr-2"></i> Order Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Items Section -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-serif font-bold text-white mb-8 text-center">Most <span class="text-gradient">Popular</span> Orders</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">#1</span>
+                    </div>
+                    <h3 class="font-bold text-white mb-2">Wagyu Steak Combo</h3>
+                    <p class="text-sm text-gray-400">Ordered 245 times this week</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">#2</span>
+                    </div>
+                    <h3 class="font-bold text-white mb-2">Truffle Risotto</h3>
+                    <p class="text-sm text-gray-400">Ordered 189 times this week</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">#3</span>
+                    </div>
+                    <h3 class="font-bold text-white mb-2">Seafood Platter</h3>
+                    <p class="text-sm text-gray-400">Ordered 156 times this week</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold">#4</span>
+                    </div>
+                    <h3 class="font-bold text-white mb-2">Chocolate Lava Cake</h3>
+                    <p class="text-sm text-gray-400">Ordered 134 times this week</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order History (For logged in users) -->
+        <section class="mt-16">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white">Your Recent Orders</h2>
+                <a href="account.html#orders" class="text-brand-orange hover:text-orange-400 transition">
+                    View All <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="p-4 text-white font-semibold">Order #</th>
+                            <th class="p-4 text-white font-semibold">Date</th>
+                            <th class="p-4 text-white font-semibold">Items</th>
+                            <th class="p-4 text-white font-semibold">Total</th>
+                            <th class="p-4 text-white font-semibold">Status</th>
+                            <th class="p-4 text-white font-semibold">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800">
+                        <tr class="hover:bg-gray-800/50 transition">
+                            <td class="p-4 text-white font-mono">ED12344</td>
+                            <td class="p-4 text-gray-300">Today, 6:30 PM</td>
+                            <td class="p-4 text-gray-300">Wagyu Steak, Risotto</td>
+                            <td class="p-4 text-brand-orange font-semibold">$70.00</td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 bg-green-900/30 text-green-300 rounded text-sm">Delivered</span>
+                            </td>
+                            <td class="p-4">
+                                <button class="text-brand-orange hover:text-orange-400 transition">
+                                    <i class="fas fa-redo mr-1"></i> Reorder
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card border-t border-gray-800 mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-500">© 2024 Epicurean Delights. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    $(document).ready(function() {
+        let currentStep = 1;
+        let orderItems = [];
+        let selectedService = '';
+        let deliveryFee = 3.99;
+        let promoApplied = false;
+        let promoDiscount = 0;
+        
+        // Service Selection
+        $('.select-service').click(function() {
+            selectedService = $(this).data('service');
+            $('.service-option').removeClass('border-2 border-brand-orange');
+            $(this).closest('.service-option').addClass('border-2 border-brand-orange');
+            
+            $('#orderProcess').removeClass('hidden');
+            showStep(1);
+        });
+        
+        // Check Location
+        $('#checkLocation').click(function() {
+            const address = $('#deliveryAddress').val();
+            
+            if (!address.trim()) {
+                showNotification('Please enter your address', 'error');
+                return;
+            }
+            
+            // Simulate API call
+            $('#locationResult').removeClass('hidden');
+            showNotification('Location checked successfully!');
+        });
+        
+        // Confirm Location
+        $('#confirmLocation').click(function() {
+            showStep(2);
+            showNotification('Location confirmed!');
+        });
+        
+        // Time Options
+        $('.time-option').click(function() {
+            $('.time-option').removeClass('active bg-gradient-to-r from-brand-orange to-orange-600 text-white')
+                            .addClass('bg-gray-800 text-gray-300');
+            $(this).removeClass('bg-gray-800 text-gray-300')
+                   .addClass('active bg-gradient-to-r from-brand-orange to-orange-600 text-white');
+            
+            const timeType = $(this).data('time');
+            if (timeType === 'asap') {
+                $('#asapTime').removeClass('hidden');
+                $('#laterTime').addClass('hidden');
+            } else {
+                $('#asapTime').addClass('hidden');
+                $('#laterTime').removeClass('hidden');
+            }
+        });
+        
+        // Time Slot Selection
+        $(document).on('click', '.time-slot', function() {
+            $('.time-slot').removeClass('selected');
+            $(this).addClass('selected');
+        });
+        
+        // Confirm Time
+        $('#confirmTime').click(function() {
+            showStep(3);
+            showNotification('Order time set!');
+        });
+        
+        // Add Quick Item
+        $(document).on('click', '.add-quick-item', function() {
+            const itemName = $(this).closest('.order-card').find('h3').text();
+            const itemPrice = parseFloat($(this).data('price'));
+            
+            orderItems.push({
+                name: itemName,
+                price: itemPrice,
+                quantity: 1
+            });
+            
+            updateOrderSummary();
+            showNotification(itemName + ' added to order!');
+        });
+        
+        // Update Order Summary
+        function updateOrderSummary() {
+            const $summary = $('#orderSummary');
+            $summary.empty();
+            
+            let subtotal = 0;
+            
+            orderItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                $summary.append(`
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-white">${item.name}</span>
+                            <span class="text-gray-400 text-sm ml-2">× ${item.quantity}</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-white">$${itemTotal.toFixed(2)}</span>
+                            <button class="remove-order-item text-red-400 hover:text-red-300" data-item="${item.name}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `);
+            });
+            
+            const tax = subtotal * 0.10;
+            const total = subtotal + deliveryFee + tax - promoDiscount;
+            
+            $('#orderSubtotal').text('$' + subtotal.toFixed(2));
+            $('#deliveryFee').text('$' + deliveryFee.toFixed(2));
+            $('#orderTax').text('$' + tax.toFixed(2));
+            $('#orderTotal').text('$' + total.toFixed(2));
+            
+            if (orderItems.length > 0) {
+                $('#confirmTime').text('Continue to Checkout');
+            }
+        }
+        
+        // Remove Order Item
+        $(document).on('click', '.remove-order-item', function() {
+            const itemName = $(this).data('item');
+            orderItems = orderItems.filter(item => item.name !== itemName);
+            updateOrderSummary();
+            showNotification('Item removed from order');
+        });
+        
+        // Apply Promo Code
+        $('#applyPromo').click(function() {
+            const promoCode = $('#promoCode').val().toUpperCase();
+            const $promoMessage = $('#promoMessage');
+            
+            if (!promoCode) {
+                $promoMessage.text('Please enter a promo code').removeClass('hidden text-green-400').addClass('text-red-400');
+                return;
+            }
+            
+            // Simulate promo validation
+            if (promoCode === 'WELCOME10') {
+                promoApplied = true;
+                promoDiscount = parseFloat($('#orderSubtotal').text().replace('$', '')) * 0.10;
+                $promoMessage.text('10% discount applied!').removeClass('hidden text-red-400').addClass('text-green-400');
+                updateOrderSummary();
+                showNotification('Promo code applied successfully!');
+            } else if (promoCode === 'FREEDELIVERY') {
+                promoApplied = true;
+                promoDiscount = deliveryFee;
+                deliveryFee = 0;
+                $promoMessage.text('Free delivery applied!').removeClass('hidden text-red-400').addClass('text-green-400');
+                updateOrderSummary();
+                showNotification('Free delivery applied!');
+            } else {
+                $promoMessage.text('Invalid promo code').removeClass('hidden text-green-400').addClass('text-red-400');
+            }
+        });
+        
+        // Place Order
+        $('#placeOrder').click(function() {
+            if (orderItems.length === 0) {
+                showNotification('Please add items to your order', 'error');
+                return;
+            }
+            
+            // Generate random order number
+            const orderNumber = 'ED' + Math.floor(10000 + Math.random() * 90000);
+            const now = new Date();
+            const deliveryTime = new Date(now.getTime() + 45 * 60000); // 45 minutes from now
+            
+            $('#orderNumber').text(orderNumber);
+            $('#orderTime').text(now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+            $('#estDeliveryTime').text(deliveryTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+            $('#trackingAddress').text($('#deliveryAddress').val());
+            
+            showStep(5); // Show tracking
+            showNotification('Order placed successfully!', 'success');
+            
+            // Simulate order progression
+            simulateOrderTracking();
+        });
+        
+        // Show Step Function
+        function showStep(step) {
+            // Hide all steps
+            $('[id^="step"]').addClass('hidden');
+            $('#orderTracking').addClass('hidden');
+            
+            // Show current step
+            if (step <= 4) {
+                $('#step' + step).removeClass('hidden');
+            } else {
+                $('#orderTracking').removeClass('hidden');
+                $('#orderProcess').addClass('hidden');
+            }
+            
+            currentStep = step;
+        }
+        
+        // Simulate Order Tracking
+        function simulateOrderTracking() {
+            const $trackingLine = $('.tracking-line');
+            let progress = 25;
+            
+            // Step 1: Order Confirmed (already 25%)
+            
+            // Step 2: Preparing (after 15 seconds)
+            setTimeout(() => {
+                progress = 50;
+                $trackingLine.css('width', progress + '%');
+                showNotification('Your order is being prepared!');
+            }, 15000);
+            
+            // Step 3: On the Way (after 30 seconds)
+            setTimeout(() => {
+                progress = 75;
+                $trackingLine.css('width', progress + '%');
+                showNotification('Your order is on the way!');
+            }, 30000);
+            
+            // Step 4: Delivered (after 45 seconds)
+            setTimeout(() => {
+                progress = 100;
+                $trackingLine.css('width', progress + '%');
+                showNotification('Order delivered! Enjoy your meal!', 'success');
+            }, 45000);
+        }
+        
+        // Notification Function
+        function showNotification(message, type = 'success') {
+            const notification = $(`
+                <div class="fixed top-4 right-4 z-50 animate__animated animate__slideInRight">
+                    <div class="${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white px-6 py-3 rounded-lg shadow-xl">
+                        ${message}
+                    </div>
+                </div>
+            `);
+            
+            $('body').append(notification);
+            
+            setTimeout(() => {
+                notification.removeClass('animate__slideInRight').addClass('animate__slideOutRight');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    });
+    </script>
+</body>
+</html>
