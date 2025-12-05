@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epicurean Delights | Premium Restaurant Experience</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery Plugins CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+            overflow-x: hidden;
+        }
+        
+        /* Fix mobile viewport issue */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px !important;
+            }
+            #header {
+                height: 70px !important;
+            }
+            .mobile-menu-open {
+                margin-top: 70px !important;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1f27;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #f97316, #ea580c);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ea580c, #c2410c);
+        }
+        
+        /* Selection Color */
+        ::selection {
+            background-color: rgba(249, 115, 22, 0.3);
+            color: white;
+        }
+        
+        /* Custom Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+            background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+        }
+        
+        .btn-secondary {
+            border: 2px solid #f97316;
+            color: #f97316;
+            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f97316;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.2);
+        }
+        
+        /* Navigation Link Effects */
+        .nav-link {
+            position: relative;
+            padding: 8px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #f97316, #fb923c);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: right;
+        }
+        
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .nav-link.active {
+            color: #f97316;
+        }
+        
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* Card Hover Effects */
+        .menu-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #1a1f27;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        /* Glass Morphism */
+        .glass-effect {
+            background: rgba(26, 31, 39, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Image Hover Effects */
+        .image-hover {
+            transition: transform 0.5s ease;
+        }
+        
+        .image-hover:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Floating Animation */
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Preloader Animation */
+        @keyframes preloaderFadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+                z-index: -1;
+            }
+        }
+        
+        .preloader {
+            animation: preloaderFadeOut 0.5s ease-out 1.5s forwards;
+        }
+        
+        /* Testimonial Card */
+        .testimonial-card {
+            background: linear-gradient(145deg, #1a1f27, #161b22);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        /* Section Spacing Fix for Mobile */
+        section {
+            scroll-margin-top: 80px;
+        }
+        
+        /* Mobile Menu Styles */
+        #mobileMenu {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        #mobileMenu.mobile-menu-open {
+            max-height: 500px;
+        }
+        
+        /* Image Container */
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .image-container img {
+            transition: transform 0.6s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.1);
+        }
+        
+        .image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(15, 20, 25, 0.8), transparent);
+        }
+        
+        /* Responsive Images */
+        @media (max-width: 768px) {
+            .hero-image {
+                height: 400px;
+                margin-top: 20px;
+            }
+            
+            .section-padding {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans pt-[70px] md:pt-0">
+    
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-dark-bg z-50 flex items-center justify-center preloader">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-brand-orange border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 class="text-2xl font-serif text-white mb-2">Epicurean Delights</h2>
+            <p class="text-gray-400">Preparing your culinary journey...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="header" class="fixed w-full top-0 z-40 h-[70px]">
+        <div class="glass-effect">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center h-[70px]">
+                    <!-- Logo -->
+                    <a href="#hero" class="flex items-center space-x-3 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center transform group-hover:rotate-12 transition duration-300 shadow-lg">
+                            <i class="fas fa-utensils text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                            <p class="text-xs text-gray-400 -mt-1">Since 2008</p>
+                        </div>
+                    </a>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden lg:flex items-center space-x-8">
+                        <a href="#hero" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                        <a href="#about" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-info-circle mr-2"></i>About
+                        </a>
+                        <a href="#menu" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-book-open mr-2"></i>Menu
+                        </a>
+                        <a href="#gallery" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-images mr-2"></i>Gallery
+                        </a>
+                        <a href="#testimonials" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-star mr-2"></i>Reviews
+                        </a>
+                        <a href="#contact" class="nav-link text-gray-300 hover:text-brand-orange transition duration-300 font-medium py-2 px-1">
+                            <i class="fas fa-phone mr-2"></i>Contact
+                        </a>
+                    </nav>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex items-center space-x-4">
+                        <button id="reserveBtn" class="btn-primary hidden md:inline-flex items-center">
+                            <i class="fas fa-calendar-check mr-2"></i> Reserve Now
+                        </button>
+                        
+                        <!-- Mobile Menu Toggle -->
+                        <button id="mobileMenuToggle" class="lg:hidden text-2xl text-gray-300 hover:text-brand-orange transition duration-300 p-2">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="lg:hidden bg-dark-card shadow-2xl border-t border-gray-800">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex flex-col space-y-4">
+                    <a href="#hero" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-home mr-3 w-6"></i> Home
+                    </a>
+                    <a href="#about" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-info-circle mr-3 w-6"></i> About
+                    </a>
+                    <a href="#menu" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-book-open mr-3 w-6"></i> Menu
+                    </a>
+                    <a href="#gallery" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-images mr-3 w-6"></i> Gallery
+                    </a>
+                    <a href="#testimonials" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-star mr-3 w-6"></i> Reviews
+                    </a>
+                    <a href="#contact" class="text-gray-300 hover:text-brand-orange py-3 px-4 rounded-lg hover:bg-gray-800/30 transition duration-300 flex items-center" onclick="closeMobileMenu()">
+                        <i class="fas fa-phone mr-3 w-6"></i> Contact
+                    </a>
+                    <button class="btn-primary mt-4" onclick="closeMobileMenu()">
+                        <i class="fas fa-calendar-check mr-2"></i> Reserve Table
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 z-0 opacity-5">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #f97316 1px, transparent 0); background-size: 50px 50px;"></div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-gradient-to-br from-brand-orange/10 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-tr from-orange-600/5 to-transparent rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-20 py-12 md:py-0">
+            <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="animate__animated animate__fadeInLeft">
+                    <div class="inline-flex items-center space-x-2 mb-6">
+                        <span class="w-12 h-px bg-gradient-to-r from-brand-orange to-light-orange"></span>
+                        <span class="text-brand-orange font-semibold tracking-wider text-sm md:text-base">PREMIUM DINING EXPERIENCE</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight mb-6">
+                        Where <span class="text-gradient">Flavor</span> Meets <span class="text-gradient">Perfection</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-xl">
+                        Experience culinary artistry at its finest. Our master chefs create unforgettable dishes using the freshest ingredients sourced from local farms and international markets.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mb-12">
+                        <button class="btn-primary animate__animated animate__pulse animate__infinite animate__slower">
+                            <i class="fas fa-utensils mr-2"></i> Explore Menu
+                        </button>
+                        <button class="btn-secondary">
+                            <i class="fas fa-play-circle mr-2"></i> Watch Video
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4 md:gap-6">
+                        <div class="text-center p-4 rounded-xl bg-dark-card/50 backdrop-blur-sm">
+                            <div class="text-3xl md:text-4xl font-bold text-brand-orange mb-2 counter">15</div>
+                            <p class="text-gray-400 text-sm md:text-base">Years Experience</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl bg-dark-card/50 backdrop-blur-sm">
+                            <div class="text-3xl md:text-4xl font-bold text-brand-orange mb-2 counter">200+</div>
+                            <p class="text-gray-400 text-sm md:text-base">Menu Items</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl bg-dark-card/50 backdrop-blur-sm">
+                            <div class="text-3xl md:text-4xl font-bold text-brand-orange mb-2 counter">5000+</div>
+                            <p class="text-gray-400 text-sm md:text-base">Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image -->
+                <div class="animate__animated animate__fadeInRight relative">
+                    <div class="image-container hero-image h-[500px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Luxury restaurant interior with elegant dining setup" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -right-6 bg-gradient-to-br from-brand-orange to-orange-600 text-white p-6 rounded-2xl shadow-2xl float-animation">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">4.8</div>
+                            <div class="flex justify-center text-yellow-300">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-sm mt-1">Google Reviews</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow hidden md:block">
+            <a href="#about" class="text-gray-400 hover:text-brand-orange transition duration-300">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 md:py-24 bg-dark-card">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 mb-6">
+                    <span class="w-12 h-px bg-gradient-to-r from-brand-orange to-light-orange"></span>
+                    <span class="text-brand-orange font-semibold tracking-wider text-sm md:text-base">OUR STORY</span>
+                    <span class="w-12 h-px bg-gradient-to-r from-light-orange to-brand-orange"></span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Crafting Culinary <span class="text-gradient">Excellence</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">For over 15 years, we've been redefining fine dining with our commitment to quality, innovation, and unforgettable experiences.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="relative group">
+                    <div class="image-container rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Chef preparing gourmet dish in restaurant kitchen" 
+                             class="w-full h-[500px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-56 h-56 bg-gradient-to-r from-brand-orange/20 to-orange-600/20 rounded-3xl -z-10 group-hover:rotate-6 transition duration-700 blur-xl"></div>
+                </div>
+
+                <div>
+                    <h3 class="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Fresh Ingredients, <span class="text-gradient">Exceptional Taste</span></h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed text-lg">
+                        Every morning before dawn, our executive chefs personally visit local markets to select the finest ingredients. We believe that extraordinary food begins with extraordinary ingredients, which is why we've cultivated direct relationships with organic farmers and sustainable fisheries.
+                    </p>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-brand-orange to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas fa-seedling text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white mb-2">100% Organic Produce</h4>
+                                <p class="text-gray-400">We source only certified organic vegetables, fruits, and herbs from our partner farms within 100 miles.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-brand-orange to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas fa-award text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white mb-2">Award-Winning Team</h4>
+                                <p class="text-gray-400">Our culinary team includes Michelin-starred chefs with decades of international experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-secondary group">
+                        <i class="fas fa-book-open mr-2 group-hover:rotate-12 transition duration-300"></i> Read Our Full Story
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Menu -->
+    <section id="menu" class="py-16 md:py-24 bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 mb-6">
+                    <span class="w-12 h-px bg-gradient-to-r from-brand-orange to-light-orange"></span>
+                    <span class="text-brand-orange font-semibold tracking-wider text-sm md:text-base">CHEF'S SPECIAL</span>
+                    <span class="w-12 h-px bg-gradient-to-r from-light-orange to-brand-orange"></span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Signature <span class="text-gradient">Dishes</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Discover our most celebrated creations, where traditional techniques meet modern innovation.</p>
+            </div>
+
+            <!-- Menu Filter -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex flex-wrap justify-center gap-2 p-1 bg-dark-card rounded-full">
+                    <button class="menu-filter active px-6 py-3 rounded-full bg-gradient-to-r from-brand-orange to-orange-600 text-white font-medium transition duration-300 hover:shadow-lg" data-filter="all">All Dishes</button>
+                    <button class="menu-filter px-6 py-3 rounded-full text-gray-400 hover:text-white font-medium transition duration-300 hover:bg-dark-card" data-filter="starters">Starters</button>
+                    <button class="menu-filter px-6 py-3 rounded-full text-gray-400 hover:text-white font-medium transition duration-300 hover:bg-dark-card" data-filter="mains">Main Course</button>
+                    <button class="menu-filter px-6 py-3 rounded-full text-gray-400 hover:text-white font-medium transition duration-300 hover:bg-dark-card" data-filter="desserts">Desserts</button>
+                </div>
+            </div>
+
+            <!-- Menu Items Grid -->
+            <div class="menu-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Menu Item 1 -->
+                <div class="menu-card menu-item" data-category="mains">
+                    <div class="relative overflow-hidden">
+                        <div class="image-container h-64">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80" 
+                                 alt="Truffle Risotto with wild mushrooms" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-gradient-to-r from-brand-orange to-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">Chef's Special</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-serif font-bold text-white">Truffle Risotto</h3>
+                            <span class="text-3xl font-bold text-gradient">$32</span>
+                        </div>
+                        <p class="text-gray-400 mb-6">Carnaroli rice cooked with wild foraged mushrooms, aged parmesan, white truffle oil, and fresh herbs.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-1 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-400 ml-2">(48 reviews)</span>
+                            </div>
+                            <button class="add-to-cart text-brand-orange hover:text-orange-400 transition duration-300 text-2xl">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 2 -->
+                <div class="menu-card menu-item" data-category="starters">
+                    <div class="relative overflow-hidden">
+                        <div class="image-container h-64">
+                            <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                 alt="Seared Scallops with cauliflower puree" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-serif font-bold text-white">Seared Scallops</h3>
+                            <span class="text-3xl font-bold text-gradient">$28</span>
+                        </div>
+                        <p class="text-gray-400 mb-6">Hand-dived scallops pan-seared to perfection, served with cauliflower purée, crispy pancetta, and truffle foam.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-1 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-gray-400 ml-2">(62 reviews)</span>
+                            </div>
+                            <button class="add-to-cart text-brand-orange hover:text-orange-400 transition duration-300 text-2xl">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 3 -->
+                <div class="menu-card menu-item" data-category="desserts">
+                    <div class="relative overflow-hidden">
+                        <div class="image-container h-64">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" 
+                                 alt="Chocolate Soufflé with vanilla ice cream" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">Most Popular</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-serif font-bold text-white">Chocolate Soufflé</h3>
+                            <span class="text-3xl font-bold text-gradient">$18</span>
+                        </div>
+                        <p class="text-gray-400 mb-6">Dark Venezuelan chocolate soufflé served warm with Madagascar vanilla bean ice cream and gold leaf.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-1 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-400 ml-2">(54 reviews)</span>
+                            </div>
+                            <button class="add-to-cart text-brand-orange hover:text-orange-400 transition duration-300 text-2xl">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Full Menu Button -->
+            <div class="text-center">
+                <button class="btn-primary group">
+                    <i class="fas fa-book mr-2 group-hover:rotate-12 transition duration-300"></i> View Complete Menu
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Carousel -->
+    <section id="testimonials" class="py-16 md:py-24 bg-dark-card">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 mb-6">
+                    <span class="w-12 h-px bg-gradient-to-r from-brand-orange to-light-orange"></span>
+                    <span class="text-brand-orange font-semibold tracking-wider text-sm md:text-base">HAPPY CUSTOMERS</span>
+                    <span class="w-12 h-px bg-gradient-to-r from-light-orange to-brand-orange"></span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">What Our <span class="text-gradient">Guests Say</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Don't just take our word for it. Here's what our valued guests have to say about their experience.</p>
+            </div>
+
+            <!-- Testimonials Slider -->
+            <div class="testimonials-slider max-w-6xl mx-auto">
+                <div class="slick-slider">
+                    <!-- Testimonial 1 -->
+                    <div class="px-4">
+                        <div class="testimonial-card p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4 shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" 
+                                         alt="John Smith" 
+                                         class="w-full h-full rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white">John Smith</h4>
+                                    <p class="text-gray-400">Food Critic • New York Times</p>
+                                </div>
+                            </div>
+                            <div class="flex mb-4 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6 text-lg">
+                                "The truffle risotto was absolutely divine! Best dining experience I've had this year. The service was impeccable and the ambiance perfect. A must-visit for any serious food lover."
+                            </p>
+                            <div class="text-right text-gray-500">- March 15, 2024</div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="px-4">
+                        <div class="testimonial-card p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4 shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" 
+                                         alt="Maria Anderson" 
+                                         class="w-full h-full rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white">Maria Anderson</h4>
+                                    <p class="text-gray-400">Regular Guest • 5+ Years</p>
+                                </div>
+                            </div>
+                            <div class="flex mb-4 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6 text-lg">
+                                "Their attention to detail is remarkable. Every dish is a work of art. I've celebrated all my special occasions here for the past 5 years! The wine pairing is exceptional."
+                            </p>
+                            <div class="text-right text-gray-500">- February 28, 2024</div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="px-4">
+                        <div class="testimonial-card p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4 shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                         alt="Robert Taylor" 
+                                         class="w-full h-full rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white">Robert Taylor</h4>
+                                    <p class="text-gray-400">First-time Visitor</p>
+                                </div>
+                            </div>
+                            <div class="flex mb-4 text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6 text-lg">
+                                "The wine pairing was exceptional. Our sommelier guided us perfectly through their extensive selection. Can't wait to return! Already booked our anniversary dinner."
+                            </p>
+                            <div class="text-right text-gray-500">- January 10, 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 md:py-24 bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 mb-6">
+                    <span class="w-12 h-px bg-gradient-to-r from-brand-orange to-light-orange"></span>
+                    <span class="text-brand-orange font-semibold tracking-wider text-sm md:text-base">GALLERY</span>
+                    <span class="w-12 h-px bg-gradient-to-r from-light-orange to-brand-orange"></span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Behind the <span class="text-gradient">Scenes</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Take a peek into our kitchen, dining experience, and the artistry behind each dish.</p>
+            </div>
+
+            <div class="gallery grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <a href="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                   data-lightbox="gallery" 
+                   class="gallery-item group image-container h-48 md:h-64 rounded-xl overflow-hidden relative block">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Elegant restaurant interior" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end justify-center p-4">
+                        <span class="text-white font-semibold">Restaurant Interior</span>
+                    </div>
+                </a>
+                
+                <a href="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                   data-lightbox="gallery"
+                   class="gallery-item group image-container h-48 md:h-64 rounded-xl overflow-hidden relative block">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Chef preparing gourmet dish" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end justify-center p-4">
+                        <span class="text-white font-semibold">Chef in Action</span>
+                    </div>
+                </a>
+                
+                <a href="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1281&q=80" 
+                   data-lightbox="gallery"
+                   class="gallery-item group image-container h-48 md:h-64 rounded-xl overflow-hidden relative block">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1281&q=80" 
+                         alt="Gourmet pizza" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end justify-center p-4">
+                        <span class="text-white font-semibold">Signature Pizza</span>
+                    </div>
+                </a>
+                
+                <a href="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1365&q=80" 
+                   data-lightbox="gallery"
+                   class="gallery-item group image-container h-48 md:h-64 rounded-xl overflow-hidden relative block">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1365&q=80" 
+                         alt="Delicious salad" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end justify-center p-4">
+                        <span class="text-white font-semibold">Fresh Salad</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Hours -->
+    <section id="contact" class="py-16 md:py-24 bg-dark-card">
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div>
+                    <h2 class="text-4xl font-serif font-bold text-white mb-8">Get In <span class="text-gradient">Touch</span></h2>
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <input type="text" 
+                                       placeholder="Your Name" 
+                                       class="contact-input w-full bg-dark-bg/50 border border-gray-800 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange transition duration-300 focus:shadow-lg focus:shadow-orange-500/20">
+                            </div>
+                            <div>
+                                <input type="email" 
+                                       placeholder="Your Email" 
+                                       class="contact-input w-full bg-dark-bg/50 border border-gray-800 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange transition duration-300 focus:shadow-lg focus:shadow-orange-500/20">
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" 
+                                   placeholder="Subject" 
+                                   class="contact-input w-full bg-dark-bg/50 border border-gray-800 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange transition duration-300 focus:shadow-lg focus:shadow-orange-500/20">
+                        </div>
+                        <div>
+                            <textarea 
+                                placeholder="Your Message" 
+                                rows="5"
+                                class="contact-input w-full bg-dark-bg/50 border border-gray-800 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange transition duration-300 focus:shadow-lg focus:shadow-orange-500/20 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary group w-full">
+                            <i class="fas fa-paper-plane mr-2 group-hover:rotate-12 transition duration-300"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info & Hours -->
+                <div>
+                    <h2 class="text-4xl font-serif font-bold text-white mb-8">Visit <span class="text-gradient">Us</span></h2>
+                    
+                    <!-- Contact Info -->
+                    <div class="space-y-8 mb-12">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-brand-orange to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white mb-2">Location</h4>
+                                <p class="text-gray-400 text-lg">123 Gourmet Street<br>New York, NY 10001</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-brand-orange to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas fa-phone-alt text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white mb-2">Phone</h4>
+                                <p class="text-gray-400 text-lg">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-brand-orange to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas fa-envelope text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white mb-2">Email</h4>
+                                <p class="text-gray-400 text-lg">info@epicureandelights.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opening Hours -->
+                    <div class="bg-dark-bg/50 rounded-2xl p-6">
+                        <h3 class="text-2xl font-serif font-bold text-white mb-6">Opening Hours</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-gray-800">
+                                <span class="text-gray-400 text-lg">Monday - Thursday</span>
+                                <span class="text-white font-medium text-lg">6:00 PM - 11:00 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-gray-800">
+                                <span class="text-gray-400 text-lg">Friday - Saturday</span>
+                                <span class="text-white font-medium text-lg">5:30 PM - 12:00 AM</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3">
+                                <span class="text-gray-400 text-lg">Sunday</span>
+                                <span class="text-white font-medium text-lg">Closed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-bg border-t border-gray-800">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Logo & About -->
+                <div>
+                    <a href="#" class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fas fa-utensils text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h2>
+                    </a>
+                    <p class="text-gray-400 mb-6 text-lg">
+                        Crafting unforgettable dining experiences since 2008. Where every meal tells a story and every visit creates memories.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-dark-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-orange transition duration-300 transform hover:-translate-y-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-dark-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-orange transition duration-300 transform hover:-translate-y-1">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-dark-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-orange transition duration-300 transform hover:-translate-y-1">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-dark-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-orange transition duration-300 transform hover:-translate-y-1">
+                            <i class="fab fa-tripadvisor"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#menu" class="text-gray-400 hover:text-brand-orange transition duration-300 text-lg">Our Menu</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-brand-orange transition duration-300 text-lg">About Us</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-brand-orange transition duration-300 text-lg">Gallery</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-brand-orange transition duration-300 text-lg">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition duration-300 text-lg">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Opening Hours -->
+                <div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-6">Opening Hours</h3>
+                    <ul class="space-y-2 text-gray-400 text-lg">
+                        <li class="flex justify-between">
+                            <span>Mon - Thu</span>
+                            <span class="text-white">6PM - 11PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Fri - Sat</span>
+                            <span class="text-white">5:30PM - 12AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Sunday</span>
+                            <span class="text-white">Closed</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-6">Newsletter</h3>
+                    <p class="text-gray-400 mb-4 text-lg">Subscribe for exclusive offers, events, and culinary insights.</p>
+                    <div class="flex">
+                        <input type="email" 
+                               placeholder="Your Email" 
+                               class="flex-grow bg-dark-card border border-gray-800 rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-brand-orange">
+                        <button class="bg-gradient-to-r from-brand-orange to-orange-600 hover:from-orange-600 hover:to-brand-orange text-white px-6 rounded-r-xl transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500 text-lg">© 2024 Epicurean Delights. All rights reserved. | Crafted with <i class="fas fa-heart text-brand-orange mx-1"></i> for culinary excellence</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform translate-y-10 opacity-0 flex items-center justify-center z-30">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        "use strict";
+
+        // Fix for mobile viewport
+        function fixMobileViewport() {
+            const headerHeight = $('#header').outerHeight();
+            $('body').css('padding-top', headerHeight + 'px');
+            $('section').css('scroll-margin-top', headerHeight + 'px');
+        }
+
+        // Initialize on load and resize
+        fixMobileViewport();
+        $(window).resize(fixMobileViewport);
+
+        // ======================
+        // PRELOADER
+        // ======================
+        setTimeout(function() {
+            $('#preloader').fadeOut(500);
+        }, 1500);
+
+        // ======================
+        // MOBILE MENU TOGGLE
+        // ======================
+        $('#mobileMenuToggle').on('click', function() {
+            const $mobileMenu = $('#mobileMenu');
+            const $icon = $(this).find('i');
+            
+            $mobileMenu.toggleClass('mobile-menu-open');
+            
+            if ($mobileMenu.hasClass('mobile-menu-open')) {
+                $mobileMenu.css({
+                    'max-height': '500px',
+                    'opacity': '1',
+                    'pointer-events': 'auto'
+                });
+                $icon.removeClass('fa-bars').addClass('fa-times');
+            } else {
+                $mobileMenu.css({
+                    'max-height': '0',
+                    'opacity': '0',
+                    'pointer-events': 'none'
+                });
+                $icon.removeClass('fa-times').addClass('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        function closeMobileMenu() {
+            $('#mobileMenu').removeClass('mobile-menu-open').css({
+                'max-height': '0',
+                'opacity': '0',
+                'pointer-events': 'none'
+            });
+            $('#mobileMenuToggle i').removeClass('fa-times').addClass('fa-bars');
+        }
+
+        // Close mobile menu when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#mobileMenu').length && 
+                !$(e.target).closest('#mobileMenuToggle').length && 
+                $('#mobileMenu').hasClass('mobile-menu-open')) {
+                closeMobileMenu();
+            }
+        });
+
+        // ======================
+        // SMOOTH SCROLLING
+        // ======================
+        $('a[href^="#"]').on('click', function(e) {
+            if (this.hash !== "") {
+                e.preventDefault();
+                
+                const hash = this.hash;
+                const headerHeight = $('#header').outerHeight();
+                
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top - headerHeight + 10
+                }, 800);
+                
+                // Close mobile menu
+                closeMobileMenu();
+            }
+        });
+
+        // ======================
+        // TESTIMONIALS SLIDER
+        // ======================
+        $('.slick-slider').slick({
+            dots: true,
+            arrows: false,
+            infinite: true,
+            speed: 600,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 5000,
+            pauseOnHover: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: true
+                    }
+                }
+            ]
+        });
+
+        // ======================
+        // COUNTER ANIMATION
+        // ======================
+        $('.counter').counterUp({
+            delay: 10,
+            time: 2000,
+            formatter: function (n) {
+                return n.replace(/,/g, '.');
+            }
+        });
+
+        // ======================
+        // MENU FILTERING
+        // ======================
+        $('.menu-filter').on('click', function() {
+            const filter = $(this).data('filter');
+            
+            // Update active button
+            $('.menu-filter').removeClass('active bg-gradient-to-r from-brand-orange to-orange-600 text-white')
+                            .addClass('text-gray-400 hover:text-white');
+            $(this).addClass('active bg-gradient-to-r from-brand-orange to-orange-600 text-white')
+                   .removeClass('text-gray-400 hover:text-white');
+            
+            // Filter items
+            if (filter === 'all') {
+                $('.menu-item').fadeIn(400);
+            } else {
+                $('.menu-item').fadeOut(200);
+                setTimeout(function() {
+                    $(`.menu-item[data-category="${filter}"]`).fadeIn(400);
+                }, 200);
+            }
+        });
+
+        // ======================
+        // GUEST COUNTER
+        // ======================
+        $('.guest-counter').on('click', function() {
+            const $counter = $(this).closest('.flex').find('.guest-count');
+            let count = parseInt($counter.text());
+            
+            if ($(this).hasClass('plus') && count < 10) {
+                count++;
+            } else if ($(this).hasClass('minus') && count > 1) {
+                count--;
+            }
+            
+            $counter.text(count).addClass('scale-125');
+            setTimeout(() => {
+                $counter.removeClass('scale-125');
+            }, 300);
+        });
+
+        // ======================
+        // ADD TO CART ANIMATION
+        // ======================
+        $('.add-to-cart').on('click', function(e) {
+            e.preventDefault();
+            const $button = $(this);
+            const $icon = $button.find('i');
+            
+            // Create notification
+            const notification = $('<div class="fixed top-24 right-4 z-50 animate__animated animate__slideInRight animate__faster">' +
+                '<div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl max-w-sm">' +
+                    '<div class="flex items-center space-x-3">' +
+                        '<i class="fas fa-check-circle text-xl"></i>' +
+                        '<span class="font-semibold">Added to cart!</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>');
+            
+            $('body').append(notification);
+            
+            // Add animation to button
+            $button.addClass('animate__animated animate__pulse');
+            setTimeout(() => {
+                $button.removeClass('animate__animated animate__pulse');
+            }, 1000);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification
+                    .removeClass('animate__slideInRight')
+                    .addClass('animate__slideOutRight');
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        });
+
+        // ======================
+        // FORM VALIDATION
+        // ======================
+        $('#reservationForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple validation
+            let isValid = true;
+            $(this).find('input[required], select[required]').each(function() {
+                if (!$(this).val()) {
+                    $(this).addClass('border-red-500');
+                    isValid = false;
+                } else {
+                    $(this).removeClass('border-red-500');
+                }
+            });
+            
+            if (isValid) {
+                // Success notification
+                const notification = $('<div class="fixed top-24 right-4 z-50 animate__animated animate__slideInRight animate__faster">' +
+                    '<div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl max-w-sm">' +
+                        '<div class="flex items-center space-x-3">' +
+                            '<i class="fas fa-check-circle text-xl"></i>' +
+                            '<div>' +
+                                '<p class="font-semibold">Reservation Confirmed!</p>' +
+                                '<p class="text-sm opacity-90">We\'ll contact you shortly.</p>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
+                
+                $('body').append(notification);
+                $(this)[0].reset();
+                $('.guest-count').text('2');
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification
+                        .removeClass('animate__slideInRight')
+                        .addClass('animate__slideOutRight');
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                }, 3000);
+            } else {
+                // Error notification
+                const notification = $('<div class="fixed top-24 right-4 z-50 animate__animated animate__slideInRight animate__faster">' +
+                    '<div class="bg-gradient-to-r from-red-500 to-rose-600 text-white px-6 py-4 rounded-xl shadow-2xl max-w-sm">' +
+                        '<div class="flex items-center space-x-3">' +
+                            '<i class="fas fa-exclamation-circle text-xl"></i>' +
+                            '<span class="font-semibold">Please fill all required fields.</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
+                
+                $('body').append(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification
+                        .removeClass('animate__slideInRight')
+                        .addClass('animate__slideOutRight');
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                }, 3000);
+            }
+        });
+
+        $('#contactForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            // Success notification
+            const notification = $('<div class="fixed top-24 right-4 z-50 animate__animated animate__slideInRight animate__faster">' +
+                '<div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl max-w-sm">' +
+                    '<div class="flex items-center space-x-3">' +
+                        '<i class="fas fa-check-circle text-xl"></i>' +
+                        '<div>' +
+                            '<p class="font-semibold">Message Sent!</p>' +
+                            '<p class="text-sm opacity-90">We\'ll get back to you soon.</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>');
+            
+            $('body').append(notification);
+            $(this)[0].reset();
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification
+                    .removeClass('animate__slideInRight')
+                    .addClass('animate__slideOutRight');
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        });
+
+        // ======================
+        // BACK TO TOP BUTTON
+        // ======================
+        $('#backToTop').on('click', function() {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+        });
+
+        $(window).on('scroll', function() {
+            if ($(this).scrollTop() > 300) {
+                $('#backToTop')
+                    .removeClass('translate-y-10 opacity-0')
+                    .addClass('translate-y-0 opacity-100');
+            } else {
+                $('#backToTop')
+                    .removeClass('translate-y-0 opacity-100')
+                    .addClass('translate-y-10 opacity-0');
+            }
+        });
+
+        // ======================
+        // LIGHTBOX INITIALIZATION
+        // ======================
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': 'Image %1 of %2',
+            'fadeDuration': 300,
+            'imageFadeDuration': 300
+        });
+
+        // ======================
+        // RESERVATION BUTTON CLICK
+        // ======================
+        $('#reserveBtn').on('click', function() {
+            $('html, body').animate({
+                scrollTop: $('#hero').offset().top
+            }, 800);
+            
+            // Focus on first form field
+            setTimeout(() => {
+                $('#reservationForm input:first').focus();
+            }, 850);
+        });
+
+        // ======================
+        // ACTIVE NAV LINK ON SCROLL
+        // ======================
+        $(window).on('scroll', function() {
+            const scrollPos = $(document).scrollTop();
+            const headerHeight = $('#header').outerHeight();
+            
+            $('section').each(function() {
+                const sectionTop = $(this).offset().top - headerHeight - 100;
+                const sectionBottom = sectionTop + $(this).outerHeight();
+                const sectionId = $(this).attr('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                    $('.nav-link').removeClass('active');
+                    $(`.nav-link[href="#${sectionId}"]`).addClass('active');
+                }
+            });
+        });
+
+        // ======================
+        // PARALLAX EFFECT
+        // ======================
+        $(window).on('scroll', function() {
+            const scrolled = $(window).scrollTop();
+            $('.float-animation').css('transform', `translateY(${scrolled * 0.05}px)`);
+        });
+    });
+    </script>
+</body>
+</html>
