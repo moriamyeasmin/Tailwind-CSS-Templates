@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Menu | Epicurean Delights</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+        }
+        
+        .menu-card {
+            transition: all 0.3s ease;
+            background-color: #1a1f27;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+        
+        .cart-item {
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .nutrition-modal {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="pt-20">
+    
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 bg-dark-card/95 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-utensils text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-orange transition">Home</a>
+                    <a href="menu.html" class="text-brand-orange font-semibold">Menu</a>
+                    <a href="reservation.html" class="text-gray-300 hover:text-brand-orange transition">Reservation</a>
+                    <a href="order.html" class="text-gray-300 hover:text-brand-orange transition">Order Online</a>
+                    <a href="events.html" class="text-gray-300 hover:text-brand-orange transition">Events</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cartToggle" class="relative">
+                        <i class="fas fa-shopping-cart text-xl text-gray-300 hover:text-brand-orange"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <a href="account.html" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-user text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Our <span class="text-gradient">Menu</span></h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">Discover our carefully curated selection of dishes, crafted with the finest ingredients and culinary expertise.</p>
+        </div>
+
+        <!-- Menu Filters -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button class="filter-btn active px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="all">All Items</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="starters">Starters</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="mains">Main Course</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="desserts">Desserts</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="drinks">Drinks</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="vegetarian">Vegetarian</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="vegan">Vegan</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-filter="spicy">Spicy</button>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="menuSearch" placeholder="Search dishes..." class="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <select id="sortMenu" class="px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                        <option value="default">Sort by: Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                    
+                    <button id="priceFilter" class="px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white hover:border-brand-orange transition flex items-center gap-2">
+                        <i class="fas fa-filter"></i>
+                        <span>Price Range</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Range Slider (Hidden by default) -->
+        <div id="priceSlider" class="mb-8 p-4 bg-gray-800 rounded-lg hidden">
+            <div class="mb-4">
+                <div class="flex justify-between text-gray-300 mb-2">
+                    <span>Price Range: $<span id="priceMin">5</span> - $<span id="priceMax">50</span></span>
+                </div>
+                <div class="relative">
+                    <div class="h-2 bg-gray-700 rounded-full"></div>
+                    <input type="range" min="5" max="50" value="5" class="absolute w-full top-0 opacity-0 cursor-pointer" id="minPrice">
+                    <input type="range" min="5" max="50" value="50" class="absolute w-full top-0 opacity-0 cursor-pointer" id="maxPrice">
+                    <div class="absolute top-0 h-2 bg-brand-orange rounded-full" id="priceRange"></div>
+                </div>
+            </div>
+            <button id="applyPriceFilter" class="btn-primary">Apply Filter</button>
+        </div>
+
+        <!-- Menu Categories -->
+        <div class="space-y-16">
+            <!-- Starters Section -->
+            <section id="starters" class="menu-category">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-serif font-bold text-white mb-2">Starters & Appetizers</h2>
+                        <p class="text-gray-400">Light beginnings to awaken your palate</p>
+                    </div>
+                    <span class="text-brand-orange font-semibold">12 Items</span>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Menu Item 1 -->
+                    <div class="menu-card" data-category="starters vegetarian" data-price="16" data-popular="true">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Bruschetta" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 flex flex-col gap-1">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">Vegetarian</span>
+                                <span class="bg-brand-orange text-white px-2 py-1 rounded text-xs">Popular</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Classic Bruschetta</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$16</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Toasted bread topped with fresh tomatoes, garlic, basil, and extra virgin olive oil.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm" data-item="bruschetta">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 2 -->
+                    <div class="menu-card" data-category="starters" data-price="22" data-popular="true">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Truffle Arancini" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-brand-orange text-white px-2 py-1 rounded text-xs">Chef's Pick</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Truffle Arancini</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$22</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Crispy risotto balls filled with mozzarella and black truffle, served with marinara.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 3 -->
+                    <div class="menu-card" data-category="starters spicy" data-price="18" data-popular="false">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Spicy Calamari" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-red-600 text-white px-2 py-1 rounded text-xs">Spicy</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Spicy Calamari</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$18</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Crispy fried calamari tossed in spicy chili garlic sauce with fresh herbs.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Course Section -->
+            <section id="mains" class="menu-category">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-serif font-bold text-white mb-2">Main Course</h2>
+                        <p class="text-gray-400">Hearty dishes for the perfect dining experience</p>
+                    </div>
+                    <span class="text-brand-orange font-semibold">18 Items</span>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Menu Item 4 -->
+                    <div class="menu-card" data-category="mains" data-price="38" data-popular="true">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Wagyu Steak" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-brand-orange text-white px-2 py-1 rounded text-xs">Signature</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Wagyu Ribeye Steak</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$38</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">12oz Australian wagyu ribeye with truffle mashed potatoes and seasonal vegetables.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 5 -->
+                    <div class="menu-card" data-category="mains vegetarian" data-price="28" data-popular="true">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Mushroom Risotto" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">Vegetarian</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Wild Mushroom Risotto</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$28</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Arborio rice with wild mushrooms, white wine, parmesan, and truffle oil.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 6 -->
+                    <div class="menu-card" data-category="mains spicy" data-price="32" data-popular="false">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Spicy Seafood Pasta" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-red-600 text-white px-2 py-1 rounded text-xs">Spicy</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Spicy Seafood Linguine</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$32</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Fresh linguine with shrimp, scallops, clams in spicy tomato garlic sauce.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Desserts Section -->
+            <section id="desserts" class="menu-category">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-serif font-bold text-white mb-2">Desserts</h2>
+                        <p class="text-gray-400">Sweet endings to complete your meal</p>
+                    </div>
+                    <span class="text-brand-orange font-semibold">8 Items</span>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Menu Item 7 -->
+                    <div class="menu-card" data-category="desserts vegetarian" data-price="14" data-popular="true">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Chocolate Lava Cake" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs">Best Seller</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Chocolate Lava Cake</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$14</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Warm chocolate cake with molten center, served with vanilla ice cream.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 8 -->
+                    <div class="menu-card" data-category="desserts vegan" data-price="12" data-popular="false">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Vegan Cheesecake" 
+                                 class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">Vegan</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-white">Vegan Cheesecake</h3>
+                                <span class="text-2xl font-bold text-brand-orange">$12</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">Cashew-based cheesecake with berry compote and coconut cream.</p>
+                            <div class="flex justify-between items-center">
+                                <button class="nutrition-btn text-gray-400 hover:text-brand-orange transition text-sm">
+                                    <i class="fas fa-info-circle mr-1"></i> Nutrition Info
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn minus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="quantity text-white w-8 text-center">0</span>
+                                    <button class="quantity-btn plus w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                    <button class="add-to-cart ml-2 px-4 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Chef's Recommendations -->
+        <section class="mt-16 p-8 bg-gradient-to-r from-dark-card to-gray-900 rounded-2xl">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-serif font-bold text-white mb-2">Chef's <span class="text-gradient">Recommendations</span></h2>
+                <p class="text-gray-400">Our executive chef's personal favorites</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-utensils text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Truffle Arancini</h3>
+                    <p class="text-gray-400">"Perfect starter with rich truffle flavor"</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-drumstick-bite text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Wagyu Ribeye</h3>
+                    <p class="text-gray-400">"Melt-in-your-mouth tenderness"</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-ice-cream text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Lava Cake</h3>
+                    <p class="text-gray-400">"Irresistible warm chocolate experience"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wine Pairing Suggestions -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-serif font-bold text-white mb-8 text-center">Wine <span class="text-gradient">Pairing</span> Suggestions</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="p-4 text-white font-semibold">Dish</th>
+                            <th class="p-4 text-white font-semibold">Recommended Wine</th>
+                            <th class="p-4 text-white font-semibold">Type</th>
+                            <th class="p-4 text-white font-semibold">Price/Glass</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800">
+                        <tr class="hover:bg-gray-800/50 transition">
+                            <td class="p-4 text-white">Wagyu Steak</td>
+                            <td class="p-4 text-gray-300">Cabernet Sauvignon</td>
+                            <td class="p-4"><span class="px-2 py-1 bg-red-900/30 text-red-300 rounded">Red</span></td>
+                            <td class="p-4 text-brand-orange font-semibold">$18</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/50 transition">
+                            <td class="p-4 text-white">Seafood Linguine</td>
+                            <td class="p-4 text-gray-300">Sauvignon Blanc</td>
+                            <td class="p-4"><span class="px-2 py-1 bg-yellow-900/30 text-yellow-300 rounded">White</span></td>
+                            <td class="p-4 text-brand-orange font-semibold">$14</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/50 transition">
+                            <td class="p-4 text-white">Mushroom Risotto</td>
+                            <td class="p-4 text-gray-300">Pinot Noir</td>
+                            <td class="p-4"><span class="px-2 py-1 bg-red-900/30 text-red-300 rounded">Red</span></td>
+                            <td class="p-4 text-brand-orange font-semibold">$16</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed top-0 right-0 h-full w-full md:w-96 bg-dark-card shadow-2xl transform translate-x-full transition-transform z-50">
+        <div class="h-full flex flex-col">
+            <div class="p-6 border-b border-gray-800">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-white">Your Order</h3>
+                    <button id="closeCart" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-6">
+                <div id="cartItems" class="space-y-4">
+                    <!-- Cart items will be added here dynamically -->
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-shopping-cart text-3xl mb-4"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t border-gray-800">
+                <div class="space-y-4">
+                    <div class="flex justify-between text-gray-300">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-gray-300">
+                        <span>Tax (10%)</span>
+                        <span id="cartTax">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold text-white pt-4 border-t border-gray-800">
+                        <span>Total</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                    
+                    <div class="space-y-3 pt-4">
+                        <button id="checkoutBtn" class="w-full py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                            Proceed to Checkout
+                        </button>
+                        <a href="order.html" class="block w-full py-3 border border-brand-orange text-brand-orange text-center rounded-lg font-semibold hover:bg-brand-orange hover:text-white transition">
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nutrition Info Modal -->
+    <div id="nutritionModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-dark-card rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-white">Nutrition Information</h3>
+                    <button id="closeNutrition" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="nutritionContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card border-t border-gray-800 mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-500">© 2024 Epicurean Delights. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Overlay for cart -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+    <script>
+    $(document).ready(function() {
+        let cart = [];
+        
+        // Price Range Slider
+        const minPrice = $('#minPrice');
+        const maxPrice = $('#maxPrice');
+        const priceRange = $('#priceRange');
+        
+        function updatePriceRange() {
+            const minVal = parseInt(minPrice.val());
+            const maxVal = parseInt(maxPrice.val());
+            
+            $('#priceMin').text(minVal);
+            $('#priceMax').text(maxVal);
+            
+            const left = ((minVal - 5) / 45) * 100;
+            const right = 100 - ((maxVal - 5) / 45) * 100;
+            
+            priceRange.css({
+                'left': left + '%',
+                'right': right + '%'
+            });
+        }
+        
+        minPrice.on('input', updatePriceRange);
+        maxPrice.on('input', updatePriceRange);
+        
+        $('#priceFilter').click(function() {
+            $('#priceSlider').slideToggle();
+        });
+        
+        $('#applyPriceFilter').click(function() {
+            const minVal = parseInt(minPrice.val());
+            const maxVal = parseInt(maxPrice.val());
+            
+            $('.menu-card').each(function() {
+                const price = parseInt($(this).data('price'));
+                if (price >= minVal && price <= maxVal) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+            
+            $('#priceSlider').slideUp();
+        });
+        
+        // Menu Filtering
+        $('.filter-btn').click(function() {
+            $('.filter-btn').removeClass('active');
+            $(this).addClass('active');
+            
+            const filter = $(this).data('filter');
+            
+            if (filter === 'all') {
+                $('.menu-card').show();
+            } else {
+                $('.menu-card').each(function() {
+                    const categories = $(this).data('category');
+                    if (categories.includes(filter)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+        
+        // Menu Search
+        $('#menuSearch').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            
+            $('.menu-card').each(function() {
+                const title = $(this).find('h3').text().toLowerCase();
+                const description = $(this).find('p').text().toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+        
+        // Sort Menu
+        $('#sortMenu').change(function() {
+            const sortBy = $(this).val();
+            const container = $('.grid');
+            const items = $('.menu-card');
+            
+            items.sort(function(a, b) {
+                const aPrice = parseInt($(a).data('price'));
+                const bPrice = parseInt($(b).data('price'));
+                const aPopular = $(a).data('popular');
+                
+                switch(sortBy) {
+                    case 'price-low':
+                        return aPrice - bPrice;
+                    case 'price-high':
+                        return bPrice - aPrice;
+                    case 'popular':
+                        return aPopular === bPopular ? 0 : aPopular ? -1 : 1;
+                    default:
+                        return 0;
+                }
+            });
+            
+            items.detach().appendTo(container);
+        });
+        
+        // Quantity Controls
+        $('.quantity-btn').click(function() {
+            const $btn = $(this);
+            const $quantity = $btn.siblings('.quantity');
+            let current = parseInt($quantity.text());
+            
+            if ($btn.hasClass('plus')) {
+                $quantity.text(current + 1);
+            } else if ($btn.hasClass('minus') && current > 0) {
+                $quantity.text(current - 1);
+            }
+        });
+        
+        // Add to Cart
+        $('.add-to-cart').click(function() {
+            const $card = $(this).closest('.menu-card');
+            const name = $card.find('h3').text();
+            const price = parseFloat($card.find('.text-brand-orange').text().replace('$', ''));
+            const quantity = parseInt($card.find('.quantity').text());
+            
+            if (quantity > 0) {
+                const item = {
+                    name: name,
+                    price: price,
+                    quantity: quantity,
+                    total: price * quantity
+                };
+                
+                cart.push(item);
+                updateCart();
+                showNotification('Added to cart!');
+                
+                // Reset quantity
+                $card.find('.quantity').text('0');
+            }
+        });
+        
+        // Cart Functions
+        function updateCart() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
+            const tax = subtotal * 0.10;
+            const total = subtotal + tax;
+            
+            $('#cartCount').text(cartCount);
+            $('#cartSubtotal').text('$' + subtotal.toFixed(2));
+            $('#cartTax').text('$' + tax.toFixed(2));
+            $('#cartTotal').text('$' + total.toFixed(2));
+            
+            updateCartItems();
+        }
+        
+        function updateCartItems() {
+            const $cartItems = $('#cartItems');
+            $cartItems.empty();
+            
+            if (cart.length === 0) {
+                $cartItems.html(`
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-shopping-cart text-3xl mb-4"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                `);
+                return;
+            }
+            
+            cart.forEach((item, index) => {
+                $cartItems.append(`
+                    <div class="cart-item flex justify-between items-center p-4 bg-gray-900/50 rounded-lg">
+                        <div>
+                            <h4 class="font-semibold text-white">${item.name}</h4>
+                            <p class="text-sm text-gray-400">$${item.price.toFixed(2)} × ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-white font-semibold">$${item.total.toFixed(2)}</span>
+                            <button class="remove-item text-red-400 hover:text-red-300" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+        
+        // Cart Toggle
+        $('#cartToggle, #closeCart, #cartOverlay').click(function() {
+            $('#cartSidebar').toggleClass('translate-x-full');
+            $('#cartOverlay').toggleClass('hidden');
+        });
+        
+        // Remove item from cart
+        $(document).on('click', '.remove-item', function() {
+            const index = $(this).data('index');
+            cart.splice(index, 1);
+            updateCart();
+        });
+        
+        // Checkout
+        $('#checkoutBtn').click(function() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!', 'error');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        });
+        
+        // Nutrition Info
+        $('.nutrition-btn').click(function() {
+            const itemName = $(this).closest('.menu-card').find('h3').text();
+            
+            $('#nutritionContent').html(`
+                <h4 class="text-lg font-bold text-white mb-4">${itemName}</h4>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Calories</span>
+                        <span class="text-white">450 kcal</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Protein</span>
+                        <span class="text-white">25g</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Carbs</span>
+                        <span class="text-white">35g</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Fat</span>
+                        <span class="text-white">20g</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Sodium</span>
+                        <span class="text-white">800mg</span>
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-900/50 rounded">
+                        <p class="text-sm text-gray-400">*Nutrition information is approximate and may vary based on preparation.</p>
+                    </div>
+                </div>
+            `);
+            
+            $('#nutritionModal').removeClass('hidden');
+        });
+        
+        $('#closeNutrition, #nutritionModal').click(function(e) {
+            if (e.target === this || $(e.target).is('#closeNutrition')) {
+                $('#nutritionModal').addClass('hidden');
+            }
+        });
+        
+        // Notification
+        function showNotification(message, type = 'success') {
+            const notification = $(`
+                <div class="fixed top-4 right-4 z-50 animate__animated animate__slideInRight">
+                    <div class="${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white px-6 py-3 rounded-lg shadow-xl">
+                        ${message}
+                    </div>
+                </div>
+            `);
+            
+            $('body').append(notification);
+            
+            setTimeout(() => {
+                notification.removeClass('animate__slideInRight').addClass('animate__slideOutRight');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Initialize price range
+        updatePriceRange();
+    });
+    </script>
+</body>
+</html>
