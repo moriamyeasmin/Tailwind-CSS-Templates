@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Recipes | Epicurean Delights</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Lightbox for images -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        
+        .blog-card {
+            transition: all 0.3s ease;
+            background-color: #1a1f27;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        .recipe-card {
+            background: linear-gradient(145deg, #1a1f27, #161b22);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .category-filter.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+        
+        .ingredient-checkbox:checked + .ingredient-label {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+        
+        .timer-display {
+            font-family: 'Courier New', monospace;
+        }
+        
+        .comment-card {
+            border-left: 3px solid #f97316;
+            transition: all 0.3s ease;
+        }
+        
+        .comment-card:hover {
+            background: rgba(249, 115, 22, 0.05);
+        }
+        
+        .print-recipe {
+            transition: all 0.3s ease;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .shopping-list-item {
+            transition: all 0.3s ease;
+        }
+        
+        .shopping-list-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="pt-20">
+    
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 bg-dark-card/95 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-utensils text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-orange transition">Home</a>
+                    <a href="menu.html" class="text-gray-300 hover:text-brand-orange transition">Menu</a>
+                    <a href="order.html" class="text-gray-300 hover:text-brand-orange transition">Order Online</a>
+                    <a href="blog.html" class="text-brand-orange font-semibold">Blog & Recipes</a>
+                    <a href="events.html" class="text-gray-300 hover:text-brand-orange transition">Events</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="searchToggle" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                    <a href="account.html" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-user text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div id="searchBar" class="hidden py-4">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="blogSearch" placeholder="Search recipes, articles, tips..." class="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                    <button id="closeSearch" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Culinary <span class="text-gradient">Blog</span> & Recipes</h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">Discover chef's secrets, cooking tips, and exclusive recipes from our kitchen to yours</p>
+        </div>
+
+        <!-- Featured Recipe Banner -->
+        <div class="bg-gradient-to-r from-dark-card to-gray-900 rounded-2xl p-8 mb-12">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <span class="inline-block px-4 py-2 bg-brand-orange text-white rounded-full text-sm font-semibold mb-4">Recipe of the Month</span>
+                    <h2 class="text-3xl font-serif font-bold text-white mb-4">Chef's Signature Truffle Risotto</h2>
+                    <p class="text-gray-400 mb-6">Learn the secrets behind our most famous dish with step-by-step video tutorial</p>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>45 min</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-user-friends mr-2"></i>
+                            <span>4 servings</span>
+                        </div>
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-star mr-2"></i>
+                            <span>4.9 (128 reviews)</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary view-recipe-btn" data-recipe="truffle-risotto">
+                        <i class="fas fa-play-circle mr-2"></i> Watch Recipe Video
+                    </button>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Truffle Risotto" 
+                         class="rounded-xl shadow-2xl">
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center shadow-xl">
+                        <span class="text-white font-bold text-lg">Chef's<br>Pick</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Categories Filter -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-white mb-6">Explore Categories</h2>
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button class="category-filter active px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="all">All Posts</button>
+                <button class="category-filter px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="recipes">Recipes</button>
+                <button class="category-filter px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="tips">Cooking Tips</button>
+                <button class="category-filter px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="seasonal">Seasonal Guides</button>
+                <button class="category-filter px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="wine">Wine Pairing</button>
+                <button class="category-filter px-6 py-3 rounded-full bg-gray-800 text-gray-300 hover:text-white transition" data-category="behind-scenes">Behind the Scenes</button>
+            </div>
+            
+            <!-- Search Results Info -->
+            <div id="searchResults" class="hidden mb-6 p-4 bg-gray-800/50 rounded-lg">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold text-white">Search Results</h3>
+                        <p class="text-gray-400 text-sm"><span id="resultCount">0</span> articles found</p>
+                    </div>
+                    <button id="clearSearch" class="text-gray-400 hover:text-white transition">
+                        Clear Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Blog Post 1: Recipe -->
+            <article class="blog-card" data-category="recipes" data-tags="italian,dinner,vegetarian">
+                <a href="#recipe-modal" class="recipe-modal-trigger" data-recipe="1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Homemade Pasta" 
+                             class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-3 py-1 bg-brand-orange text-white rounded-full text-xs font-semibold">Recipe</span>
+                        </div>
+                        <div class="absolute bottom-3 right-3">
+                            <span class="px-3 py-1 bg-gray-900/80 text-white rounded-full text-xs">45 min</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-400 mb-3">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>March 15, 2024</span>
+                            <i class="fas fa-user ml-4 mr-2"></i>
+                            <span>Chef Marco</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Perfect Homemade Pasta: A Step-by-Step Guide</h3>
+                        <p class="text-gray-400 mb-4">Learn how to make authentic Italian pasta from scratch with our detailed guide and video tutorial.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Italian</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Vegetarian</span>
+                            </div>
+                            <span class="text-brand-orange font-semibold">Read More →</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+
+            <!-- Blog Post 2: Cooking Tips -->
+            <article class="blog-card" data-category="tips" data-tags="technique,knife-skills,basics">
+                <div class="relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Knife Skills" 
+                         class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-semibold">Cooking Tip</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>March 10, 2024</span>
+                        <i class="fas fa-user ml-4 mr-2"></i>
+                        <span>Chef Sarah</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Master Knife Skills: Essential Techniques for Every Home Cook</h3>
+                    <p class="text-gray-400 mb-4">Improve your efficiency and safety in the kitchen with these professional knife skills.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Technique</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Basics</span>
+                        </div>
+                        <span class="text-brand-orange font-semibold">Read More →</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 3: Seasonal Guide -->
+            <article class="blog-card" data-category="seasonal" data-tags="spring,vegetables,local">
+                <div class="relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Spring Vegetables" 
+                         class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 bg-green-600 text-white rounded-full text-xs font-semibold">Seasonal Guide</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>March 5, 2024</span>
+                        <i class="fas fa-user ml-4 mr-2"></i>
+                        <span>Farm-to-Table Team</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Spring Produce Guide: What's Fresh and How to Cook It</h3>
+                    <p class="text-gray-400 mb-4">Discover the best spring vegetables and learn delicious ways to prepare them.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Spring</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Local</span>
+                        </div>
+                        <span class="text-brand-orange font-semibold">Read More →</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 4: Wine Pairing -->
+            <article class="blog-card" data-category="wine" data-tags="wine,red-wine,steak">
+                <div class="relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Wine Pairing" 
+                         class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-semibold">Wine Guide</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>February 28, 2024</span>
+                        <i class="fas fa-user ml-4 mr-2"></i>
+                        <span>Sommelier David</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">The Perfect Wine Pairing for Steak: A Sommelier's Guide</h3>
+                    <p class="text-gray-400 mb-4">Learn which wines complement different cuts of steak and cooking methods.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Wine</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Red Wine</span>
+                        </div>
+                        <span class="text-brand-orange font-semibold">Read More →</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 5: Behind the Scenes -->
+            <article class="blog-card" data-category="behind-scenes" data-tags="kitchen,team,story">
+                <div class="relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Restaurant Kitchen" 
+                         class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 bg-yellow-600 text-white rounded-full text-xs font-semibold">Behind the Scenes</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>February 20, 2024</span>
+                        <i class="fas fa-user ml-4 mr-2"></i>
+                        <span>Head Chef Michael</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">A Day in Our Kitchen: From Morning Prep to Dinner Service</h3>
+                    <p class="text-gray-400 mb-4">Take a behind-the-scenes look at how our kitchen operates to deliver exceptional dining experiences.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Kitchen</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Team</span>
+                        </div>
+                        <span class="text-brand-orange font-semibold">Read More →</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Post 6: Recipe -->
+            <article class="blog-card" data-category="recipes" data-tags="dessert,chocolate,vegan">
+                <div class="relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Chocolate Dessert" 
+                         class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                    <div class="absolute top-3 left-3">
+                        <span class="px-3 py-1 bg-brand-orange text-white rounded-full text-xs font-semibold">Recipe</span>
+                    </div>
+                    <div class="absolute bottom-3 right-3">
+                        <span class="px-3 py-1 bg-gray-900/80 text-white rounded-full text-xs">30 min</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-400 mb-3">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>February 15, 2024</span>
+                        <i class="fas fa-user ml-4 mr-2"></i>
+                        <span>Pastry Chef Anna</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Vegan Chocolate Mousse: Rich, Creamy & Dairy-Free</h3>
+                    <p class="text-gray-400 mb-4">Indulge in this decadent vegan chocolate mousse that rivals any traditional version.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Dessert</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs">Vegan</span>
+                        </div>
+                        <span class="text-brand-orange font-semibold">Read More →</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mb-16">
+            <button id="loadMore" class="btn-primary">
+                <i class="fas fa-plus mr-2"></i> Load More Articles
+            </button>
+        </div>
+
+        <!-- Chef's Video Tutorials Section -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-serif font-bold text-white">Chef's <span class="text-gradient">Video Tutorials</span></h2>
+                <a href="#" class="text-brand-orange hover:text-orange-400 transition">
+                    View All Videos <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="video-container rounded-2xl overflow-hidden shadow-2xl">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Master Class: Perfect Risotto Every Time</h3>
+                    <p class="text-gray-400 mb-6">Join Chef Marco as he demonstrates the secrets to making creamy, al dente risotto with step-by-step instructions.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1">
+                                <span class="text-white font-bold">1</span>
+                            </div>
+                            <p class="text-gray-300">Learn the proper rice-to-broth ratio</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1">
+                                <span class="text-white font-bold">2</span>
+                            </div>
+                            <p class="text-gray-300">Master the stirring technique</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-1">
+                                <span class="text-white font-bold">3</span>
+                            </div>
+                            <p class="text-gray-300">Discover finishing secrets for perfect texture</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <button class="btn-primary mr-4">
+                            <i class="fas fa-play-circle mr-2"></i> Watch Full Video
+                        </button>
+                        <button class="px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                            <i class="fas fa-download mr-2"></i> Download Recipe PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipe of the Day -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-dark-card to-gray-900 rounded-2xl p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-serif font-bold text-white mb-2">Recipe <span class="text-gradient">of the Day</span></h2>
+                    <p class="text-gray-400">Try this delicious recipe today!</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Recipe Card -->
+                    <div class="recipe-card p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-white">Herb-Crusted Salmon</h3>
+                            <div class="flex items-center text-brand-orange">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-400 ml-2">(89)</span>
+                            </div>
+                        </div>
+                        
+                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Herb-Crusted Salmon" 
+                             class="w-full h-48 object-cover rounded-lg mb-6">
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">25</div>
+                                <div class="text-sm text-gray-400">Minutes</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">4</div>
+                                <div class="text-sm text-gray-400">Servings</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">420</div>
+                                <div class="text-sm text-gray-400">Calories</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-full-recipe btn-primary w-full" data-recipe="salmon">
+                            <i class="fas fa-utensils mr-2"></i> View Full Recipe
+                        </button>
+                    </div>
+                    
+                    <!-- Ingredients -->
+                    <div class="lg:col-span-2">
+                        <h3 class="text-xl font-bold text-white mb-6">Ingredients</h3>
+                        <div class="grid md:grid-cols-2 gap-4 mb-8">
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">4 salmon fillets (6 oz each)</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">1/4 cup fresh parsley, chopped</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">2 tbsp fresh dill, chopped</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">1 lemon (zest and juice)</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">2 cloves garlic, minced</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">3 tbsp olive oil</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">1/2 cup panko breadcrumbs</span>
+                            </label>
+                            <label class="flex items-center shopping-list-item">
+                                <input type="checkbox" class="ingredient-checkbox mr-3">
+                                <span class="ingredient-label text-gray-300">Salt and pepper to taste</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            <button id="addAllToList" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-cart-plus mr-2"></i> Add All to Shopping List
+                            </button>
+                            <button id="printRecipe" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-print mr-2"></i> Print Recipe
+                            </button>
+                            <button id="startTimer" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-clock mr-2"></i> Start Cooking Timer
+                            </button>
+                            <button id="saveRecipe" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-bookmark mr-2"></i> Save to Recipe Box
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cooking Timer Modal -->
+        <div id="timerModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-dark-card rounded-2xl max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-white">Cooking Timer</h3>
+                    <button id="closeTimer" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="text-center mb-6">
+                    <div class="timer-display text-5xl font-bold text-white mb-4">25:00</div>
+                    <div class="text-gray-400 mb-6">Herb-Crusted Salmon Cooking Time</div>
+                    
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <button id="startTimerBtn" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-play mr-2"></i> Start
+                        </button>
+                        <button id="pauseTimerBtn" class="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition hidden">
+                            <i class="fas fa-pause mr-2"></i> Pause
+                        </button>
+                        <button id="resetTimerBtn" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                            <i class="fas fa-redo mr-2"></i> Reset
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-gray-300 mb-2">Set Custom Time (minutes)</label>
+                            <input type="number" id="customTime" min="1" max="120" value="25" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-center">
+                        </div>
+                        <button id="setCustomTime" class="w-full py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                            Set Custom Time
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center text-gray-500 text-sm">
+                    <i class="fas fa-bell mr-2"></i>
+                    <span>Timer will sound when complete</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Subscription -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-brand-orange/10 to-orange-600/10 rounded-2xl p-8 text-center">
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">Join Our <span class="text-gradient">Culinary Community</span></h2>
+                <p class="text-gray-300 mb-6 max-w-2xl mx-auto">Get weekly recipes, cooking tips, and exclusive content delivered to your inbox. Plus, receive a free e-book with our 10 most popular recipes!</p>
+                
+                <div class="max-w-md mx-auto">
+                    <div class="flex gap-3 mb-4">
+                        <input type="email" id="newsletterEmail" placeholder="Your email address" class="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-brand-orange">
+                        <button id="subscribeBtn" class="px-6 py-3 bg-brand-orange text-white rounded-lg font-semibold hover:bg-orange-600 transition">
+                            Subscribe
+                        </button>
+                    </div>
+                    <p class="text-gray-400 text-sm">By subscribing, you agree to our Privacy Policy. No spam, ever.</p>
+                </div>
+                
+                <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white mb-2">500+</div>
+                        <div class="text-gray-300">Recipes</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white mb-2">10K+</div>
+                        <div class="text-gray-300">Community Members</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white mb-2">50+</div>
+                        <div class="text-gray-300">Video Tutorials</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-white mb-2">4.9★</div>
+                        <div class="text-gray-300">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-white">Community <span class="text-gradient">Comments</span></h2>
+                <button id="addCommentBtn" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-plus mr-2"></i> Add Comment
+                </button>
+            </div>
+            
+            <!-- Add Comment Form -->
+            <div id="commentForm" class="hidden mb-8 bg-dark-card p-6 rounded-2xl">
+                <h3 class="text-lg font-semibold text-white mb-4">Leave a Comment</h3>
+                <div class="mb-4">
+                    <label class="block text-gray-300 mb-2">Your Name</label>
+                    <input type="text" id="commentName" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 mb-2">Your Comment</label>
+                    <textarea id="commentText" rows="4" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        <span class="text-gray-400 text-sm">Notify me of replies</span>
+                    </label>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancelComment" class="px-4 py-2 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                        Cancel
+                    </button>
+                    <button id="submitComment" class="px-6 py-2 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                        Post Comment
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Comments List -->
+            <div class="space-y-6">
+                <!-- Comment 1 -->
+                <div class="comment-card bg-dark-card p-6 rounded-2xl">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-white font-bold">JS</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">John Smith</h4>
+                                <div class="flex items-center text-sm text-gray-400">
+                                    <span class="mr-3">March 12, 2024</span>
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-white">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-300 mb-4">The truffle risotto recipe changed my life! I've made it three times already and it's perfect every time. Thank you Chef Marco!</p>
+                    <div class="flex items-center space-x-4">
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-thumbs-up mr-2"></i>
+                            <span>24</span>
+                        </button>
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-reply mr-2"></i>
+                            <span>Reply</span>
+                        </button>
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-flag mr-2"></i>
+                            <span>Report</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Comment 2 -->
+                <div class="comment-card bg-dark-card p-6 rounded-2xl ml-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-white font-bold">MC</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Maria Chen</h4>
+                                <div class="flex items-center text-sm text-gray-400">
+                                    <span class="mr-3">March 10, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">I tried the knife skills tutorial and my prep time has been cut in half! The video explanations were super clear.</p>
+                    <div class="flex items-center space-x-4">
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-thumbs-up mr-2"></i>
+                            <span>18</span>
+                        </button>
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-reply mr-2"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Comment 3 -->
+                <div class="comment-card bg-dark-card p-6 rounded-2xl">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-white font-bold">RT</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Robert Taylor</h4>
+                                <div class="flex items-center text-sm text-gray-400">
+                                    <span class="mr-3">March 8, 2024</span>
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">The spring produce guide was incredibly helpful. I never knew what to do with fennel, but now it's a regular in my kitchen!</p>
+                    <div class="flex items-center space-x-4">
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-thumbs-up mr-2"></i>
+                            <span>32</span>
+                        </button>
+                        <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                            <i class="fas fa-reply mr-2"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Load More Comments -->
+            <div class="text-center mt-8">
+                <button class="px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                    <i class="fas fa-comments mr-2"></i> Load More Comments
+                </button>
+            </div>
+        </section>
+
+        <!-- Social Sharing -->
+        <div class="text-center mb-16">
+            <h3 class="text-lg font-semibold text-white mb-4">Share This Page</h3>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-blue-600 hover:text-white transition">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-pink-600 hover:text-white transition">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-blue-400 hover:text-white transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-red-600 hover:text-white transition">
+                    <i class="fab fa-pinterest"></i>
+                </a>
+                <a href="#" class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-green-600 hover:text-white transition">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="fixed inset-0 bg-black/90 flex items-start justify-center p-4 z-50 overflow-y-auto hidden">
+        <div class="bg-dark-card rounded-2xl max-w-4xl w-full my-8">
+            <div class="sticky top-0 bg-dark-card p-6 border-b border-gray-800 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">Perfect Homemade Pasta Recipe</h2>
+                <button id="closeRecipeModal" class="text-gray-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <!-- Recipe content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Recipe Page -->
+    <div id="printRecipePage" class="print-only">
+        <div class="p-8">
+            <h1 class="text-3xl font-bold mb-4">Herb-Crusted Salmon Recipe</h1>
+            <p class="text-gray-600 mb-6">From Epicurean Delights - www.epicureandelights.com</p>
+            
+            <div class="mb-8">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Herb-Crusted Salmon" 
+                     class="w-full h-64 object-cover rounded-lg">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h2 class="text-xl font-bold mb-4">Ingredients</h2>
+                    <ul class="space-y-2">
+                        <li>• 4 salmon fillets (6 oz each)</li>
+                        <li>• 1/4 cup fresh parsley, chopped</li>
+                        <li>• 2 tbsp fresh dill, chopped</li>
+                        <li>• 1 lemon (zest and juice)</li>
+                        <li>• 2 cloves garlic, minced</li>
+                        <li>• 3 tbsp olive oil</li>
+                        <li>• 1/2 cup panko breadcrumbs</li>
+                        <li>• Salt and pepper to taste</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h2 class="text-xl font-bold mb-4">Instructions</h2>
+                    <ol class="space-y-3 list-decimal pl-4">
+                        <li>Preheat oven to 400°F (200°C). Line a baking sheet with parchment paper.</li>
+                        <li>In a bowl, mix parsley, dill, lemon zest, garlic, and breadcrumbs.</li>
+                        <li>Season salmon with salt and pepper. Brush with olive oil.</li>
+                        <li>Press herb mixture onto salmon fillets.</li>
+                        <li>Bake for 12-15 minutes until salmon flakes easily.</li>
+                        <li>Drizzle with lemon juice before serving.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="border-t pt-4">
+                <p class="text-sm text-gray-600">© 2024 Epicurean Delights. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card border-t border-gray-800">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">All Recipes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Appetizers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Main Courses</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Desserts</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Vegetarian</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Cooking Tips</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Seasonal Guides</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Wine Pairing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Kitchen Essentials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Chef Interviews</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Community</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Recipe Contests</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Cooking Classes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Forum</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Photo Gallery</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-orange transition">Events</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">Subscribe to our newsletter for weekly recipes</p>
+                </div>
+            </div>
+            
+            <div class="text-center border-t border-gray-800 pt-8">
+                <p class="text-gray-500">© 2024 Epicurean Delights. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    $(document).ready(function() {
+        // Search Toggle
+        $('#searchToggle').click(function() {
+            $('#searchBar').slideToggle();
+        });
+        
+        $('#closeSearch').click(function() {
+            $('#searchBar').slideUp();
+        });
+        
+        // Blog Search
+        $('#blogSearch').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase().trim();
+            
+            if (searchTerm.length > 0) {
+                $('#searchResults').removeClass('hidden');
+                
+                let resultCount = 0;
+                $('.blog-card').each(function() {
+                    const title = $(this).find('h3').text().toLowerCase();
+                    const content = $(this).find('p').text().toLowerCase();
+                    const tags = $(this).data('tags');
+                    
+                    if (title.includes(searchTerm) || content.includes(searchTerm) || tags.includes(searchTerm)) {
+                        $(this).show();
+                        resultCount++;
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                
+                $('#resultCount').text(resultCount);
+            } else {
+                $('#searchResults').addClass('hidden');
+                $('.blog-card').show();
+            }
+        });
+        
+        $('#clearSearch').click(function() {
+            $('#blogSearch').val('');
+            $('#searchResults').addClass('hidden');
+            $('.blog-card').show();
+        });
+        
+        // Category Filtering
+        $('.category-filter').click(function() {
+            $('.category-filter').removeClass('active');
+            $(this).addClass('active');
+            
+            const category = $(this).data('category');
+            
+            if (category === 'all') {
+                $('.blog-card').show();
+            } else {
+                $('.blog-card').each(function() {
+                    if ($(this).data('category') === category) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+        
+        // Load More Articles
+        let currentPage = 1;
+        const articlesPerPage = 3;
+        
+        $('#loadMore').click(function() {
+            // Simulate loading more articles
+            const $btn = $(this);
+            $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Loading...').prop('disabled', true);
+            
+            setTimeout(() => {
+                // In a real app, this would be an AJAX call
+                currentPage++;
+                $btn.html('<i class="fas fa-plus mr-2"></i> Load More Articles').prop('disabled', false);
+                
+                if (currentPage >= 3) {
+                    $btn.hide();
+                    showNotification('All articles loaded!');
+                } else {
+                    showNotification('More articles loaded!');
+                }
+            }, 1000);
+        });
+        
+        // Recipe Modal
+        $('.view-recipe-btn, .view-full-recipe').click(function() {
+            const recipeId = $(this).data('recipe');
+            
+            // Load recipe content
+            $('#recipeModal .p-6').html(`
+                <div class="mb-8">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Recipe Image" 
+                         class="w-full h-64 object-cover rounded-lg mb-6">
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                    <div class="md:col-span-2">
+                        <h3 class="text-xl font-bold text-white mb-4">Ingredients</h3>
+                        <div class="grid md:grid-cols-2 gap-4 mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">2 cups Arborio rice</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">1/2 cup white wine</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">6 cups vegetable broth</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">1/2 cup grated Parmesan</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">2 tbsp truffle oil</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-3">
+                                <span class="text-gray-300">1 cup wild mushrooms</span>
+                            </label>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">Instructions</h3>
+                        <ol class="space-y-4 list-decimal pl-4">
+                            <li class="text-gray-300">Heat broth in a saucepan and keep warm.</li>
+                            <li class="text-gray-300">Sauté mushrooms in olive oil until golden, set aside.</li>
+                            <li class="text-gray-300">Toast rice in a large pan until translucent.</li>
+                            <li class="text-gray-300">Add wine and cook until absorbed.</li>
+                            <li class="text-gray-300">Add warm broth one ladle at a time, stirring constantly.</li>
+                            <li class="text-gray-300">When rice is al dente, stir in Parmesan and truffle oil.</li>
+                            <li class="text-gray-300">Fold in mushrooms and serve immediately.</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-gray-800/50 p-6 rounded-lg">
+                            <h4 class="font-semibold text-white mb-4">Nutrition Info</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Calories</span>
+                                    <span class="text-white">420</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Protein</span>
+                                    <span class="text-white">12g</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Carbs</span>
+                                    <span class="text-white">65g</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Fat</span>
+                                    <span class="text-white">14g</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold text-white mb-3">Cooking Time</h4>
+                                <div class="flex items-center text-gray-300">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    <span>Prep: 15 min | Cook: 30 min</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold text-white mb-3">Servings</h4>
+                                <div class="flex items-center text-gray-300">
+                                    <i class="fas fa-user-friends mr-2"></i>
+                                    <span>4 people</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-3">
+                            <button class="w-full py-3 bg-brand-orange text-white rounded-lg hover:bg-orange-600 transition">
+                                <i class="fas fa-print mr-2"></i> Print Recipe
+                            </button>
+                            <button class="w-full py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                                <i class="fas fa-share-alt mr-2"></i> Share Recipe
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-6 bg-gray-800/30 rounded-lg">
+                    <h4 class="font-semibold text-white mb-3">Chef's Tips</h4>
+                    <p class="text-gray-300">Always use warm broth when making risotto to maintain constant temperature. Stir constantly to release the starch from the rice, which creates the creamy texture. Never rinse Arborio rice as you need the starch.</p>
+                </div>
+            `);
+            
+            $('#recipeModal').removeClass('hidden');
+        });
+        
+        $('#closeRecipeModal').click(function() {
+            $('#recipeModal').addClass('hidden');
+        });
+        
+        // Cooking Timer
+        let timerInterval;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            $('.timer-display').text(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+        }
+        
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    showNotification('Timer complete! Time to check your dish.', 'success');
+                    // Play sound notification in real app
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            clearInterval(timerInterval);
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 25 * 60;
+            updateTimerDisplay();
+        }
+        
+        $('#startTimer').click(function() {
+            $('#timerModal').removeClass('hidden');
+            updateTimerDisplay();
+        });
+        
+        $('#closeTimer').click(function() {
+            $('#timerModal').addClass('hidden');
+            pauseTimer();
+        });
+        
+        $('#startTimerBtn').click(function() {
+            startTimer();
+            $(this).addClass('hidden');
+            $('#pauseTimerBtn').removeClass('hidden');
+        });
+        
+        $('#pauseTimerBtn').click(function() {
+            pauseTimer();
+            $(this).addClass('hidden');
+            $('#startTimerBtn').removeClass('hidden');
+        });
+        
+        $('#resetTimerBtn').click(function() {
+            resetTimer();
+            $('#pauseTimerBtn').addClass('hidden');
+            $('#startTimerBtn').removeClass('hidden');
+        });
+        
+        $('#setCustomTime').click(function() {
+            const customMinutes = parseInt($('#customTime').val());
+            if (customMinutes && customMinutes > 0 && customMinutes <= 120) {
+                timeLeft = customMinutes * 60;
+                updateTimerDisplay();
+                showNotification(`Timer set to ${customMinutes} minutes`);
+            }
+        });
+        
+        // Shopping List
+        $('#addAllToList').click(function() {
+            $('.ingredient-checkbox').each(function() {
+                $(this).prop('checked', true);
+                $(this).siblings('.ingredient-label').addClass('line-through text-gray-500');
+            });
+            showNotification('All ingredients added to shopping list!');
+        });
+        
+        $('.ingredient-checkbox').change(function() {
+            if ($(this).is(':checked')) {
+                $(this).siblings('.ingredient-label').addClass('line-through text-gray-500');
+            } else {
+                $(this).siblings('.ingredient-label').removeClass('line-through text-gray-500');
+            }
+        });
+        
+        // Print Recipe
+        $('#printRecipe').click(function() {
+            window.print();
+        });
+        
+        // Save Recipe
+        $('#saveRecipe').click(function() {
+            const $btn = $(this);
+            $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Saving...').prop('disabled', true);
+            
+            setTimeout(() => {
+                $btn.html('<i class="fas fa-check mr-2"></i> Saved to Recipe Box').addClass('bg-green-600 hover:bg-green-700');
+                showNotification('Recipe saved to your recipe box!');
+                
+                setTimeout(() => {
+                    $btn.html('<i class="fas fa-bookmark mr-2"></i> Save to Recipe Box').removeClass('bg-green-600 hover:bg-green-700').prop('disabled', false);
+                }, 2000);
+            }, 1000);
+        });
+        
+        // Newsletter Subscription
+        $('#subscribeBtn').click(function() {
+            const email = $('#newsletterEmail').val();
+            
+            if (!email || !validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            const $btn = $(this);
+            $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Subscribing...').prop('disabled', true);
+            
+            setTimeout(() => {
+                $btn.html('<i class="fas fa-check mr-2"></i> Subscribed!').addClass('bg-green-600 hover:bg-green-700');
+                showNotification('Thank you for subscribing! Check your email for the free e-book.');
+                $('#newsletterEmail').val('');
+                
+                setTimeout(() => {
+                    $btn.html('Subscribe').removeClass('bg-green-600 hover:bg-green-700').prop('disabled', false);
+                }, 3000);
+            }, 1500);
+        });
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Comments
+        $('#addCommentBtn').click(function() {
+            $('#commentForm').slideToggle();
+        });
+        
+        $('#cancelComment').click(function() {
+            $('#commentForm').slideUp();
+            $('#commentName').val('');
+            $('#commentText').val('');
+        });
+        
+        $('#submitComment').click(function() {
+            const name = $('#commentName').val().trim();
+            const text = $('#commentText').val().trim();
+            
+            if (!name || !text) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const $btn = $(this);
+            $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> Posting...').prop('disabled', true);
+            
+            setTimeout(() => {
+                // Add new comment to the top
+                $('.space-y-6').prepend(`
+                    <div class="comment-card bg-dark-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white font-bold">${name.substring(0, 2).toUpperCase()}</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">${name}</h4>
+                                    <div class="flex items-center text-sm text-gray-400">
+                                        <span class="mr-3">Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">${text}</p>
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                                <i class="fas fa-thumbs-up mr-2"></i>
+                                <span>0</span>
+                            </button>
+                            <button class="flex items-center text-gray-400 hover:text-brand-orange transition">
+                                <i class="fas fa-reply mr-2"></i>
+                                <span>Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                `);
+                
+                $('#commentForm').slideUp();
+                $('#commentName').val('');
+                $('#commentText').val('');
+                $btn.html('Post Comment').prop('disabled', false);
+                showNotification('Comment posted successfully!');
+            }, 1000);
+        });
+        
+        // Social Sharing
+        $('.fa-share-alt').parent().click(function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Epicurean Delights Recipes',
+                    text: 'Check out these amazing recipes!',
+                    url: window.location.href
+                });
+            } else {
+                showNotification('Link copied to clipboard!');
+                // Fallback: Copy to clipboard
+            }
+        });
+        
+        // Notification Function
+        function showNotification(message, type = 'success') {
+            const notification = $(`
+                <div class="fixed top-4 right-4 z-50 animate__animated animate__slideInRight">
+                    <div class="${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white px-6 py-3 rounded-lg shadow-xl">
+                        ${message}
+                    </div>
+                </div>
+            `);
+            
+            $('body').append(notification);
+            
+            setTimeout(() => {
+                notification.removeClass('animate__slideInRight').addClass('animate__slideOutRight');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Initialize Lightbox
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': 'Image %1 of %2'
+        });
+    });
+    </script>
+</body>
+</html>
