@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Catering | Epicurean Delights</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                        'gold': '#fbbf24',
+                        'silver': '#94a3b8',
+                        'platinum': '#10b981',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            background-color: #1a1f27;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        .package-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background: linear-gradient(#1a1f27, #1a1f27) padding-box,
+                        linear-gradient(135deg, #f97316 0%, #fb923c 100%) border-box;
+            border-radius: 20px;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(249, 115, 22, 0.2);
+        }
+        
+        .package-card.popular {
+            border: 2px solid;
+            border-image: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) 1;
+        }
+        
+        .menu-item-selector {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .menu-item-selector:hover {
+            border-color: #f97316;
+        }
+        
+        .menu-item-selector.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .capacity-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .capacity-indicator.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+        
+        .equipment-item {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .equipment-item:hover {
+            border-color: #f97316;
+            transform: translateY(-2px);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: #374151;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .swiper {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+        }
+        
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #f97316;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 20px;
+        }
+        
+        .venue-360 {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .venue-360 img {
+            transition: transform 0.5s ease;
+        }
+        
+        .venue-360:hover img {
+            transform: scale(1.05);
+        }
+        
+        .price-calculator {
+            background: linear-gradient(135deg, #1a1f27 0%, #0f1419 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .quote-form-step {
+            transition: all 0.5s ease;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .quote-form-step.active {
+            opacity: 1;
+            height: auto;
+        }
+        
+        .testimonial-slide {
+            background: linear-gradient(135deg, #1a1f27 0%, #0f1419 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .capacity-meter {
+            height: 10px;
+            background: linear-gradient(to right, #10b981, #fbbf24, #ef4444);
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .menu-builder-item {
+            transition: all 0.3s ease;
+            cursor: grab;
+        }
+        
+        .menu-builder-item:active {
+            cursor: grabbing;
+        }
+        
+        .menu-builder-dropzone {
+            border: 2px dashed #4b5563;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-builder-dropzone.drag-over {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .package-feature {
+            transition: all 0.3s ease;
+        }
+        
+        .package-feature:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="pt-20">
+    
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 bg-dark-card/95 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-utensils text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-orange transition">Home</a>
+                    <a href="menu.html" class="text-gray-300 hover:text-brand-orange transition">Menu</a>
+                    <a href="reservation.html" class="text-gray-300 hover:text-brand-orange transition">Reservation</a>
+                    <a href="order.html" class="text-gray-300 hover:text-brand-orange transition">Order Online</a>
+                    <a href="events.html" class="text-brand-orange font-semibold">Events & Catering</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="account.html" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-user text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">Events & <span class="text-gradient">Catering</span></h1>
+            <p class="text-gray-400 text-lg max-w-3xl mx-auto">Transform your special occasions into unforgettable experiences with our premium event planning and catering services</p>
+        </div>
+
+        <!-- Event Types Gallery -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-serif font-bold text-white">Event <span class="text-gradient">Types</span></h2>
+                <div class="flex space-x-2">
+                    <button class="event-filter px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition active" data-filter="all">
+                        All Events
+                    </button>
+                    <button class="event-filter px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-filter="wedding">
+                        Weddings
+                    </button>
+                    <button class="event-filter px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-filter="corporate">
+                        Corporate
+                    </button>
+                    <button class="event-filter px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition" data-filter="private">
+                        Private
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Wedding Event -->
+                <div class="event-card" data-category="wedding">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Wedding Reception" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-gradient-to-r from-pink-600 to-rose-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-heart mr-1"></i> Wedding
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Wedding Receptions</h3>
+                        <p class="text-gray-400 mb-4">Create the wedding of your dreams with our elegant venues and gourmet catering.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-users mr-1"></i> Up to 300 guests
+                            </div>
+                            <button class="view-event-details text-brand-orange hover:text-orange-400 transition" data-event="wedding">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Corporate Event -->
+                <div class="event-card" data-category="corporate">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Corporate Event" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-briefcase mr-1"></i> Corporate
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Corporate Events</h3>
+                        <p class="text-gray-400 mb-4">Professional catering and event planning for business meetings, conferences, and team building.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-users mr-1"></i> Up to 500 guests
+                            </div>
+                            <button class="view-event-details text-brand-orange hover:text-orange-400 transition" data-event="corporate">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Private Party -->
+                <div class="event-card" data-category="private">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Private Party" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                <i class="fas fa-birthday-cake mr-1"></i> Private
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Private Celebrations</h3>
+                        <p class="text-gray-400 mb-4">Birthdays, anniversaries, and special occasions tailored to your preferences.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-users mr-1"></i> Up to 150 guests
+                            </div>
+                            <button class="view-event-details text-brand-orange hover:text-orange-400 transition" data-event="private">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Package Selection -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">Catering <span class="text-gradient">Packages</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Choose from our carefully curated packages or create a custom solution</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Silver Package -->
+                <div class="package-card p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-silver to-gray-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-medal text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Silver Package</h3>
+                        <div class="text-3xl font-bold text-silver mb-4">$49<span class="text-lg text-gray-400">/person</span></div>
+                        <p class="text-gray-400">Perfect for casual gatherings</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">3-Course Menu</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Non-Alcoholic Beverages</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Basic Table Setting</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-times text-red-400 mr-3"></i>
+                            <span class="text-gray-400">Premium Bar Service</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-times text-red-400 mr-3"></i>
+                            <span class="text-gray-400">Dedicated Event Planner</span>
+                        </div>
+                    </div>
+                    
+                    <button class="select-package w-full py-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition" data-package="silver">
+                        Select Package
+                    </button>
+                </div>
+                
+                <!-- Gold Package (Popular) -->
+                <div class="package-card popular p-8 relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="bg-gradient-to-r from-gold to-yellow-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                            <i class="fas fa-crown mr-1"></i> MOST POPULAR
+                        </span>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-gold to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-crown text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Gold Package</h3>
+                        <div class="text-3xl font-bold text-gold mb-4">$79<span class="text-lg text-gray-400">/person</span></div>
+                        <p class="text-gray-400">Ideal for formal events</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">5-Course Gourmet Menu</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Premium Bar Service (4 hours)</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Elegant Table Setting</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Dedicated Event Coordinator</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-times text-red-400 mr-3"></i>
+                            <span class="text-gray-400">Live Cooking Stations</span>
+                        </div>
+                    </div>
+                    
+                    <button class="select-package w-full py-3 bg-gradient-to-r from-gold to-yellow-600 text-white rounded-lg font-semibold hover:opacity-90 transition" data-package="gold">
+                        Select Package
+                    </button>
+                </div>
+                
+                <!-- Platinum Package -->
+                <div class="package-card p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-platinum to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-gem text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Platinum Package</h3>
+                        <div class="text-3xl font-bold text-platinum mb-4">$129<span class="text-lg text-gray-400">/person</span></div>
+                        <p class="text-gray-400">Ultimate luxury experience</p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">7-Course Chef's Tasting Menu</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Unlimited Premium Bar</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Live Cooking Stations</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Personal Event Planner</span>
+                        </div>
+                        <div class="package-feature flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span class="text-gray-300">Floral Arrangements Included</span>
+                        </div>
+                    </div>
+                    
+                    <button class="select-package w-full py-3 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition" data-package="platinum">
+                        Select Package
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venue Gallery with 360 View -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-serif font-bold text-white">Our <span class="text-gradient">Venues</span></h2>
+                <a href="#" class="text-brand-orange hover:text-orange-400 transition">
+                    <i class="fas fa-virtual-reality mr-2"></i> Take Virtual Tour
+                </a>
+            </div>
+            
+            <!-- Swiper Gallery -->
+            <div class="swiper mb-8">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                             alt="Main Ballroom">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                            <h3 class="text-2xl font-bold text-white mb-2">Grand Ballroom</h3>
+                            <p class="text-gray-300">Capacity: 300 guests | 5,000 sq ft</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                             alt="Garden Pavilion">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                            <h3 class="text-2xl font-bold text-white mb-2">Garden Pavilion</h3>
+                            <p class="text-gray-300">Capacity: 150 guests | Outdoor setting</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                             alt="Private Dining">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                            <h3 class="text-2xl font-bold text-white mb-2">Private Dining Rooms</h3>
+                            <p class="text-gray-300">Capacity: 50 guests | Intimate setting</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+            
+            <!-- 360 View -->
+            <div class="venue-360 mb-8">
+                <div class="relative h-64 md:h-96 overflow-hidden rounded-2xl">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                         alt="360 View" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
+                        <div class="p-8">
+                            <div class="w-16 h-16 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mb-4 float-animation">
+                                <i class="fas fa-vr-cardboard text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">360° Virtual Tour</h3>
+                            <p class="text-gray-300 mb-4">Explore our venues from every angle</p>
+                            <button class="px-6 py-3 bg-white text-dark-bg rounded-lg font-semibold hover:bg-gray-100 transition">
+                                <i class="fas fa-play mr-2"></i> Start Tour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capacity Information -->
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-dark-card rounded-2xl">
+                    <div class="text-4xl font-bold text-brand-orange mb-2">300</div>
+                    <h4 class="font-semibold text-white mb-2">Grand Ballroom</h4>
+                    <p class="text-gray-400 text-sm">Maximum capacity</p>
+                    <div class="capacity-meter mt-3">
+                        <div class="h-full rounded" style="width: 85%"></div>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">85% availability this month</p>
+                </div>
+                
+                <div class="text-center p-6 bg-dark-card rounded-2xl">
+                    <div class="text-4xl font-bold text-brand-orange mb-2">150</div>
+                    <h4 class="font-semibold text-white mb-2">Garden Pavilion</h4>
+                    <p class="text-gray-400 text-sm">Outdoor events</p>
+                    <div class="capacity-meter mt-3">
+                        <div class="h-full rounded" style="width: 60%"></div>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">60% availability this month</p>
+                </div>
+                
+                <div class="text-center p-6 bg-dark-card rounded-2xl">
+                    <div class="text-4xl font-bold text-brand-orange mb-2">50</div>
+                    <h4 class="font-semibold text-white mb-2">Private Rooms</h4>
+                    <p class="text-gray-400 text-sm">Intimate gatherings</p>
+                    <div class="capacity-meter mt-3">
+                        <div class="h-full rounded" style="width: 45%"></div>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">45% availability this month</p>
+                </div>
+                
+                <div class="text-center p-6 bg-dark-card rounded-2xl">
+                    <div class="text-4xl font-bold text-brand-orange mb-2">500</div>
+                    <h4 class="font-semibold text-white mb-2">Total Capacity</h4>
+                    <p class="text-gray-400 text-sm">Combined venues</p>
+                    <div class="capacity-meter mt-3">
+                        <div class="h-full rounded" style="width: 70%"></div>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">70% overall availability</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Menu Builder -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">Custom <span class="text-gradient">Menu Builder</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Create your perfect menu by selecting from our extensive offerings</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Available Items -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-6">Menu Categories</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Starters -->
+                        <div class="bg-dark-card rounded-2xl p-6">
+                            <h4 class="text-lg font-semibold text-white mb-4">Starters & Appetizers</h4>
+                            <div class="space-y-3">
+                                <div class="menu-builder-item menu-item-selector p-3 bg-gray-800 rounded-lg flex justify-between items-center" data-category="starter" data-item="truffle-arancini" data-price="22">
+                                    <div>
+                                        <span class="text-white">Truffle Arancini</span>
+                                        <p class="text-sm text-gray-400">Crispy risotto balls with black truffle</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-brand-orange font-semibold">$22</span>
+                                        <i class="fas fa-grip-lines text-gray-400"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="menu-builder-item menu-item-selector p-3 bg-gray-800 rounded-lg flex justify-between items-center" data-category="starter" data-item="seared-scallops" data-price="28">
+                                    <div>
+                                        <span class="text-white">Seared Scallops</span>
+                                        <p class="text-sm text-gray-400">With cauliflower purée</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-brand-orange font-semibold">$28</span>
+                                        <i class="fas fa-grip-lines text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Course -->
+                        <div class="bg-dark-card rounded-2xl p-6">
+                            <h4 class="text-lg font-semibold text-white mb-4">Main Course</h4>
+                            <div class="space-y-3">
+                                <div class="menu-builder-item menu-item-selector p-3 bg-gray-800 rounded-lg flex justify-between items-center" data-category="main" data-item="wagyu-steak" data-price="38">
+                                    <div>
+                                        <span class="text-white">Wagyu Ribeye Steak</span>
+                                        <p class="text-sm text-gray-400">12oz with truffle mashed potatoes</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-brand-orange font-semibold">$38</span>
+                                        <i class="fas fa-grip-lines text-gray-400"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="menu-builder-item menu-item-selector p-3 bg-gray-800 rounded-lg flex justify-between items-center" data-category="main" data-item="mushroom-risotto" data-price="32">
+                                    <div>
+                                        <span class="text-white">Wild Mushroom Risotto</span>
+                                        <p class="text-sm text-gray-400">Arborio rice with wild mushrooms</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-brand-orange font-semibold">$32</span>
+                                        <i class="fas fa-grip-lines text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Desserts -->
+                        <div class="bg-dark-card rounded-2xl p-6">
+                            <h4 class="text-lg font-semibold text-white mb-4">Desserts</h4>
+                            <div class="space-y-3">
+                                <div class="menu-builder-item menu-item-selector p-3 bg-gray-800 rounded-lg flex justify-between items-center" data-category="dessert" data-item="chocolate-cake" data-price="14">
+                                    <div>
+                                        <span class="text-white">Chocolate Lava Cake</span>
+                                        <p class="text-sm text-gray-400">With vanilla ice cream</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-brand-orange font-semibold">$14</span>
+                                        <i class="fas fa-grip-lines text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Your Custom Menu -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-6">Your Custom Menu</h3>
+                    
+                    <div class="menu-builder-dropzone h-96 mb-6 p-6" id="menuDropzone">
+                        <div id="customMenuItems" class="h-full overflow-y-auto">
+                            <!-- Items will be added here -->
+                            <div class="text-center text-gray-500 py-16">
+                                <i class="fas fa-utensils text-3xl mb-4"></i>
+                                <p>Drag items here to build your menu</p>
+                                <p class="text-sm mt-2">Or use the "Add" buttons</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Summary -->
+                    <div class="price-calculator p-6">
+                        <h4 class="text-lg font-semibold text-white mb-4">Menu Summary</h4>
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between text-gray-300">
+                                <span>Number of Items</span>
+                                <span id="itemCount">0</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300">
+                                <span>Subtotal</span>
+                                <span id="menuSubtotal">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300">
+                                <span>Service Charge (15%)</span>
+                                <span id="serviceCharge">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-lg font-bold text-white pt-4 border-t border-gray-800">
+                                <span>Estimated Total</span>
+                                <span id="menuTotal">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                            <i class="fas fa-save mr-2"></i> Save Menu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote Request Form -->
+        <section class="mb-16">
+            <div class="bg-dark-card rounded-2xl p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-serif font-bold text-white mb-4">Get a <span class="text-gradient">Quote</span></h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">Fill out the form below and our event specialists will contact you within 24 hours</p>
+                </div>
+                
+                <!-- Multi-step Form -->
+                <div class="max-w-3xl mx-auto">
+                    <!-- Step Indicators -->
+                    <div class="flex justify-between mb-8">
+                        <div class="text-center">
+                            <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-2">
+                                1
+                            </div>
+                            <span class="text-sm text-white">Event Details</span>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-800 mx-4 mt-5"></div>
+                        <div class="text-center">
+                            <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mx-auto mb-2">
+                                2
+                            </div>
+                            <span class="text-sm text-gray-400">Guest Info</span>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-800 mx-4 mt-5"></div>
+                        <div class="text-center">
+                            <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 font-bold mx-auto mb-2">
+                                3
+                            </div>
+                            <span class="text-sm text-gray-400">Review</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 1: Event Details -->
+                    <div class="quote-form-step active" id="step1">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-300 mb-2">Event Type *</label>
+                                <select class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                    <option value="">Select event type</option>
+                                    <option value="wedding">Wedding Reception</option>
+                                    <option value="corporate">Corporate Event</option>
+                                    <option value="birthday">Birthday Party</option>
+                                    <option value="anniversary">Anniversary</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Number of Guests *</label>
+                                <input type="number" min="10" max="500" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="e.g., 100">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Event Date *</label>
+                                <input type="date" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Preferred Venue</label>
+                                <select class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                    <option value="">Any available</option>
+                                    <option value="ballroom">Grand Ballroom</option>
+                                    <option value="garden">Garden Pavilion</option>
+                                    <option value="private">Private Dining</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-gray-300 mb-2">Event Description *</label>
+                            <textarea rows="3" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Tell us about your event..."></textarea>
+                        </div>
+                        
+                        <div class="mt-8 text-right">
+                            <button class="next-step px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                Next: Guest Information <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Guest Information -->
+                    <div class="quote-form-step" id="step2">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-300 mb-2">First Name *</label>
+                                <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Last Name *</label>
+                                <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Email *</label>
+                                <input type="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2">Phone *</label>
+                                <input type="tel" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex justify-between">
+                            <button class="prev-step px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                                <i class="fas fa-arrow-left mr-2"></i> Back
+                            </button>
+                            <button class="next-step px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                Next: Review <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Review -->
+                    <div class="quote-form-step" id="step3">
+                        <div class="bg-gray-800/50 rounded-lg p-6 mb-6">
+                            <h4 class="text-lg font-semibold text-white mb-4">Quote Summary</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Event Type</span>
+                                    <span class="text-white">Wedding Reception</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Guests</span>
+                                    <span class="text-white">100 people</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Date</span>
+                                    <span class="text-white">June 15, 2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Package</span>
+                                    <span class="text-white">Gold Package</span>
+                                </div>
+                                <div class="flex justify-between text-lg font-bold text-white pt-4 border-t border-gray-700">
+                                    <span>Estimated Total</span>
+                                    <span>$7,900.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" class="mt-1 mr-3" required>
+                                <span class="text-gray-400 text-sm">I agree to receive a personalized quote and understand that final pricing may vary based on specific requirements.</span>
+                            </label>
+                        </div>
+                        
+                        <div class="mt-8 flex justify-between">
+                            <button class="prev-step px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                                <i class="fas fa-arrow-left mr-2"></i> Back
+                            </button>
+                            <button id="submitQuote" class="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                <i class="fas fa-paper-plane mr-2"></i> Submit Quote Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Calendar -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-serif font-bold text-white">Event <span class="text-gradient">Calendar</span></h2>
+                <button class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-calendar-alt mr-2"></i> View Full Calendar
+                </button>
+            </div>
+            
+            <div class="bg-dark-card rounded-2xl p-6">
+                <div class="grid md:grid-cols-7 gap-4 mb-6">
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Mon</div>
+                        <div class="text-2xl font-bold text-white">15</div>
+                        <div class="text-xs text-gray-500">Available</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Tue</div>
+                        <div class="text-2xl font-bold text-white">16</div>
+                        <div class="text-xs text-brand-orange">80% Booked</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Wed</div>
+                        <div class="text-2xl font-bold text-white">17</div>
+                        <div class="text-xs text-red-400">Fully Booked</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Thu</div>
+                        <div class="text-2xl font-bold text-white">18</div>
+                        <div class="text-xs text-gray-500">Available</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Fri</div>
+                        <div class="text-2xl font-bold text-white">19</div>
+                        <div class="text-xs text-brand-orange">60% Booked</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Sat</div>
+                        <div class="text-2xl font-bold text-white">20</div>
+                        <div class="text-xs text-red-400">Fully Booked</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-800 rounded-lg">
+                        <div class="text-sm text-gray-400">Sun</div>
+                        <div class="text-2xl font-bold text-white">21</div>
+                        <div class="text-xs text-gray-500">Available</div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button class="px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                        <i class="fas fa-calendar-check mr-2"></i> Check Availability
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">What Our <span class="text-gradient">Clients Say</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Hear from clients who have celebrated their special moments with us</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-slide">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4">
+                            SJ
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Sarah Johnson</h4>
+                            <p class="text-gray-400">Wedding Reception</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-6">
+                        "Our wedding was absolutely perfect! The team at Epicurean Delights handled every detail with precision. The food was exceptional and our guests are still talking about it!"
+                    </p>
+                    <div class="text-right text-gray-500">- March 2024</div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4">
+                            MC
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Michael Chen</h4>
+                            <p class="text-gray-400">Corporate Gala</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-6">
+                        "For our annual corporate gala, we needed everything to be perfect. Epicurean Delights delivered beyond expectations. Professional service and outstanding cuisine."
+                    </p>
+                    <div class="text-right text-gray-500">- February 2024</div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center text-2xl text-white font-bold mr-4">
+                            RG
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white">Robert Garcia</h4>
+                            <p class="text-gray-400">50th Anniversary</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-6">
+                        "Celebrating our 50th anniversary at Epicurean Delights was magical. The private dining room, personalized menu, and attention to detail made it unforgettable."
+                    </p>
+                    <div class="text-right text-gray-500">- January 2024</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Equipment & Staffing -->
+        <section class="mb-16">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Equipment Rental -->
+                <div class="bg-dark-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6">Equipment <span class="text-gradient">Rental</span></h3>
+                    
+                    <div class="space-y-4">
+                        <div class="equipment-item p-4 bg-gray-800/50 rounded-lg flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold text-white mb-1">Audiovisual Package</h4>
+                                <p class="text-sm text-gray-400">Projector, screen, sound system</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-brand-orange font-semibold">$350/day</div>
+                                <button class="mt-2 px-3 py-1 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600 transition">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="equipment-item p-4 bg-gray-800/50 rounded-lg flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold text-white mb-1">Premium Table Setting</h4>
+                                <p class="text-sm text-gray-400">China, crystal, silverware</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-brand-orange font-semibold">$45/table</div>
+                                <button class="mt-2 px-3 py-1 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600 transition">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="equipment-item p-4 bg-gray-800/50 rounded-lg flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold text-white mb-1">Dance Floor</h4>
+                                <p class="text-sm text-gray-400">20x20 professional floor</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-brand-orange font-semibold">$250/event</div>
+                                <button class="mt-2 px-3 py-1 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600 transition">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Staffing Requirements -->
+                <div class="bg-dark-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6">Staffing <span class="text-gradient">Requirements</span></h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-white mb-3">Select Staffing Level</h4>
+                            <div class="flex space-x-4">
+                                <button class="capacity-indicator px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition active">
+                                    Basic
+                                </button>
+                                <button class="capacity-indicator px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                    Standard
+                                </button>
+                                <button class="capacity-indicator px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition">
+                                    Premium
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-white mb-3">Additional Services</h4>
+                            <div class="space-y-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-3">
+                                    <span class="text-gray-300">Bartender Service ($45/hour)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-3">
+                                    <span class="text-gray-300">Valet Parking ($10/car)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-3">
+                                    <span class="text-gray-300">Security Personnel ($65/hour)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-3">
+                                    <span class="text-gray-300">Photography Services ($300/event)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Planning Timeline -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">Event Planning <span class="text-gradient">Timeline</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Our proven process ensures your event is executed flawlessly</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="timeline-item mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Initial Consultation</h3>
+                    <p class="text-gray-400 mb-3">We discuss your vision, budget, and requirements to understand your needs.</p>
+                    <span class="text-sm text-brand-orange">Week 1-2</span>
+                </div>
+                
+                <div class="timeline-item mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Proposal & Planning</h3>
+                    <p class="text-gray-400 mb-3">We create a detailed proposal including menu, venue, and staffing plans.</p>
+                    <span class="text-sm text-brand-orange">Week 3-4</span>
+                </div>
+                
+                <div class="timeline-item mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Menu Finalization</h3>
+                    <p class="text-gray-400 mb-3">Tasting session and final menu selection with our executive chef.</p>
+                    <span class="text-sm text-brand-orange">Week 5-6</span>
+                </div>
+                
+                <div class="timeline-item mb-8">
+                    <h3 class="text-xl font-bold text-white mb-2">Final Preparations</h3>
+                    <p class="text-gray-400 mb-3">All details are confirmed, and final arrangements are made.</p>
+                    <span class="text-sm text-brand-orange">Week 7-8</span>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold text-white mb-2">Event Execution</h3>
+                    <p class="text-gray-400 mb-3">Our team ensures flawless execution of your special day.</p>
+                    <span class="text-sm text-brand-orange">Event Day</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-dark-card rounded-2xl max-w-md w-full">
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar-star text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Event Inquiry Sent!</h3>
+                    <p class="text-gray-400">Our event specialist will contact you within 24 hours</p>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Reference #</span>
+                        <span class="text-white font-mono">EV78901</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Expected Response</span>
+                        <span class="text-white">Within 24 hours</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <button class="w-full py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                        <i class="fas fa-download mr-2"></i> Download Proposal
+                    </button>
+                    <button id="closeContactModal" class="w-full py-3 text-gray-400 hover:text-white transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card border-t border-gray-800 mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-500">© 2024 Epicurean Delights. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        let selectedPackage = null;
+        let customMenuItems = [];
+        let currentStep = 1;
+        
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+        });
+        
+        // Event Filtering
+        $('.event-filter').click(function() {
+            $('.event-filter').removeClass('active').addClass('bg-gray-800 text-gray-300');
+            $(this).removeClass('bg-gray-800 text-gray-300').addClass('active');
+            
+            const filter = $(this).data('filter');
+            
+            if (filter === 'all') {
+                $('.event-card').show();
+            } else {
+                $('.event-card').each(function() {
+                    const category = $(this).data('category');
+                    if (category === filter) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+        
+        // View Event Details
+        $('.view-event-details').click(function() {
+            const eventType = $(this).data('event');
+            let details = '';
+            
+            switch(eventType) {
+                case 'wedding':
+                    details = 'Wedding packages include ceremony coordination, reception planning, customized menus, floral arrangements, and photography services.';
+                    break;
+                case 'corporate':
+                    details = 'Corporate events feature AV equipment, professional staff, branded materials, networking areas, and team-building activities.';
+                    break;
+                case 'private':
+                    details = 'Private celebrations offer personalized themes, customized decorations, entertainment options, and special menu creations.';
+                    break;
+            }
+            
+            showNotification(details, 'info');
+        });
+        
+        // Select Package
+        $('.select-package').click(function() {
+            selectedPackage = $(this).data('package');
+            
+            $('.select-package').removeClass('bg-gradient-to-r from-gold to-yellow-600')
+                               .addClass('bg-gray-800')
+                               .removeClass('hover:opacity-90')
+                               .addClass('hover:bg-gray-700');
+            
+            $(this).removeClass('bg-gray-800 hover:bg-gray-700')
+                   .addClass('bg-gradient-to-r from-brand-orange to-orange-600 hover:opacity-90');
+            
+            let packageName = '';
+            let packagePrice = '';
+            
+            switch(selectedPackage) {
+                case 'silver':
+                    packageName = 'Silver Package';
+                    packagePrice = '$49/person';
+                    break;
+                case 'gold':
+                    packageName = 'Gold Package';
+                    packagePrice = '$79/person';
+                    break;
+                case 'platinum':
+                    packageName = 'Platinum Package';
+                    packagePrice = '$129/person';
+                    break;
+            }
+            
+            showNotification(packageName + ' selected - ' + packagePrice);
+            
+            // Update quote summary if visible
+            if (currentStep === 3) {
+                $('#step3 .text-white').eq(3).text(packageName);
+                // Update price calculation
+                updateQuoteSummary();
+            }
+        });
+        
+        // Menu Builder Drag & Drop
+        let draggedItem = null;
+        
+        $('.menu-builder-item').on('dragstart', function(e) {
+            draggedItem = $(this).clone();
+            $(this).css('opacity', '0.5');
+            e.originalEvent.dataTransfer.setData('text/plain', $(this).data('item'));
+        });
+        
+        $('.menu-builder-item').on('dragend', function() {
+            $(this).css('opacity', '1');
+        });
+        
+        $('#menuDropzone').on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('drag-over');
+        });
+        
+        $('#menuDropzone').on('dragleave', function() {
+            $(this).removeClass('drag-over');
+        });
+        
+        $('#menuDropzone').on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('drag-over');
+            
+            if (draggedItem) {
+                addMenuItemToCustomMenu(draggedItem);
+                draggedItem = null;
+            }
+        });
+        
+        // Add menu item via click
+        $('.menu-builder-item').click(function() {
+            addMenuItemToCustomMenu($(this));
+        });
+        
+        function addMenuItemToCustomMenu($item) {
+            const itemName = $item.find('.text-white').text();
+            const itemDescription = $item.find('.text-gray-400').text();
+            const itemPrice = parseFloat($item.data('price'));
+            const itemId = $item.data('item');
+            
+            // Check if item already exists
+            if (customMenuItems.some(item => item.id === itemId)) {
+                showNotification(itemName + ' is already in your menu', 'info');
+                return;
+            }
+            
+            customMenuItems.push({
+                id: itemId,
+                name: itemName,
+                description: itemDescription,
+                price: itemPrice
+            });
+            
+            updateCustomMenuDisplay();
+            showNotification(itemName + ' added to custom menu');
+        }
+        
+        function updateCustomMenuDisplay() {
+            const $container = $('#customMenuItems');
+            $container.empty();
+            
+            if (customMenuItems.length === 0) {
+                $container.html(`
+                    <div class="text-center text-gray-500 py-16">
+                        <i class="fas fa-utensils text-3xl mb-4"></i>
+                        <p>Drag items here to build your menu</p>
+                        <p class="text-sm mt-2">Or use the "Add" buttons</p>
+                    </div>
+                `);
+            } else {
+                let subtotal = 0;
+                
+                customMenuItems.forEach((item, index) => {
+                    subtotal += item.price;
+                    
+                    $container.append(`
+                        <div class="menu-item-selector selected p-3 bg-gray-800 rounded-lg flex justify-between items-center mb-3" data-index="${index}">
+                            <div>
+                                <span class="text-white">${item.name}</span>
+                                <p class="text-sm text-gray-400">${item.description}</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="text-brand-orange font-semibold">$${item.price.toFixed(2)}</span>
+                                <button class="remove-menu-item text-red-400 hover:text-red-300">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                });
+                
+                const serviceCharge = subtotal * 0.15;
+                const total = subtotal + serviceCharge;
+                
+                $('#itemCount').text(customMenuItems.length);
+                $('#menuSubtotal').text('$' + subtotal.toFixed(2));
+                $('#serviceCharge').text('$' + serviceCharge.toFixed(2));
+                $('#menuTotal').text('$' + total.toFixed(2));
+            }
+        }
+        
+        // Remove menu item
+        $(document).on('click', '.remove-menu-item', function() {
+            const index = $(this).closest('.menu-item-selector').data('index');
+            const removedItem = customMenuItems[index];
+            
+            customMenuItems.splice(index, 1);
+            updateCustomMenuDisplay();
+            showNotification(removedItem.name + ' removed from menu');
+        });
+        
+        // Quote Form Steps
+        $('.next-step').click(function() {
+            // Validate current step
+            if (!validateStep(currentStep)) {
+                return;
+            }
+            
+            $(`#step${currentStep}`).removeClass('active');
+            currentStep++;
+            $(`#step${currentStep}`).addClass('active');
+            
+            // Update step indicators
+            updateStepIndicators();
+        });
+        
+        $('.prev-step').click(function() {
+            $(`#step${currentStep}`).removeClass('active');
+            currentStep--;
+            $(`#step${currentStep}`).addClass('active');
+            
+            updateStepIndicators();
+        });
+        
+        function validateStep(step) {
+            if (step === 1) {
+                const eventType = $('#step1 select').eq(0).val();
+                const guestCount = $('#step1 input[type="number"]').val();
+                const eventDate = $('#step1 input[type="date"]').val();
+                
+                if (!eventType || !guestCount || !eventDate) {
+                    showNotification('Please fill in all required fields', 'error');
+                    return false;
+                }
+                
+                if (guestCount < 10 || guestCount > 500) {
+                    showNotification('Guest count must be between 10 and 500', 'error');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            if (step === 2) {
+                const firstName = $('#step2 input').eq(0).val();
+                const lastName = $('#step2 input').eq(1).val();
+                const email = $('#step2 input').eq(2).val();
+                const phone = $('#step2 input').eq(3).val();
+                
+                if (!firstName || !lastName || !email || !phone) {
+                    showNotification('Please fill in all contact information', 'error');
+                    return false;
+                }
+                
+                if (!validateEmail(email)) {
+                    showNotification('Please enter a valid email address', 'error');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            return true;
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function updateStepIndicators() {
+            $('.text-center').each(function(index) {
+                const $number = $(this).find('.w-10');
+                const $text = $(this).find('.text-sm');
+                
+                if (index + 1 === currentStep) {
+                    $number.removeClass('bg-gray-800 text-gray-400')
+                           .addClass('bg-gradient-to-br from-brand-orange to-orange-600 text-white');
+                    $text.removeClass('text-gray-400').addClass('text-white');
+                } else if (index + 1 < currentStep) {
+                    $number.removeClass('bg-gray-800 text-gray-400')
+                           .addClass('bg-green-600 text-white');
+                    $text.removeClass('text-gray-400').addClass('text-white');
+                } else {
+                    $number.removeClass('bg-gradient-to-br from-brand-orange to-orange-600 text-white bg-green-600')
+                           .addClass('bg-gray-800 text-gray-400');
+                    $text.removeClass('text-white').addClass('text-gray-400');
+                }
+            });
+        }
+        
+        // Update quote summary
+        function updateQuoteSummary() {
+            const guestCount = $('#step1 input[type="number"]').val();
+            let pricePerPerson = 79; // Default Gold package
+            
+            switch(selectedPackage) {
+                case 'silver':
+                    pricePerPerson = 49;
+                    break;
+                case 'gold':
+                    pricePerPerson = 79;
+                    break;
+                case 'platinum':
+                    pricePerPerson = 129;
+                    break;
+            }
+            
+            const subtotal = guestCount * pricePerPerson;
+            const serviceCharge = subtotal * 0.18;
+            const total = subtotal + serviceCharge;
+            
+            $('#step3 .text-white').eq(1).text(guestCount + ' people');
+            $('#step3 .text-white').eq(5).text('$' + total.toFixed(2));
+        }
+        
+        // Submit Quote Request
+        $('#submitQuote').click(function() {
+            if (!selectedPackage) {
+                showNotification('Please select a package first', 'error');
+                return;
+            }
+            
+            $('#contactModal').removeClass('hidden');
+            
+            // Send notification (simulated)
+            setTimeout(() => {
+                showNotification('Event inquiry submitted successfully!', 'success');
+            }, 1000);
+        });
+        
+        // Close Contact Modal
+        $('#closeContactModal').click(function() {
+            $('#contactModal').addClass('hidden');
+            resetQuoteForm();
+        });
+        
+        // Reset quote form
+        function resetQuoteForm() {
+            currentStep = 1;
+            selectedPackage = null;
+            
+            // Reset steps
+            $('.quote-form-step').removeClass('active');
+            $('#step1').addClass('active');
+            
+            // Reset form fields
+            $('input, select, textarea').val('');
+            $('.select-package').removeClass('bg-gradient-to-r from-brand-orange to-orange-600 hover:opacity-90')
+                               .addClass('bg-gray-800 hover:bg-gray-700');
+            
+            updateStepIndicators();
+        }
+        
+        // Capacity Indicators
+        $('.capacity-indicator').click(function() {
+            $('.capacity-indicator').removeClass('active').addClass('bg-gray-800 text-gray-300');
+            $(this).removeClass('bg-gray-800 text-gray-300').addClass('active');
+        });
+        
+        // Add Equipment
+        $('.equipment-item button').click(function() {
+            const equipmentName = $(this).closest('.equipment-item').find('h4').text();
+            const price = $(this).closest('.equipment-item').find('.text-brand-orange').text();
+            
+            showNotification(equipmentName + ' added to quote - ' + price);
+        });
+        
+        // Notification Function
+        function showNotification(message, type = 'success') {
+            const colors = {
+                'success': 'bg-green-600',
+                'error': 'bg-red-600',
+                'info': 'bg-blue-600',
+                'warning': 'bg-yellow-600'
+            };
+            
+            const notification = $(`
+                <div class="fixed top-4 right-4 z-50 animate__animated animate__slideInRight">
+                    <div class="${colors[type] || colors.success} text-white px-6 py-3 rounded-lg shadow-xl">
+                        ${message}
+                    </div>
+                </div>
+            `);
+            
+            $('body').append(notification);
+            
+            setTimeout(() => {
+                notification.removeClass('animate__slideInRight').addClass('animate__slideOutRight');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Initialize
+        updateStepIndicators();
+    });
+    </script>
+</body>
+</html>
