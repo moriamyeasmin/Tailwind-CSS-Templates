@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Epicurean Delights</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f1419',
+                        'dark-card': '#1a1f27',
+                        'brand-orange': '#f97316',
+                        'light-orange': '#fb923c',
+                        'success-green': '#10b981',
+                        'warning-yellow': '#f59e0b',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5uK0SeX_yNv8rjQKZQmDmJhVc2O3p6bU&libraries=places&callback=initAutocomplete" async defer></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1419;
+            color: #f9fafb;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        
+        .checkout-step {
+            position: relative;
+            padding-bottom: 40px;
+        }
+        
+        .checkout-step::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: #374151;
+            z-index: 1;
+        }
+        
+        .checkout-step:last-child::after {
+            display: none;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: #374151;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #9ca3af;
+            z-index: 2;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-step.active .step-number {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .checkout-step.completed .step-number {
+            background: #10b981;
+            color: white;
+        }
+        
+        .checkout-step.completed .step-number::after {
+            content: '✓';
+            font-size: 24px;
+        }
+        
+        .order-item {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .order-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .payment-method {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .payment-method:hover {
+            border-color: #f97316;
+        }
+        
+        .payment-method.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .delivery-option {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .delivery-option:hover {
+            border-color: #f97316;
+        }
+        
+        .delivery-option.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .tip-option {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .tip-option:hover {
+            border-color: #f97316;
+        }
+        
+        .tip-option.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .address-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .address-card:hover {
+            border-color: #f97316;
+        }
+        
+        .address-card.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .promo-success {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .security-badge {
+            background: linear-gradient(135deg, #1a1f27 0%, #0f1419 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #374151;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f97316, #fb923c);
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        .countdown-timer {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .map-container {
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .loyalty-points {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .estimated-time {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .saved-payment {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .saved-payment:hover {
+            border-color: #f97316;
+        }
+        
+        .saved-payment.selected {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .coupon-applied {
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .error-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .qr-code {
+            transition: all 0.3s ease;
+        }
+        
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+        
+        .order-tracking {
+            position: relative;
+        }
+        
+        .order-tracking::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #374151;
+        }
+        
+        .tracking-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .tracking-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #374151;
+            z-index: 2;
+        }
+        
+        .tracking-step.active::before {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        
+        .tracking-step.completed::before {
+            background: #10b981;
+        }
+        
+        .tracking-step.completed::after {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 3;
+        }
+        
+        .custom-tip {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .custom-tip:focus {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .payment-success {
+            animation: successPulse 1s ease;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="pt-20">
+    
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-40 bg-dark-card/95 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-utensils text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-serif font-bold text-white">Epicurean<span class="text-brand-orange">Delights</span></h1>
+                </a>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-400">
+                        <i class="fas fa-lock mr-1"></i> Secure Checkout
+                    </div>
+                    <a href="cart.html" class="text-gray-300 hover:text-brand-orange">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-gray-400 mb-2">
+                <span>Cart</span>
+                <span>Delivery</span>
+                <span>Payment</span>
+                <span>Confirmation</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="checkoutProgress" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Column: Checkout Steps -->
+            <div class="lg:col-span-2">
+                <!-- Step 1: Delivery Information -->
+                <div class="checkout-step active" id="step1">
+                    <div class="flex items-start mb-8">
+                        <div class="step-number mr-4">1</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-white mb-2">Delivery <span class="text-gradient">Information</span></h2>
+                            <p class="text-gray-400">Where should we deliver your order?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-16">
+                        <!-- Delivery Type Selection -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Delivery Type</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="delivery-option selected p-6 bg-dark-card rounded-2xl cursor-pointer" data-type="delivery">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mr-4">
+                                            <i class="fas fa-motorcycle text-white text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Home Delivery</h4>
+                                            <p class="text-sm text-gray-400">30-45 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-400">
+                                        <p><i class="fas fa-dollar-sign mr-2"></i>$3.99 delivery fee</p>
+                                        <p><i class="fas fa-map-marker-alt mr-2"></i>Within 5 miles radius</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="delivery-option p-6 bg-dark-card rounded-2xl cursor-pointer" data-type="pickup">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mr-4">
+                                            <i class="fas fa-store text-gray-400 text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Store Pickup</h4>
+                                            <p class="text-sm text-gray-400">15-20 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-400">
+                                        <p><i class="fas fa-dollar-sign mr-2"></i>No delivery fee</p>
+                                        <p><i class="fas fa-car mr-2"></i>Curbside available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Address Selection -->
+                        <div class="mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-white">Delivery Address</h3>
+                                <button class="text-brand-orange hover:text-orange-400 transition text-sm" id="addNewAddress">
+                                    <i class="fas fa-plus mr-1"></i> Add New Address
+                                </button>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <!-- Saved Address 1 -->
+                                <div class="address-card selected p-4 bg-dark-card rounded-xl cursor-pointer" data-address="home">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h4 class="font-semibold text-white">Home</h4>
+                                            <p class="text-sm text-gray-400">123 Main Street</p>
+                                            <p class="text-sm text-gray-400">New York, NY 10001</p>
+                                        </div>
+                                        <i class="fas fa-check text-brand-orange text-lg"></i>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Default delivery address</p>
+                                </div>
+                                
+                                <!-- Saved Address 2 -->
+                                <div class="address-card p-4 bg-dark-card rounded-xl cursor-pointer" data-address="office">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h4 class="font-semibold text-white">Office</h4>
+                                            <p class="text-sm text-gray-400">456 Business Ave</p>
+                                            <p class="text-sm text-gray-400">New York, NY 10002</p>
+                                        </div>
+                                        <i class="fas fa-check text-transparent text-lg"></i>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Business hours only</p>
+                                </div>
+                            </div>
+                            
+                            <!-- New Address Form (Hidden by default) -->
+                            <div id="newAddressForm" class="hidden">
+                                <div class="bg-dark-card rounded-2xl p-6">
+                                    <h4 class="text-lg font-semibold text-white mb-4">Add New Address</h4>
+                                    
+                                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Address Label</label>
+                                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="e.g., Home, Office">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Full Name</label>
+                                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Recipient name">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Phone Number</label>
+                                            <input type="tel" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="+1 (555) 123-4567">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Address Line 1</label>
+                                            <input type="text" id="addressLine1" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Street address">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Address Line 2 (Optional)</label>
+                                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Apartment, suite, unit">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">City</label>
+                                            <input type="text" id="city" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="City">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Zip Code</label>
+                                            <input type="text" id="zipCode" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="10001">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="block text-gray-300 mb-2">Delivery Instructions</label>
+                                        <textarea rows="2" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Gate code, building instructions, etc."></textarea>
+                                    </div>
+                                    
+                                    <div class="flex justify-between">
+                                        <button id="cancelNewAddress" class="px-4 py-2 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                                            Cancel
+                                        </button>
+                                        <button id="saveNewAddress" class="px-6 py-2 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                            Save Address
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Delivery Time Selection -->
+                            <div class="mb-8">
+                                <h3 class="text-lg font-semibold text-white mb-4">Delivery Time</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="delivery-option selected p-4 bg-dark-card rounded-xl cursor-pointer" data-time="asap">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-bolt text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-white">ASAP</h4>
+                                                <p class="text-sm text-gray-400">Estimated: 35-45 min</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="delivery-option p-4 bg-dark-card rounded-xl cursor-pointer" data-time="schedule">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-clock text-gray-400"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-white">Schedule Later</h4>
+                                                <p class="text-sm text-gray-400">Choose specific time</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Schedule Time (Hidden by default) -->
+                                <div id="scheduleTime" class="hidden mt-4">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Select Date</label>
+                                            <input type="date" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Select Time</label>
+                                            <select class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange">
+                                                <option>17:00 - 17:30</option>
+                                                <option>17:30 - 18:00</option>
+                                                <option>18:00 - 18:30</option>
+                                                <option>18:30 - 19:00</option>
+                                                <option>19:00 - 19:30</option>
+                                                <option>19:30 - 20:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Delivery Map -->
+                            <div class="mb-8">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-semibold text-white">Delivery Area</h3>
+                                    <button class="text-brand-orange hover:text-orange-400 transition text-sm" id="refreshLocation">
+                                        <i class="fas fa-sync-alt mr-1"></i> Refresh Location
+                                    </button>
+                                </div>
+                                
+                                <div class="map-container bg-gray-800 relative">
+                                    <!-- Map Placeholder -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="text-center">
+                                            <i class="fas fa-map-marked-alt text-gray-600 text-4xl mb-4"></i>
+                                            <p class="text-gray-500">Interactive map would appear here</p>
+                                            <p class="text-gray-500 text-sm mt-2">Google Maps integration</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Delivery Radius Indicator -->
+                                    <div class="absolute top-4 right-4 bg-black/70 backdrop-blur-sm rounded-lg p-3">
+                                        <div class="text-sm text-white">
+                                            <p><i class="fas fa-check-circle text-green-400 mr-2"></i> Within delivery zone</p>
+                                            <p class="text-xs text-gray-400 mt-1">Estimated delivery: 35 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Continue Button -->
+                        <div class="text-right">
+                            <button id="continueToStep2" class="btn-primary text-lg py-3 px-8">
+                                Continue to Payment <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Payment Information -->
+                <div class="checkout-step" id="step2">
+                    <div class="flex items-start mb-8">
+                        <div class="step-number mr-4">2</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-white mb-2">Payment <span class="text-gradient">Information</span></h2>
+                            <p class="text-gray-400">How would you like to pay?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-16">
+                        <!-- Saved Payment Methods -->
+                        <div class="mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-white">Saved Payment Methods</h3>
+                                <button class="text-brand-orange hover:text-orange-400 transition text-sm" id="addNewPayment">
+                                    <i class="fas fa-plus mr-1"></i> Add New Card
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3 mb-6">
+                                <!-- Saved Card 1 -->
+                                <div class="saved-payment selected p-4 bg-dark-card rounded-xl cursor-pointer" data-card="visa">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex items-center justify-center mr-4">
+                                                <i class="fab fa-cc-visa text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-white">Visa ending in 4242</h4>
+                                                <p class="text-sm text-gray-400">Expires 12/25</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-check text-brand-orange text-lg"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Saved Card 2 -->
+                                <div class="saved-payment p-4 bg-dark-card rounded-xl cursor-pointer" data-card="mastercard">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded flex items-center justify-center mr-4">
+                                                <i class="fab fa-cc-mastercard text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-white">Mastercard ending in 8888</h4>
+                                                <p class="text-sm text-gray-400">Expires 08/24</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-check text-transparent text-lg"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- New Card Form (Hidden by default) -->
+                        <div id="newCardForm" class="hidden mb-8">
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <h4 class="text-lg font-semibold text-white mb-4">Add New Card</h4>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-300 mb-2">Card Number</label>
+                                        <div class="relative">
+                                            <input type="text" id="cardNumber" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="1234 5678 9012 3456" maxlength="19">
+                                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                                <i class="fab fa-cc-visa text-gray-400 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">Expiration Date</label>
+                                            <input type="text" id="expiryDate" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="MM/YY" maxlength="5">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-gray-300 mb-2">CVV</label>
+                                            <div class="relative">
+                                                <input type="text" id="cvv" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="123" maxlength="4">
+                                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                                    <i class="fas fa-question-circle text-gray-400 cursor-help" title="3 or 4 digit security code"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-gray-300 mb-2">Cardholder Name</label>
+                                        <input type="text" id="cardholderName" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="John Doe">
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="saveCard" class="mr-3" checked>
+                                        <label for="saveCard" class="text-gray-300">Save this card for future purchases</label>
+                                    </div>
+                                    
+                                    <div class="flex justify-between pt-4">
+                                        <button id="cancelNewCard" class="px-4 py-2 border border-gray-700 text-gray-300 rounded-lg hover:border-brand-orange hover:text-white transition">
+                                            Cancel
+                                        </button>
+                                        <button id="saveNewCard" class="px-6 py-2 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                            Save Card
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Alternative Payment Methods -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Alternative Payment Methods</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="payment-method p-4 bg-dark-card rounded-xl cursor-pointer" data-method="paypal">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fab fa-paypal text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">PayPal</h4>
+                                            <p class="text-sm text-gray-400">Secure online payments</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method p-4 bg-dark-card rounded-xl cursor-pointer" data-method="cash">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                            <i class="fas fa-money-bill-wave text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">Cash on Delivery</h4>
+                                            <p class="text-sm text-gray-400">Pay when food arrives</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method p-4 bg-dark-card rounded-xl cursor-pointer" data-method="applepay">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center mr-3">
+                                            <i class="fab fa-apple text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">Apple Pay</h4>
+                                            <p class="text-sm text-gray-400">Touch ID / Face ID</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method p-4 bg-dark-card rounded-xl cursor-pointer" data-method="googlepay">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center mr-3 border border-gray-700">
+                                            <i class="fab fa-google-pay text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">Google Pay</h4>
+                                            <p class="text-sm text-gray-400">Fast & secure</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tip Selection -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Tip Your Driver</h3>
+                            <p class="text-gray-400 mb-4">100% of tips go directly to your delivery driver</p>
+                            
+                            <div class="grid grid-cols-4 gap-3 mb-4">
+                                <div class="tip-option text-center p-3 bg-dark-card rounded-lg cursor-pointer" data-tip="0">
+                                    <div class="text-lg font-bold text-white">$0</div>
+                                    <div class="text-xs text-gray-400">No tip</div>
+                                </div>
+                                
+                                <div class="tip-option selected text-center p-3 bg-dark-card rounded-lg cursor-pointer" data-tip="3">
+                                    <div class="text-lg font-bold text-white">$3</div>
+                                    <div class="text-xs text-gray-400">10%</div>
+                                </div>
+                                
+                                <div class="tip-option text-center p-3 bg-dark-card rounded-lg cursor-pointer" data-tip="5">
+                                    <div class="text-lg font-bold text-white">$5</div>
+                                    <div class="text-xs text-gray-400">15%</div>
+                                </div>
+                                
+                                <div class="tip-option text-center p-3 bg-dark-card rounded-lg cursor-pointer" data-tip="7">
+                                    <div class="text-lg font-bold text-white">$7</div>
+                                    <div class="text-xs text-gray-400">20%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Custom Tip Input -->
+                            <div class="mt-4">
+                                <label class="block text-gray-300 mb-2">Custom Tip Amount</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                                    <input type="number" id="customTip" class="custom-tip w-full pl-8 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Enter custom amount" min="0" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Special Instructions -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Special Instructions</h3>
+                            <textarea id="specialInstructions" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" rows="3" placeholder="Any special requests or instructions for your order..."></textarea>
+                        </div>
+                        
+                        <!-- Continue Button -->
+                        <div class="text-right">
+                            <button id="continueToStep3" class="btn-primary text-lg py-3 px-8">
+                                Review Order <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review Order -->
+                <div class="checkout-step" id="step3">
+                    <div class="flex items-start mb-8">
+                        <div class="step-number mr-4">3</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-white mb-2">Review <span class="text-gradient">Order</span></h2>
+                            <p class="text-gray-400">Please review your order details before placing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-16">
+                        <!-- Order Summary -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Order Summary</h3>
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <!-- Order Items -->
+                                <div class="space-y-4 mb-6">
+                                    <div class="order-item pb-4">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-white mb-1">Wagyu Ribeye Steak</h4>
+                                                <p class="text-sm text-gray-400">12oz with truffle mashed potatoes</p>
+                                                <p class="text-xs text-gray-500">Quantity: 1</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-bold text-white">$38.00</div>
+                                                <button class="text-sm text-brand-orange hover:text-orange-400 mt-1">
+                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="order-item pb-4">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-white mb-1">Truffle Risotto</h4>
+                                                <p class="text-sm text-gray-400">Wild mushrooms & parmesan</p>
+                                                <p class="text-xs text-gray-500">Quantity: 1</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-bold text-white">$32.00</div>
+                                                <button class="text-sm text-brand-orange hover:text-orange-400 mt-1">
+                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="order-item pb-4">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-white mb-1">Chocolate Lava Cake</h4>
+                                                <p class="text-sm text-gray-400">With vanilla ice cream</p>
+                                                <p class="text-xs text-gray-500">Quantity: 1</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-bold text-white">$14.00</div>
+                                                <button class="text-sm text-brand-orange hover:text-orange-400 mt-1">
+                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Price Breakdown -->
+                                <div class="border-t border-gray-800 pt-6">
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-gray-300">
+                                            <span>Subtotal</span>
+                                            <span id="reviewSubtotal">$84.00</span>
+                                        </div>
+                                        <div class="flex justify-between text-gray-300">
+                                            <span>Delivery Fee</span>
+                                            <span id="reviewDeliveryFee">$3.99</span>
+                                        </div>
+                                        <div class="flex justify-between text-gray-300">
+                                            <span>Tip</span>
+                                            <span id="reviewTip">$3.00</span>
+                                        </div>
+                                        <div class="flex justify-between text-gray-300">
+                                            <span>Tax (10%)</span>
+                                            <span id="reviewTax">$8.40</span>
+                                        </div>
+                                        <div class="flex justify-between text-xl font-bold text-white pt-4 border-t border-gray-800">
+                                            <span>Total</span>
+                                            <span id="reviewTotal">$99.39</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Details -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Delivery Details</h3>
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Delivery Address</h4>
+                                        <p class="text-gray-300">123 Main Street</p>
+                                        <p class="text-gray-300">New York, NY 10001</p>
+                                        <p class="text-sm text-gray-400 mt-1">Home</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Delivery Time</h4>
+                                        <p class="text-gray-300">ASAP</p>
+                                        <p class="text-gray-300">Estimated: 35-45 minutes</p>
+                                        <p class="text-sm text-brand-orange mt-1"><i class="fas fa-clock mr-1"></i> Order placed at 7:00 PM</p>
+                                    </div>
+                                </div>
+                                <button class="text-brand-orange hover:text-orange-400 mt-4">
+                                    <i class="fas fa-edit mr-1"></i> Edit Delivery Details
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Details -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Payment Details</h3>
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex items-center justify-center mr-4">
+                                            <i class="fab fa-cc-visa text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">Visa ending in 4242</h4>
+                                            <p class="text-sm text-gray-400">Expires 12/25</p>
+                                        </div>
+                                    </div>
+                                    <button class="text-brand-orange hover:text-orange-400">
+                                        <i class="fas fa-edit mr-1"></i> Edit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">Promo Code</h3>
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <div class="flex gap-3 mb-3">
+                                    <input type="text" id="promoCode" class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-brand-orange" placeholder="Enter promo code">
+                                    <button id="applyPromo" class="px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                                        Apply
+                                    </button>
+                                </div>
+                                <div id="promoMessage" class="hidden text-sm"></div>
+                                
+                                <!-- Available Promo Codes -->
+                                <div class="mt-4">
+                                    <p class="text-sm text-gray-400 mb-2">Available promo codes:</p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+                                            <div>
+                                                <span class="text-white font-semibold">WELCOME10</span>
+                                                <p class="text-xs text-gray-400">10% off your first order</p>
+                                            </div>
+                                            <button class="text-brand-orange hover:text-orange-400 text-sm">
+                                                Apply
+                                            </button>
+                                        </div>
+                                        <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+                                            <div>
+                                                <span class="text-white font-semibold">FREEDELIVERY</span>
+                                                <p class="text-xs text-gray-400">Free delivery on orders over $50</p>
+                                            </div>
+                                            <button class="text-brand-orange hover:text-orange-400 text-sm">
+                                                Apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loyalty Points -->
+                        <div class="mb-8">
+                            <div class="loyalty-points p-6 rounded-2xl">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white mb-1">Loyalty Points Available</h4>
+                                        <p class="text-white/80">You have <span class="font-bold text-xl">1,250</span> points</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-white/80 mb-2">Redeem for discount:</p>
+                                        <div class="flex items-center gap-2">
+                                            <select id="redeemPoints" class="px-3 py-2 bg-white/20 text-white rounded-lg focus:outline-none">
+                                                <option value="0">0 points</option>
+                                                <option value="100">100 points = $5 off</option>
+                                                <option value="200">200 points = $10 off</option>
+                                                <option value="500">500 points = $25 off</option>
+                                            </select>
+                                            <button id="applyPoints" class="px-4 py-2 bg-white text-orange-600 rounded-lg font-semibold hover:bg-gray-100 transition">
+                                                Apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="mb-8">
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="termsAgreement" class="mt-1 mr-3" required>
+                                    <label for="termsAgreement" class="text-gray-300">
+                                        I agree to the <a href="#" class="text-brand-orange hover:underline">Terms of Service</a> and confirm that I am at least 18 years old. I understand that my order may be subject to additional fees and taxes, and that all sales are final.
+                                    </label>
+                                </div>
+                                <div class="flex items-start mt-4">
+                                    <input type="checkbox" id="marketingConsent" class="mt-1 mr-3">
+                                    <label for="marketingConsent" class="text-gray-300">
+                                        Yes, I would like to receive marketing communications about special offers, new menu items, and promotions from Epicurean Delights.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Place Order Button -->
+                        <div class="text-right">
+                            <button id="placeOrderBtn" class="btn-primary text-lg py-4 px-12 text-xl">
+                                <i class="fas fa-lock mr-2"></i> Place Order Securely
+                            </button>
+                            <p class="text-sm text-gray-400 mt-3">
+                                <i class="fas fa-shield-alt mr-1"></i> Your payment information is secured with 256-bit SSL encryption
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Order Confirmation -->
+                <div class="checkout-step" id="step4">
+                    <div class="flex items-start mb-8">
+                        <div class="step-number mr-4">4</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-white mb-2">Order <span class="text-gradient">Confirmed</span></h2>
+                            <p class="text-gray-400">Your order has been placed successfully!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ml-16">
+                        <!-- Success Message -->
+                        <div class="mb-8">
+                            <div class="bg-gradient-to-r from-green-600 to-emerald-700 rounded-2xl p-8 text-center">
+                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-2">Order Confirmed!</h3>
+                                <p class="text-white/90 mb-4">Your order #<span id="orderNumber" class="font-bold text-xl">ED12345</span> has been placed successfully.</p>
+                                <p class="text-white/80">We'll send you updates on your order status.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Tracking -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-6">Order Tracking</h3>
+                            <div class="order-tracking pl-8">
+                                <div class="tracking-step completed">
+                                    <h4 class="font-semibold text-white mb-1">Order Placed</h4>
+                                    <p class="text-gray-400 text-sm">7:00 PM</p>
+                                    <p class="text-gray-400 text-sm mt-1">Your order has been received</p>
+                                </div>
+                                
+                                <div class="tracking-step active">
+                                    <h4 class="font-semibold text-white mb-1">Order Confirmed</h4>
+                                    <p class="text-gray-400 text-sm">7:02 PM</p>
+                                    <p class="text-gray-400 text-sm mt-1">We're preparing your food</p>
+                                </div>
+                                
+                                <div class="tracking-step">
+                                    <h4 class="font-semibold text-white mb-1">Out for Delivery</h4>
+                                    <p class="text-gray-400 text-sm">Estimated: 7:25 PM</p>
+                                    <p class="text-gray-400 text-sm mt-1">Your driver will be on the way</p>
+                                </div>
+                                
+                                <div class="tracking-step">
+                                    <h4 class="font-semibold text-white mb-1">Delivered</h4>
+                                    <p class="text-gray-400 text-sm">Estimated: 7:45 PM</p>
+                                    <p class="text-gray-400 text-sm mt-1">Your food will arrive</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Estimated Time -->
+                        <div class="mb-8">
+                            <div class="estimated-time p-6 rounded-2xl">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-white mb-1">Estimated Delivery Time</h4>
+                                        <p class="text-white/80">Your food is being prepared</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-3xl font-bold text-white">7:45 PM</div>
+                                        <p class="text-white/80">~45 minutes</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="flex items-center text-white/80">
+                                        <i class="fas fa-utensils mr-3"></i>
+                                        <span>Preparation time: 15-20 minutes</span>
+                                    </div>
+                                    <div class="flex items-center text-white/80 mt-2">
+                                        <i class="fas fa-motorcycle mr-3"></i>
+                                        <span>Delivery time: 25-30 minutes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Details Card -->
+                        <div class="mb-8">
+                            <div class="bg-dark-card rounded-2xl p-6">
+                                <h3 class="text-lg font-semibold text-white mb-4">Order Details</h3>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Delivery Information</h4>
+                                        <p class="text-gray-300">123 Main Street</p>
+                                        <p class="text-gray-300">New York, NY 10001</p>
+                                        <p class="text-gray-300">+1 (555) 123-4567</p>
+                                        <p class="text-sm text-gray-400 mt-2">Leave at door: Yes</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Payment Information</h4>
+                                        <p class="text-gray-300">Visa ending in 4242</p>
+                                        <p class="text-gray-300">Total: $99.39</p>
+                                        <p class="text-gray-300">Tip: $3.00</p>
+                                        <p class="text-sm text-gray-400 mt-2">Payment status: Completed</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- QR Code for Order Tracking -->
+                                <div class="mt-6 pt-6 border-t border-gray-800 text-center">
+                                    <h4 class="font-semibold text-white mb-3">Track Your Order</h4>
+                                    <div class="qr-code inline-block p-4 bg-white rounded-lg">
+                                        <div class="w-32 h-32 bg-gray-200 rounded flex items-center justify-center">
+                                            <i class="fas fa-qrcode text-gray-600 text-4xl"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 mt-3">Scan this QR code to track your order in real-time</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-white mb-4">What's Next?</h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="bg-dark-card p-6 rounded-2xl text-center">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-bell text-white"></i>
+                                    </div>
+                                    <h4 class="font-semibold text-white mb-2">Notifications</h4>
+                                    <p class="text-gray-400 text-sm">We'll send SMS & email updates</p>
+                                </div>
+                                
+                                <div class="bg-dark-card p-6 rounded-2xl text-center">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-headset text-white"></i>
+                                    </div>
+                                    <h4 class="font-semibold text-white mb-2">Need Help?</h4>
+                                    <p class="text-gray-400 text-sm">Contact support if needed</p>
+                                </div>
+                                
+                                <div class="bg-dark-card p-6 rounded-2xl text-center">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-brand-orange to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-star text-white"></i>
+                                    </div>
+                                    <h4 class="font-semibold text-white mb-2">Rate Your Order</h4>
+                                    <p class="text-gray-400 text-sm">Share your experience later</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <a href="tracking.html?order=ED12345" class="btn-primary flex-1 text-center">
+                                <i class="fas fa-map-marker-alt mr-2"></i> Track Order
+                            </a>
+                            <a href="index.html" class="px-6 py-4 border border-gray-700 text-gray-300 rounded-2xl font-semibold hover:border-brand-orange hover:text-white transition text-center">
+                                <i class="fas fa-home mr-2"></i> Back to Home
+                            </a>
+                            <button id="reorderBtn" class="px-6 py-4 bg-gray-800 text-white rounded-2xl font-semibold hover:bg-gray-700 transition">
+                                <i class="fas fa-redo mr-2"></i> Reorder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-24">
+                    <!-- Order Summary Card -->
+                    <div class="bg-dark-card rounded-2xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-6">Order Summary</h3>
+                        
+                        <!-- Order Items -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-semibold text-white">Wagyu Steak</h4>
+                                    <p class="text-sm text-gray-400">1 × $38.00</p>
+                                </div>
+                                <span class="text-white font-semibold">$38.00</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-semibold text-white">Truffle Risotto</h4>
+                                    <p class="text-sm text-gray-400">1 × $32.00</p>
+                                </div>
+                                <span class="text-white font-semibold">$32.00</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-semibold text-white">Chocolate Cake</h4>
+                                    <p class="text-sm text-gray-400">1 × $14.00</p>
+                                </div>
+                                <span class="text-white font-semibold">$14.00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Breakdown -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between text-gray-300">
+                                <span>Subtotal</span>
+                                <span id="summarySubtotal">$84.00</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300">
+                                <span>Delivery Fee</span>
+                                <span id="summaryDeliveryFee">$3.99</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300">
+                                <span>Tip</span>
+                                <span id="summaryTip">$3.00</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300">
+                                <span>Tax (10%)</span>
+                                <span id="summaryTax">$8.40</span>
+                            </div>
+                            
+                            <!-- Promo Discount -->
+                            <div class="flex justify-between text-green-400 hidden" id="promoDiscountRow">
+                                <span>Promo Discount</span>
+                                <span id="summaryPromoDiscount">-$0.00</span>
+                            </div>
+                            
+                            <!-- Loyalty Points -->
+                            <div class="flex justify-between text-yellow-400 hidden" id="pointsDiscountRow">
+                                <span>Loyalty Points</span>
+                                <span id="summaryPointsDiscount">-$0.00</span>
+                            </div>
+                            
+                            <div class="border-t border-gray-800 pt-4">
+                                <div class="flex justify-between text-xl font-bold text-white">
+                                    <span>Total</span>
+                                    <span id="summaryTotal">$99.39</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Countdown Timer -->
+                        <div class="mb-6">
+                            <div class="text-center p-4 bg-gray-800/50 rounded-lg">
+                                <p class="text-sm text-gray-400 mb-1">Complete checkout within</p>
+                                <div class="countdown-timer text-2xl font-bold text-white mb-1">14:59</div>
+                                <p class="text-xs text-gray-500">to secure your delivery time</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Badge -->
+                    <div class="security-badge p-6 mb-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-shield-alt text-green-400 text-2xl mr-3"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Secure Checkout</h4>
+                                <p class="text-sm text-gray-400">256-bit SSL encryption</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-lock text-sm mr-3"></i>
+                                <span class="text-sm">PCI DSS compliant</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-user-shield text-sm mr-3"></i>
+                                <span class="text-sm">No card details stored</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-money-bill-wave text-sm mr-3"></i>
+                                <span class="text-sm">Money-back guarantee</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Need Help? -->
+                    <div class="bg-dark-card rounded-2xl p-6">
+                        <h4 class="font-bold text-white mb-4">Need Help?</h4>
+                        <div class="space-y-3">
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-question-circle mr-3"></i>
+                                <span>FAQs</span>
+                            </a>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-headset mr-3"></i>
+                                <span>Live Chat</span>
+                            </a>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-phone-alt mr-3"></i>
+                                <span>Call: (555) 123-4567</span>
+                            </a>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-envelope mr-3"></i>
+                                <span>Email Support</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-card border-t border-gray-800 mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-500">© 2024 Epicurean Delights. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-brand-orange transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-brand-orange border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <p class="text-xl font-serif text-white">Processing your order...</p>
+            <p class="text-gray-400 mt-2">Please don't close this window</p>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-dark-card rounded-2xl max-w-md w-full">
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2" id="errorTitle">Payment Failed</h3>
+                    <p class="text-gray-400" id="errorMessage">There was an issue processing your payment. Please try again.</p>
+                </div>
+                <div class="flex justify-center">
+                    <button id="closeErrorModal" class="px-6 py-3 bg-gradient-to-r from-brand-orange to-orange-600 text-white rounded-lg font-semibold hover:opacity-90 transition">
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        let currentStep = 1;
+        let orderTotal = 99.39;
+        let promoDiscount = 0;
+        let pointsDiscount = 0;
+        let tipAmount = 3;
+        let countdownTime = 15 * 60; // 15 minutes in seconds
+        let countdownInterval;
+        
+        // Initialize
+        updateProgressBar();
+        startCountdown();
+        
+        // Step Navigation
+        function goToStep(step) {
+            // Update step classes
+            $('.checkout-step').removeClass('active completed');
+            
+            for (let i = 1; i <= 4; i++) {
+                if (i < step) {
+                    $('#step' + i).addClass('completed');
+                } else if (i === step) {
+                    $('#step' + i).addClass('active');
+                }
+            }
+            
+            currentStep = step;
+            updateProgressBar();
+            scrollToStep(step);
+        }
+        
+        function updateProgressBar() {
+            const progress = (currentStep - 1) * 33.33;
+            $('#checkoutProgress').css('width', progress + '%');
+        }
+        
+        function scrollToStep(step) {
+            $('html, body').animate({
+                scrollTop: $('#step' + step).offset().top - 100
+            }, 500);
+        }
+        
+        // Countdown Timer
+        function startCountdown() {
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+        
+        function updateCountdown() {
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                showError('Time Expired', 'Your checkout session has expired. Please start over.');
+                return;
+            }
+            
+            const minutes = Math.floor(countdownTime / 60);
+            const seconds = countdownTime % 60;
+            
+            $('.countdown-timer').text(
+                minutes.toString().padStart(2, '0') + ':' + 
+                seconds.toString().padStart(2, '0')
+            );
+            
+            countdownTime--;
+            
+            // Change color when less than 5 minutes
+            if (countdownTime < 5 * 60) {
+                $('.countdown-timer').addClass('text-red-400');
+            }
+        }
+        
+        // Delivery Type Selection
+        $('.delivery-option[data-type]').click(function() {
+            $('.delivery-option[data-type]').removeClass('selected');
+            $(this).addClass('selected');
+            
+            const type = $(this).data('type');
+            if (type === 'pickup') {
+                $('#summaryDeliveryFee').text('$0.00');
+                updateOrderTotal();
+            } else {
+                $('#summaryDeliveryFee').text('$3.99');
+                updateOrderTotal();
+            }
+        });
+        
+        // Address Selection
+        $('.address-card').click(function() {
+            $('.address-card').removeClass('selected');
+            $('.address-card i').removeClass('text-brand-orange').addClass('text-transparent');
+            $(this).addClass('selected');
+            $(this).find('i').removeClass('text-transparent').addClass('text-brand-orange');
+        });
+        
+        // Add New Address
+        $('#addNewAddress').click(function() {
+            $('#newAddressForm').slideDown();
+        });
+        
+        $('#cancelNewAddress').click(function() {
+            $('#newAddressForm').slideUp();
+        });
+        
+        $('#saveNewAddress').click(function() {
+            // Validate form
+            const addressLabel = $('#newAddressForm input[type="text"]').first().val();
+            if (!addressLabel) {
+                showError('Missing Information', 'Please enter an address label.');
+                return;
+            }
+            
+            // Simulate saving address
+            showNotification('Address saved successfully!');
+            $('#newAddressForm').slideUp();
+            
+            // Add new address to selection
+            const newAddressHtml = `
+                <div class="address-card p-4 bg-dark-card rounded-xl cursor-pointer" data-address="new">
+                    <div class="flex items-start justify-between mb-2">
+                        <div>
+                            <h4 class="font-semibold text-white">${addressLabel}</h4>
+                            <p class="text-sm text-gray-400">New Address</p>
+                        </div>
+                        <i class="fas fa-check text-transparent text-lg"></i>
+                    </div>
+                </div>
+            `;
+            
+            $('.grid.md\\:grid-cols-2').append(newAddressHtml);
+        });
+        
+        // Delivery Time Selection
+        $('.delivery-option[data-time]').click(function() {
+            $('.delivery-option[data-time]').removeClass('selected');
+            $(this).addClass('selected');
+            
+            const timeType = $(this).data('time');
+            if (timeType === 'schedule') {
+                $('#scheduleTime').slideDown();
+            } else {
+                $('#scheduleTime').slideUp();
+            }
+        });
+        
+        // Payment Method Selection
+        $('.saved-payment').click(function() {
+            $('.saved-payment').removeClass('selected');
+            $('.saved-payment i').removeClass('text-brand-orange').addClass('text-transparent');
+            $(this).addClass('selected');
+            $(this).find('i').removeClass('text-transparent').addClass('text-brand-orange');
+        });
+        
+        // Add New Card
+        $('#addNewPayment').click(function() {
+            $('#newCardForm').slideDown();
+        });
+        
+        $('#cancelNewCard').click(function() {
+            $('#newCardForm').slideUp();
+        });
+        
+        $('#saveNewCard').click(function() {
+            // Validate card form
+            const cardNumber = $('#cardNumber').val();
+            const expiryDate = $('#expiryDate').val();
+            const cvv = $('#cvv').val();
+            const cardholderName = $('#cardholderName').val();
+            
+            if (!cardNumber || !expiryDate || !cvv || !cardholderName) {
+                showError('Missing Information', 'Please fill in all card details.');
+                return;
+            }
+            
+            // Simulate saving card
+            showNotification('Card saved successfully!');
+            $('#newCardForm').slideUp();
+        });
+        
+        // Alternative Payment Methods
+        $('.payment-method').click(function() {
+            $('.payment-method').removeClass('selected');
+            $(this).addClass('selected');
+            
+            // Clear saved card selection
+            $('.saved-payment').removeClass('selected');
+            $('.saved-payment i').removeClass('text-brand-orange').addClass('text-transparent');
+        });
+        
+        // Tip Selection
+        $('.tip-option').click(function() {
+            $('.tip-option').removeClass('selected');
+            $(this).addClass('selected');
+            
+            tipAmount = parseFloat($(this).data('tip'));
+            $('#summaryTip').text('$' + tipAmount.toFixed(2));
+            updateOrderTotal();
+            
+            // Clear custom tip
+            $('#customTip').val('');
+        });
+        
+        // Custom Tip Input
+        $('#customTip').on('input', function() {
+            const customTip = parseFloat($(this).val()) || 0;
+            
+            if (customTip > 0) {
+                $('.tip-option').removeClass('selected');
+                tipAmount = customTip;
+                $('#summaryTip').text('$' + customTip.toFixed(2));
+                updateOrderTotal();
+            }
+        });
+        
+        // Promo Code Application
+        $('#applyPromo').click(function() {
+            const promoCode = $('#promoCode').val().toUpperCase();
+            const $promoMessage = $('#promoMessage');
+            
+            if (!promoCode) {
+                $promoMessage.text('Please enter a promo code').removeClass('hidden text-green-400').addClass('text-red-400');
+                return;
+            }
+            
+            // Simulate promo validation
+            if (promoCode === 'WELCOME10') {
+                promoDiscount = orderTotal * 0.10;
+                $promoMessage.html('<i class="fas fa-check-circle mr-2"></i> 10% discount applied!').removeClass('hidden text-red-400').addClass('text-green-400');
+                updateOrderTotal();
+                showNotification('Promo code applied successfully!');
+            } else if (promoCode === 'FREEDELIVERY') {
+                $('#summaryDeliveryFee').text('$0.00');
+                $promoMessage.html('<i class="fas fa-check-circle mr-2"></i> Free delivery applied!').removeClass('hidden text-red-400').addClass('text-green-400');
+                updateOrderTotal();
+                showNotification('Free delivery applied!');
+            } else {
+                $promoMessage.text('Invalid promo code').removeClass('hidden text-green-400').addClass('text-red-400');
+            }
+        });
+        
+        // Loyalty Points Application
+        $('#applyPoints').click(function() {
+            const pointsToRedeem = parseInt($('#redeemPoints').val());
+            
+            if (pointsToRedeem > 0) {
+                pointsDiscount = pointsToRedeem / 20; // 20 points = $1
+                updateOrderTotal();
+                showNotification(pointsToRedeem + ' points redeemed successfully!');
+            }
+        });
+        
+        // Update Order Total
+        function updateOrderTotal() {
+            const subtotal = 84.00;
+            const deliveryFee = parseFloat($('#summaryDeliveryFee').text().replace('$', '')) || 0;
+            const tax = (subtotal + deliveryFee) * 0.10;
+            
+            const total = subtotal + deliveryFee + tax + tipAmount - promoDiscount - pointsDiscount;
+            
+            // Update all displays
+            $('#summarySubtotal').text('$' + subtotal.toFixed(2));
+            $('#summaryTax').text('$' + tax.toFixed(2));
+            $('#summaryTotal').text('$' + total.toFixed(2));
+            
+            $('#reviewSubtotal').text('$' + subtotal.toFixed(2));
+            $('#reviewDeliveryFee').text('$' + deliveryFee.toFixed(2));
+            $('#reviewTip').text('$' + tipAmount.toFixed(2));
+            $('#reviewTax').text('$' + tax.toFixed(2));
+            $('#reviewTotal').text('$' + total.toFixed(2));
+            
+            // Show/hide discount rows
+            if (promoDiscount > 0) {
+                $('#promoDiscountRow').removeClass('hidden');
+                $('#summaryPromoDiscount').text('-$' + promoDiscount.toFixed(2));
+            } else {
+                $('#promoDiscountRow').addClass('hidden');
+            }
+            
+            if (pointsDiscount > 0) {
+                $('#pointsDiscountRow').removeClass('hidden');
+                $('#summaryPointsDiscount').text('-$' + pointsDiscount.toFixed(2));
+            } else {
+                $('#pointsDiscountRow').addClass('hidden');
+            }
+            
+            orderTotal = total;
+        }
+        
+        // Step Navigation Buttons
+        $('#continueToStep2').click(function() {
+            goToStep(2);
+        });
+        
+        $('#continueToStep3').click(function() {
+            // Validate payment method selected
+            if (!$('.saved-payment.selected').length && !$('.payment-method.selected').length) {
+                showError('Payment Required', 'Please select a payment method.');
+                return;
+            }
+            
+            goToStep(3);
+        });
+        
+        // Place Order
+        $('#placeOrderBtn').click(function() {
+            if (!$('#termsAgreement').is(':checked')) {
+                showError('Agreement Required', 'Please agree to the terms and conditions.');
+                return;
+            }
+            
+            $('#loadingOverlay').removeClass('hidden');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                $('#loadingOverlay').addClass('hidden');
+                
+                // Generate random order number
+                const orderNumber = 'ED' + Math.floor(10000 + Math.random() * 90000);
+                $('#orderNumber').text(orderNumber);
+                
+                goToStep(4);
+                
+                // Show success animation
+                $('.step-number').eq(3).addClass('payment-success');
+                
+                showNotification('Order placed successfully!', 'success');
+                
+                // Stop countdown
+                clearInterval(countdownInterval);
+            }, 2000);
+        });
+        
+        // Reorder Button
+        $('#reorderBtn').click(function() {
+            showNotification('Added to cart! You can review your order.');
+            setTimeout(() => {
+                window.location.href = 'cart.html';
+            }, 1500);
+        });
+        
+        // Edit buttons
+        $('[class*="fa-edit"]').closest('button').click(function() {
+            const section = $(this).closest('[class*="mb-8"]').find('h3').text();
+            showNotification('Edit ' + section + ' clicked');
+        });
+        
+        // Notification Function
+        function showNotification(message, type = 'info') {
+            const bgColor = type === 'success' ? 'bg-green-600' : 
+                           type === 'error' ? 'bg-red-600' : 'bg-brand-orange';
+            
+            const notification = $(`
+                <div class="fixed top-4 right-4 z-50 animate__animated animate__slideInRight">
+                    <div class="${bgColor} text-white px-6 py-3 rounded-lg shadow-xl flex items-center">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mr-3"></i>
+                        <span>${message}</span>
+                    </div>
+                </div>
+            `);
+            
+            $('body').append(notification);
+            
+            setTimeout(() => {
+                notification.removeClass('animate__slideInRight').addClass('animate__slideOutRight');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Error Modal
+        function showError(title, message) {
+            $('#errorTitle').text(title);
+            $('#errorMessage').text(message);
+            $('#errorModal').removeClass('hidden');
+        }
+        
+        $('#closeErrorModal').click(function() {
+            $('#errorModal').addClass('hidden');
+        });
+        
+        // Auto-format card number
+        $('#cardNumber').on('input', function() {
+            let value = $(this).val().replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formatted = '';
+            
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formatted += ' ';
+                }
+                formatted += value[i];
+            }
+            
+            $(this).val(formatted.substring(0, 19));
+            
+            // Detect card type
+            const cardType = detectCardType(value);
+            const $cardIcon = $(this).next().find('i');
+            
+            if (cardType === 'visa') {
+                $cardIcon.removeClass().addClass('fab fa-cc-visa text-blue-600');
+            } else if (cardType === 'mastercard') {
+                $cardIcon.removeClass().addClass('fab fa-cc-mastercard text-red-600');
+            } else if (cardType === 'amex') {
+                $cardIcon.removeClass().addClass('fab fa-cc-amex text-blue-500');
+            } else {
+                $cardIcon.removeClass().addClass('fab fa-cc-visa text-gray-400');
+            }
+        });
+        
+        // Auto-format expiry date
+        $('#expiryDate').on('input', function() {
+            let value = $(this).val().replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            
+            $(this).val(value.substring(0, 5));
+        });
+        
+        function detectCardType(number) {
+            const patterns = {
+                visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+                mastercard: /^5[1-5][0-9]{14}$/,
+                amex: /^3[47][0-9]{13}$/
+            };
+            
+            for (const [type, pattern] of Object.entries(patterns)) {
+                if (pattern.test(number)) {
+                    return type;
+                }
+            }
+            
+            return 'unknown';
+        }
+        
+        // Initialize Google Maps Autocomplete
+        function initAutocomplete() {
+            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                const addressInput = document.getElementById('addressLine1');
+                const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+                    types: ['address'],
+                    componentRestrictions: { country: 'us' }
+                });
+                
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.address_components) {
+                        for (const component of place.address_components) {
+                            const componentType = component.types[0];
+                            
+                            if (componentType === 'locality') {
+                                $('#city').val(component.long_name);
+                            }
+                            
+                            if (componentType === 'postal_code') {
+                                $('#zipCode').val(component.long_name);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Refresh Location
+        $('#refreshLocation').click(function() {
+            $(this).find('i').addClass('loading-spinner');
+            setTimeout(() => {
+                $(this).find('i').removeClass('loading-spinner');
+                showNotification('Location refreshed!');
+            }, 1000);
+        });
+        
+        // Form validation on step 1
+        $('#continueToStep2').click(function() {
+            if (!$('.address-card.selected').length) {
+                showError('Address Required', 'Please select a delivery address.');
+                $('.address-card').first().addClass('error-shake');
+                setTimeout(() => $('.address-card').removeClass('error-shake'), 500);
+                return false;
+            }
+            
+            if (!$('.delivery-option[data-type].selected').length) {
+                showError('Delivery Type Required', 'Please select delivery or pickup.');
+                return false;
+            }
+            
+            goToStep(2);
+        });
+    });
+    </script>
+</body>
+</html>
